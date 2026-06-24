@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import signal
 import sys
 import time
@@ -15,6 +16,13 @@ import yaml
 ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
+
+
+def _data_dir() -> Path:
+    env = os.environ.get("SCOUT_DATA_DIR", "").strip()
+    if env:
+        return Path(env)
+    return ROOT / "scout_auto_os" / "data"
 
 from scout_auto_os.engine.alert_manager import AlertManager
 from scout_auto_os.engine.bot_control import BotControl
@@ -77,10 +85,10 @@ class ScoutAutoOS:
         self.positions = PositionManager(self.config, self.db, self.csv_dir, adapter)
         self.position_sync = PositionSync(self.config, self.db, self.execution.client)
         self.dashboard_api = DashboardAPI(
-            self.config, self.db, ROOT / "scout_auto_os" / "data",
+            self.config, self.db, _data_dir(),
         )
         self.manual = ManualOverride(
-            self.config, self.db, self.csv_dir, ROOT / "scout_auto_os" / "data",
+            self.config, self.db, self.csv_dir, _data_dir(),
         )
         self.risk = RiskManager(self.config, self.db)
         self.alerts = AlertManager(self.config, self.db, self.csv_dir)
@@ -89,9 +97,9 @@ class ScoutAutoOS:
         self.short_shadow = ScoutReverseShadow(self.config, self.db)
         self.last_update = now_kst()
         self.last_report_date: str | None = None
-        self.status_path = ROOT / "scout_auto_os" / "data" / "engine_status.json"
-        self.metrics_path = ROOT / "scout_auto_os" / "data" / "live_metrics.json"
-        self.bot_control = BotControl(ROOT / "scout_auto_os" / "data" / "bot_control.json")
+        self.status_path = _data_dir() / "engine_status.json"
+        self.metrics_path = _data_dir() / "live_metrics.json"
+        self.bot_control = BotControl(_data_dir() / "bot_control.json")
 
         if use_live:
             self.live_engine.start()

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 from collections import defaultdict
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -69,7 +70,8 @@ def run_a6_scan(
     p16.CACHE_DIR = cache_dir
     profile, th, stats, _ = _train_context(scan_kst)
     end_ms = int(parse_kst(scan_kst).timestamp() * 1000)
-    symbols = sorted(load_eligible_symbols(refresh=False, cache_only=True))
+    cache_only = os.environ.get("SCOUT_UNIVERSE_CACHE_ONLY", "true").lower() in ("1", "true", "yes")
+    symbols = sorted(load_eligible_symbols(refresh=False, cache_only=cache_only))
     if max_symbols > 0:
         symbols = symbols[:max_symbols]
 

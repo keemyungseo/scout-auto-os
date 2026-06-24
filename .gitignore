@@ -12,6 +12,10 @@ __pycache__/
 logs/
 data/
 
+# Local docker runtime (host-mounted)
+/data/
+/logs/
+
 # Database
 *.db
 
