@@ -1,0 +1,23 @@
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Runtime / generated
+logs/
+data/
+
+# Database
+*.db
+
+# IDE / local
+.cursor/
+
+# OS noise
+.DS_Store
+Thumbs.db

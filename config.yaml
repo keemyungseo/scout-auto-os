@@ -1,0 +1,68 @@
+# Scout Auto OS — Alpha Execution
+paper_mode: true          # true=paper | false=real Binance Futures
+mode: paper
+initial_capital: 10000.0
+
+execution:
+  order_size_usdt: 5
+  max_retries: 3
+  retry_delay_sec: 2
+  leverage: 1
+
+long_engine:
+  enabled: true
+  search_formula: A6_frozen
+  entry: immediate_100pct
+  exit: dynamic_efr_state
+  universe_tier: top5
+  max_candidates_alert: 5
+
+short_engine:
+  enabled: false
+  shadow_mode: true
+
+position:
+  max_long_slots: 2
+  max_short_slots: 0
+  max_total_slots: 2
+  capital_exposure: 1.0
+  meta_rotation: false
+  split_entry: false
+
+risk:
+  daily_loss_limit_pct: -10.0
+  max_single_trade_loss_pct: -12.0
+  kill_switch: false
+
+loop:
+  scan_interval_sec: 300
+  position_update_sec: 30
+  daily_report_hour_kst: 23
+
+alerts:
+  console: true
+  csv: true
+  telegram: false
+  discord: false
+
+data:
+  adapter: auto  # auto | mock | live | cache
+  kline_cache_dir: logs/phase19_winner_dna/kline_cache
+
+live_data:
+  enabled: true
+  ws_base: wss://fstream.binance.com
+  rest_base: https://fapi.binance.com
+  interval: 5m
+  bootstrap_limit: 100
+  reconnect_sec: 5
+  heartbeat_timeout_sec: 60
+  log_dir: logs/live
+
+storage:
+  sqlite_path: scout_auto_os/data/scout_auto_os.db
+  csv_dir: logs/auto_os
+
+dashboard:
+  host: localhost
+  port: 8501
