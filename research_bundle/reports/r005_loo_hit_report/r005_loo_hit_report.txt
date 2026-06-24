@@ -1,0 +1,50 @@
+############################################################
+R005 LOO HIT RATE REPORT — A6 frozen (Phase19)
+############################################################
+
+Source: logs\phase19_winner_dna\candidates.jsonl
+LOO scans (min 7 Pattern-B candidates): 179
+Train: all scans except holdout | Rank: A6 | Truth: max_up_4h per scan
+final>0: 4h close return from scan_time (5m forward cache)
+
+=== DEFINITIONS ===
+  topn_overlap: A6 pick symbols in actual top-N by max_up_4h (slot hit %)
+  max_gt0:      pick max_up_4h > 0
+  max_ge3:      pick max_up_4h >= 3%
+  max_ge4:      pick max_up_4h >= 4%  <-- production target
+  final_gt0:    4h final return > 0 from scan entry
+
+=== AGGREGATE TOP2 (179 scans, 358 slots) ===
+  Actual-TopN overlap (slot-weighted): 38.83%
+  Avg per-scan max>0 hit:                100.0%
+  Avg per-scan max>=3% hit:              88.83%
+  Avg per-scan max>=4% hit:              83.8%
+  Median per-scan max>=3% hit:           100.0%
+  Median per-scan max>=4% hit:           100.0%
+  Avg per-scan final>0 hit:              66.76%
+
+=== AGGREGATE TOP5 (179 scans, 895 slots) ===
+  Actual-TopN overlap (slot-weighted): 52.07%
+  Avg per-scan max>0 hit:                99.66%
+  Avg per-scan max>=3% hit:              81.79%
+  Avg per-scan max>=4% hit:              73.85%
+  Median per-scan max>=3% hit:           80.0%
+  Median per-scan max>=4% hit:           80.0%
+  Avg per-scan final>0 hit:              63.8%
+
+=== AGGREGATE TOP7 (179 scans, 1253 slots) ===
+  Actual-TopN overlap (slot-weighted): 55.95%
+  Avg per-scan max>0 hit:                99.68%
+  Avg per-scan max>=3% hit:              78.05%
+  Avg per-scan max>=4% hit:              69.19%
+  Median per-scan max>=3% hit:           85.71%
+  Median per-scan max>=4% hit:           71.43%
+  Avg per-scan final>0 hit:              61.93%
+
+=== B001 REFERENCE (single holdout, not in LOO aggregate) ===
+  2026-06-16 17:00 | Top5 max>=3%: 100% | actual-TopN overlap: 40%
+  See logs/blind_test_b001/blind_test_b001_report.txt
+
+=== INTERPRETATION ===
+  Compare avg/median max>=4% across tiers for +4% production goal.
+  Low actual-TopN overlap with high max>=3% means ranking finds movers, not exact winners.

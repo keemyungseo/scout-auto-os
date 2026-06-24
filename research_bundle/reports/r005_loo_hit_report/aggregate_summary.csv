@@ -1,0 +1,4 @@
+tier,n_scans,slots,topn_overlap_total,topn_overlap_slot_pct,avg_topn_overlap_pct,avg_max_gt0_pct,avg_max_ge3_pct,avg_max_ge4_pct,avg_final_gt0_pct,median_max_ge3_pct,median_max_ge4_pct
+top2,179,358,139,38.83,38.83,100.0,88.83,83.8,66.76,100.0,100.0
+top5,179,895,466,52.07,52.07,99.66,81.79,73.85,63.8,80.0,80.0
+top7,179,1253,701,55.95,55.95,99.68,78.05,69.19,61.93,85.71,71.43
