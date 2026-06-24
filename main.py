@@ -37,10 +37,12 @@ from scout_auto_os.engine.position_manager import PositionManager
 from scout_auto_os.engine.position_report import PositionReportService
 from scout_auto_os.engine.position_sync import PositionSync
 from scout_auto_os.engine.report_manager import ReportManager
+from scout_auto_os.engine.review_layer import ReviewLayer
 from scout_auto_os.engine.risk_manager import RiskManager
 from scout_auto_os.engine.scout_long_engine import ScoutLongEngine
 from scout_auto_os.engine.scout_reverse_shadow import ScoutReverseShadow
 from scout_auto_os.engine.trade_record import TradeRecordService
+from scout_auto_os.engine.telegram_commands import TelegramCommandBot
 from scout_auto_os.storage.db import Database, now_kst
 
 KST = timezone(timedelta(hours=9))
@@ -84,6 +86,7 @@ class ScoutAutoOS:
             live_engine=self.live_engine if use_live else None,
             ev_logger=self.ev_logger if use_live else None,
         )
+        self._market_adapter = adapter
         self.execution = ExecutionEngine(
             self.config, self.db, self.csv_dir, ROOT,
             trade_recorder=TradeRecordService(
@@ -104,6 +107,22 @@ class ScoutAutoOS:
         self.risk = RiskManager(self.config, self.db)
         self.alerts = AlertManager(self.config, self.db, self.csv_dir)
         self.reports = ReportManager(self.config, self.db, self.csv_dir)
+        data_dir = _data_dir()
+
+        def _price_fn(symbol: str) -> float:
+            if self.live_engine.enabled:
+                px = self.live_engine.get_price(symbol)
+                if px > 0:
+                    return px
+            return self._market_adapter.get_price(symbol)
+
+        self.review = ReviewLayer(
+            data_dir,
+            self.execution.trade_recorder,
+            self.position_report,
+            _price_fn,
+            self.config,
+        )
         self.daily_trade_report = DailyTradeReportService(
             self.config,
             self.execution.trade_recorder.db,
@@ -111,11 +130,23 @@ class ScoutAutoOS:
             self.alerts,
             self.db,
             self.csv_dir,
+            data_dir=data_dir,
+            review_snapshot_fn=self.review.get_snapshot,
+        )
+        self.telegram_bot = TelegramCommandBot(
+            self.config,
+            data_dir,
+            self.execution.trade_recorder.db,
+            self.position_report,
+            self.review.get_snapshot,
+            self.db,
+            self._engine_state_dict,
         )
         self.long_engine = ScoutLongEngine(self.config, self.db)
         self.short_shadow = ScoutReverseShadow(self.config, self.db)
         self.last_update = now_kst()
         self.last_report_date: str | None = None
+        self.next_snapshot = 0.0
         self.status_path = _data_dir() / "engine_status.json"
         self.metrics_path = _data_dir() / "live_metrics.json"
         self.bot_control = BotControl(_data_dir() / "bot_control.json")
@@ -127,6 +158,16 @@ class ScoutAutoOS:
 
         self._write_status("running")
         self.db.log_event("main", "started", {"mode": self.config.get("mode", "paper")})
+        self.telegram_bot.start()
+        self.review.update_snapshot()
+
+    def _engine_state_dict(self) -> dict:
+        if self.status_path.exists():
+            try:
+                return json.loads(self.status_path.read_text(encoding="utf-8"))
+            except json.JSONDecodeError:
+                pass
+        return {"bot_state": "running"}
 
     def _bootstrap_subscriptions(self) -> None:
         syms: set[str] = {"BTCUSDT"}
@@ -203,10 +244,20 @@ class ScoutAutoOS:
             self.short_shadow.observe(top5)
             occupied = self.positions.occupied_symbols()
             locked = self.manual.locked_symbols()
+            slots_avail = self.config.get("position", {}).get("max_long_slots", 2) - self.positions.long_slots_used()
+            scan_time = self.watcher.last_scan_time or now_kst()
+            self.review.prepare_scan(top5, occupied, locked, max(0, slots_avail), self.risk.kill_switch)
+            occupied_before = set(occupied)
             self.long_engine.try_fill_slots(
                 top5, occupied, locked,
                 self.positions, self.execution, self.alerts, self.risk,
             )
+            entered_symbols = self.positions.occupied_symbols() - occupied_before
+            self.review.complete_scan(
+                scan_time, top5, entered_symbols, occupied_before, locked,
+                max(0, slots_avail), self.risk.kill_switch,
+            )
+            self.review.update_snapshot()
             self._write_live_metrics([], top5)
             self.dashboard_api.write(
                 self.positions,
@@ -240,6 +291,7 @@ class ScoutAutoOS:
                 engine_state="running" if self.running else "stopped",
             )
             self._write_status("running")
+            self.review.process_missed_winners()
         except Exception as exc:
             self.alerts.error_alert("position_manager", str(exc))
 
@@ -257,6 +309,7 @@ class ScoutAutoOS:
         pos_iv = int(self.config["loop"].get("position_update_sec", 30))
         next_scan = time.time()
         next_pos = time.time()
+        next_snapshot = time.time()
         print(f"[Scout Auto OS] paper_mode={self.config.get('paper_mode', True)} starting loop")
         if self.live_engine.enabled:
             print(f"[Live Data] websocket {'connected' if self.live_engine.connected else 'connecting...'}")
@@ -281,11 +334,19 @@ class ScoutAutoOS:
             if now >= next_pos:
                 self.tick_positions()
                 next_pos = now + pos_iv
+            if now >= next_snapshot:
+                paper_pos = None
+                if self.config.get("paper_mode", True):
+                    paper_pos = self.positions.open_positions()
+                self.review.capture_positions(paper_pos)
+                self.review.update_snapshot()
+                next_snapshot = now + 60
             self.maybe_daily_report()
             time.sleep(1)
 
     def stop(self, *_args) -> None:
         self.running = False
+        self.telegram_bot.stop()
         self.live_engine.stop()
         self._write_status("stopped")
         self.db.log_event("main", "stopped", {})
