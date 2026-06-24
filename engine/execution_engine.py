@@ -19,11 +19,12 @@ class ExecutionEngine:
     paper_mode=false → Binance Futures MARKET orders
     """
 
-    def __init__(self, config: dict, db: Database, csv_dir: Path, root: Path) -> None:
+    def __init__(self, config: dict, db: Database, csv_dir: Path, root: Path, trade_recorder=None) -> None:
         self.config = config
         self.db = db
         self.csv_dir = csv_dir
         self.csv_dir.mkdir(parents=True, exist_ok=True)
+        self.trade_recorder = trade_recorder
         exec_cfg = config.get("execution", {})
         self.paper_mode = bool(config.get("paper_mode", True))
         self.order_size_usdt = float(exec_cfg.get("order_size_usdt", 5))
@@ -92,6 +93,9 @@ class ExecutionEngine:
             (trade_id, position_id, symbol, side, "ENTRY", price, 100.0, ts, reason, engine),
         )
         self._append_trades_csv(trade_id, position_id, symbol, "ENTRY", price, ts, reason)
+        if self.trade_recorder:
+            qty = self.order_size_usdt / price if price > 0 else 0.0
+            self.trade_recorder.record_open(symbol, side, price, qty, reason)
         return trade_id
 
     def _paper_exit(self, position_id, symbol, side, price, pnl_pct, reason, engine) -> str:
@@ -104,6 +108,9 @@ class ExecutionEngine:
             (trade_id, position_id, symbol, side, "EXIT", price, pnl_pct, self.fee_pct, ts, reason, engine),
         )
         self._append_trades_csv(trade_id, position_id, symbol, "EXIT", price, ts, reason, pnl_pct)
+        if self.trade_recorder:
+            st = "CLOSED_BY_USER" if reason == "CLOSED_BY_USER" else "CLOSED"
+            self.trade_recorder.record_close(symbol, price, reason, pnl_pct, status=st)
         return trade_id
 
     def _live_entry(self, position_id, symbol, side, price, reason, engine) -> str:
@@ -145,6 +152,10 @@ class ExecutionEngine:
             self.db.log_event("execution", "live_entry", {
                 "symbol": symbol, "qty": result.qty, "price": fill_px, "order_id": result.order_id,
             })
+            if self.trade_recorder:
+                self.trade_recorder.record_open(
+                    symbol, side, fill_px, result.qty or qty, reason,
+                )
             return trade_id
         finally:
             with self._lock:
@@ -184,6 +195,9 @@ class ExecutionEngine:
                 (trade_id, position_id, symbol, side, "EXIT", fill_px, pnl_pct, self.fee_pct, ts, reason, engine),
             )
             self._append_trades_csv(trade_id, position_id, symbol, "EXIT", fill_px, ts, reason, pnl_pct)
+            if self.trade_recorder:
+                st = "CLOSED_BY_USER" if reason == "CLOSED_BY_USER" else "CLOSED"
+                self.trade_recorder.record_close(symbol, fill_px, reason, pnl_pct, status=st)
             if not result.ok:
                 self.db.log_event("execution", "live_exit_failed", {"symbol": symbol, "error": result.error})
                 raise RuntimeError(f"live exit failed: {result.error}")

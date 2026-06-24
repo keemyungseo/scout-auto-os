@@ -196,6 +196,38 @@ class BinanceClient:
                 return p
         return None
 
+    def get_open_positions_detailed(self) -> list[dict]:
+        """Open positions with mark price and unrealized PnL (V1.1 report)."""
+        if not self.configured:
+            return []
+        data = self._request("GET", "/fapi/v2/positionRisk", signed=True)
+        out: list[dict] = []
+        for p in data:
+            amt = float(p.get("positionAmt", 0))
+            if abs(amt) < 1e-12:
+                continue
+            entry = float(p.get("entryPrice", 0))
+            mark = float(p.get("markPrice", 0))
+            side = "LONG" if amt > 0 else "SHORT"
+            qty = abs(amt)
+            upnl = float(p.get("unRealizedProfit", 0))
+            lev = int(float(p.get("leverage", 1)))
+            if entry > 0:
+                upnl_pct = (mark - entry) / entry * 100 if side == "LONG" else (entry - mark) / entry * 100
+            else:
+                upnl_pct = 0.0
+            out.append({
+                "symbol": p["symbol"],
+                "side": side,
+                "entry_price": round(entry, 8),
+                "mark_price": round(mark, 8),
+                "quantity": qty,
+                "unrealized_pnl_usdt": round(upnl, 4),
+                "unrealized_pnl_pct": round(upnl_pct, 4),
+                "leverage": lev,
+            })
+        return out
+
     def set_leverage(self, symbol: str, leverage: int = 1) -> None:
         self._request(
             "POST", "/fapi/v1/leverage",

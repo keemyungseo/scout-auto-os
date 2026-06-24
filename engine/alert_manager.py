@@ -21,6 +21,26 @@ class AlertManager:
         self.csv_enabled = bool(config["alerts"].get("csv", True))
         self.telegram = bool(config["alerts"].get("telegram", False))
 
+    def send_telegram_report(self, message: str) -> bool:
+        """Daily report only — does not duplicate console TOP5/ENTRY/EXIT alerts."""
+        if not self.telegram:
+            return False
+        token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
+        chat_id = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
+        if not token or not chat_id:
+            return False
+        url = f"https://api.telegram.org/bot{token}/sendMessage"
+        data = urllib.parse.urlencode({
+            "chat_id": chat_id,
+            "text": message[:4000],
+        }).encode()
+        try:
+            req = urllib.request.Request(url, data=data, method="POST")
+            urllib.request.urlopen(req, timeout=10)
+            return True
+        except Exception:
+            return False
+
     def _telegram_send(self, message: str) -> None:
         if not self.telegram:
             return

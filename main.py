@@ -26,6 +26,7 @@ def _data_dir() -> Path:
 
 from scout_auto_os.engine.alert_manager import AlertManager
 from scout_auto_os.engine.bot_control import BotControl
+from scout_auto_os.engine.daily_trade_report import DailyTradeReportService
 from scout_auto_os.engine.dashboard_api import DashboardAPI
 from scout_auto_os.engine.execution_engine import ExecutionEngine
 from scout_auto_os.engine.expected_ev_engine import ExpectedEVLogger
@@ -33,11 +34,13 @@ from scout_auto_os.engine.live_data import LiveDataEngine
 from scout_auto_os.engine.manual_override import ManualOverride
 from scout_auto_os.engine.market_watcher import CacheAdapter, LiveDataAdapter, MarketWatcher, MockAdapter
 from scout_auto_os.engine.position_manager import PositionManager
+from scout_auto_os.engine.position_report import PositionReportService
 from scout_auto_os.engine.position_sync import PositionSync
 from scout_auto_os.engine.report_manager import ReportManager
 from scout_auto_os.engine.risk_manager import RiskManager
 from scout_auto_os.engine.scout_long_engine import ScoutLongEngine
 from scout_auto_os.engine.scout_reverse_shadow import ScoutReverseShadow
+from scout_auto_os.engine.trade_record import TradeRecordService
 from scout_auto_os.storage.db import Database, now_kst
 
 KST = timezone(timedelta(hours=9))
@@ -81,9 +84,17 @@ class ScoutAutoOS:
             live_engine=self.live_engine if use_live else None,
             ev_logger=self.ev_logger if use_live else None,
         )
-        self.execution = ExecutionEngine(self.config, self.db, self.csv_dir, ROOT)
+        self.execution = ExecutionEngine(
+            self.config, self.db, self.csv_dir, ROOT,
+            trade_recorder=TradeRecordService(
+                _data_dir() / "trades.db",
+                float(self.config.get("execution", {}).get("order_size_usdt", 5)),
+                int(self.config.get("execution", {}).get("leverage", 1)),
+            ),
+        )
         self.positions = PositionManager(self.config, self.db, self.csv_dir, adapter)
         self.position_sync = PositionSync(self.config, self.db, self.execution.client)
+        self.position_report = PositionReportService(self.execution.client)
         self.dashboard_api = DashboardAPI(
             self.config, self.db, _data_dir(),
         )
@@ -93,6 +104,14 @@ class ScoutAutoOS:
         self.risk = RiskManager(self.config, self.db)
         self.alerts = AlertManager(self.config, self.db, self.csv_dir)
         self.reports = ReportManager(self.config, self.db, self.csv_dir)
+        self.daily_trade_report = DailyTradeReportService(
+            self.config,
+            self.execution.trade_recorder.db,
+            self.position_report,
+            self.alerts,
+            self.db,
+            self.csv_dir,
+        )
         self.long_engine = ScoutLongEngine(self.config, self.db)
         self.short_shadow = ScoutReverseShadow(self.config, self.db)
         self.last_update = now_kst()
@@ -225,11 +244,12 @@ class ScoutAutoOS:
             self.alerts.error_alert("position_manager", str(exc))
 
     def maybe_daily_report(self) -> None:
-        hour = int(self.config["loop"].get("daily_report_hour_kst", 23))
+        hour = int(self.config["loop"].get("daily_report_hour_kst", 8))
         now = datetime.now(KST)
         today = now.strftime("%Y%m%d")
         if now.hour >= hour and self.last_report_date != today:
-            self.reports.generate_daily(today)
+            yesterday = (now - timedelta(days=1)).strftime("%Y-%m-%d")
+            self.daily_trade_report.send_for_date(yesterday)
             self.last_report_date = today
 
     def run(self) -> None:
