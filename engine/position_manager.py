@@ -1,4 +1,4 @@
-"""Open position lifecycle."""
+"""Open position lifecycle — State Engine V1.4 exit path."""
 
 from __future__ import annotations
 
@@ -6,14 +6,22 @@ import csv
 from datetime import datetime
 from pathlib import Path
 
-from scout_auto_os.engine.strategy_core import check_dynamic_exit, current_efr
 from scout_auto_os.engine.emergency_risk_guard import EmergencyRiskGuard
 from scout_auto_os.engine.expected_ev_engine import compute_live_ev
+from scout_auto_os.engine.position_state_manager import PositionStateManager
 from scout_auto_os.storage.db import Database, now_kst
 
 
 class PositionManager:
-    def __init__(self, config: dict, db: Database, csv_dir: Path, adapter, risk_guard: EmergencyRiskGuard | None = None) -> None:
+    def __init__(
+        self,
+        config: dict,
+        db: Database,
+        csv_dir: Path,
+        adapter,
+        risk_guard: EmergencyRiskGuard | None = None,
+        state_manager: PositionStateManager | None = None,
+    ) -> None:
         self.config = config
         self.db = db
         self.csv_dir = csv_dir
@@ -21,6 +29,7 @@ class PositionManager:
         self.adapter = adapter
         self.max_long = int(config["position"]["max_long_slots"])
         self.risk_guard = risk_guard or EmergencyRiskGuard(config)
+        self.state_manager = state_manager
 
     def open_positions(self) -> list[dict]:
         return self.db.fetchall(
@@ -60,9 +69,12 @@ class PositionManager:
             (
                 pid, symbol, side, source, engine, ts, entry_price, entry_price,
                 0.0, "OPEN", int(manual_lock), int(auto_manage), ts, a6_score,
-                expected_ev, "dynamic_efr_state",
+                expected_ev, "state_engine_v14",
             ),
         )
+        if self.state_manager:
+            bars = self.adapter.get_bars(symbol, ts)
+            self.state_manager.register_entry(pid, symbol, ts, bars or [])
         self._sync_csv()
         return pid
 
@@ -78,19 +90,24 @@ class PositionManager:
                 continue
             entry = pos["entry_price"]
             upnl = (px - entry) / entry * 100 if pos["side"] == "LONG" else (entry - px) / entry * 100
-            efr = current_efr(bars) if bars else 0.0
             ev = compute_live_ev(
                 pos["symbol"], bars or [], pos.get("a6_score") or 0, pos["entry_time"],
             )
-            exit_plan = f"efr={efr:.2f} rem_ev={ev['remaining_ev']:.2f}% ta={ev['trend_alive']}"
+            alive_line = ""
+            if self.state_manager and bars:
+                alive = self.state_manager.update_current(
+                    pos["position_id"], pos["symbol"], pos["entry_time"], bars,
+                )
+                if alive:
+                    alive_line = f"alive={alive.alive_score} rec={alive.hold_recommendation}"
+            exit_plan = f"{alive_line} rem_ev={ev['remaining_ev']:.2f}%"
             self.db.execute(
                 """UPDATE positions SET current_price=?, unrealized_pnl_pct=?,
                    last_update_time=?, exit_plan=?, expected_ev=? WHERE position_id=?""",
-                (px, upnl, now_kst(), exit_plan, ev["expected_ev"], pos["position_id"]),
+                (px, upnl, now_kst(), exit_plan.strip(), ev["expected_ev"], pos["position_id"]),
             )
             updated.append({
-                **pos, "current_price": px, "unrealized_pnl_pct": upnl,
-                "efr": efr, **ev,
+                **pos, "current_price": px, "unrealized_pnl_pct": upnl, **ev,
             })
         self._sync_csv()
         return updated
@@ -107,6 +124,7 @@ class PositionManager:
             entry = pos["entry_price"]
             pnl_pct = (exit_px - entry) / entry * 100 if pos["side"] == "LONG" else (entry - exit_px) / entry * 100
 
+            # Emergency floor only (not primary exit)
             rg = self.risk_guard.evaluate(pos, pnl_pct)
             if rg.should_exit:
                 reason = f"risk_guard_{rg.reason}"
@@ -119,11 +137,18 @@ class PositionManager:
                 closed.append(pos)
                 continue
 
-            should, ret, reason = check_dynamic_exit(bars, pos["entry_price"])
-            if not should:
+            if self.state_manager:
+                decision = self.state_manager.maybe_review(pos, bars, pnl_pct)
+                if decision and decision.should_exit:
+                    reason = decision.reason
+                    print(
+                        f"[STATE EXIT] symbol={pos['symbol']} roi={pnl_pct:.2f}% "
+                        f"reason={reason} hold={self.state_manager.hold_minutes(pos['entry_time'])}m"
+                    )
+                    self._close_position(pos, exit_px, pnl_pct, reason, execution, alert_mgr, "AUTO")
+                    closed.append(pos)
                 continue
-            self._close_position(pos, exit_px, ret, reason, execution, alert_mgr, "AUTO")
-            closed.append(pos)
+
         return closed
 
     def close_by_user(self, position_id: str, execution, alert_mgr, exit_price: float | None = None) -> None:
@@ -145,6 +170,8 @@ class PositionManager:
                current_price=?, last_update_time=? WHERE position_id=?""",
             (status, pnl_pct, reason, exit_px, now_kst(), pos["position_id"]),
         )
+        if self.state_manager:
+            self.state_manager.on_close(pos["position_id"])
         hold_min = 0
         try:
             t0 = datetime.strptime(pos["entry_time"], "%Y-%m-%d %H:%M:%S")

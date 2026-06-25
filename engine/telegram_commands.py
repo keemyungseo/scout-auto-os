@@ -33,6 +33,7 @@ class TelegramCommandBot:
         os_db: Database,
         engine_state_fn,
         research_snapshot_fn=None,
+        position_state_fn=None,
     ) -> None:
         self.config = config
         self.data_dir = data_dir
@@ -42,6 +43,7 @@ class TelegramCommandBot:
         self.os_db = os_db
         self.engine_state_fn = engine_state_fn
         self.research_snapshot_fn = research_snapshot_fn
+        self.position_state_fn = position_state_fn
         self.missed_store = MissedWinnersStore(data_dir, lambda _s: 0.0)
         self.token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
         self.chat_id = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
@@ -187,20 +189,31 @@ class TelegramCommandBot:
 
     def _cmd_positions(self) -> str:
         positions = self.position_report.fetch_open_positions()
+        state_map: dict[str, dict] = {}
+        if self.position_state_fn:
+            for s in self.position_state_fn():
+                state_map[s["symbol"]] = s
         if not positions:
             paper_snap = self.data_dir / "positions_snapshot.json"
             if paper_snap.exists():
                 positions = json.loads(paper_snap.read_text(encoding="utf-8")).get("positions", [])
-        lines = ["SCOUT /positions"]
+        lines = ["SCOUT /positions (State Engine V1.4)"]
         if not positions:
             lines.append("(none)")
             return "\n".join(lines)
         for p in positions:
+            sym = p["symbol"]
+            st = state_map.get(sym, {})
             lines.append(
-                f"{p['symbol']} {p['side']} entry={p.get('entry_price')} mark={p.get('mark_price')} "
+                f"{sym} {p['side']} entry={p.get('entry_price')} mark={p.get('mark_price')} "
                 f"upnl={p.get('unrealized_pnl_usdt', 0):+.4f} ({p.get('unrealized_pnl_pct', 0):+.2f}%) "
-                f"hold={p.get('hold_minutes', 0)}m"
+                f"hold={p.get('hold_minutes', st.get('hold_minutes', 0))}m"
             )
+            if st:
+                lines.append(
+                    f"  alive={st.get('alive_score')} delta={st.get('alive_delta')} "
+                    f"rec={st.get('hold_recommendation')} exhaust={st.get('exhaustion', 0)}"
+                )
         return "\n".join(lines)
 
     def _cmd_missed(self) -> str:

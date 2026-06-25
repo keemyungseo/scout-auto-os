@@ -61,6 +61,15 @@ risk_guard:
   max_position_unrealized_loss_usdt: -0.60
   max_hold_minutes_with_negative_pnl: 45
 
+state_engine:
+  review_interval_sec: 1800
+  hold_target_minutes: 120
+  min_hold_before_exit_min: 30
+  hold_alive_score: 70
+  exit_alive_score: 45
+  alive_delta_exit: -25
+  protective_sl_pct: 10
+
 alerts:
   console: true
   csv: true

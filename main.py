@@ -37,6 +37,7 @@ from scout_auto_os.engine.manual_override import ManualOverride
 from scout_auto_os.engine.market_watcher import CacheAdapter, LiveDataAdapter, MarketWatcher, MockAdapter
 from scout_auto_os.engine.position_manager import PositionManager
 from scout_auto_os.engine.position_report import PositionReportService
+from scout_auto_os.engine.position_state_manager import PositionStateManager
 from scout_auto_os.engine.position_sync import PositionSync
 from scout_auto_os.engine.report_manager import ReportManager
 from scout_auto_os.engine.review_layer import ReviewLayer
@@ -98,7 +99,15 @@ class ScoutAutoOS:
                 int(self.config.get("execution", {}).get("leverage", 1)),
             ),
         )
+        data_dir = _data_dir()
         self.positions = PositionManager(self.config, self.db, self.csv_dir, adapter)
+        self.state_manager = PositionStateManager(
+            self.config,
+            data_dir,
+            lambda sym, et: self._market_adapter.get_bars(sym, et),
+        )
+        self.positions.state_manager = self.state_manager
+        print("[STATE ENGINE] initialized (V1.4 state-based exit)")
         self.entry_guard = EntryQualityGuard(self.config)
         self.block_summary = EntryBlockSummary(
             interval_sec=int(self.config.get("entry_quality", {}).get("summary_interval_sec", 1800)),
@@ -114,7 +123,6 @@ class ScoutAutoOS:
         self.risk = RiskManager(self.config, self.db)
         self.alerts = AlertManager(self.config, self.db, self.csv_dir)
         self.reports = ReportManager(self.config, self.db, self.csv_dir)
-        data_dir = _data_dir()
 
         def _price_fn(symbol: str) -> float:
             if self.live_engine.enabled:
@@ -149,6 +157,7 @@ class ScoutAutoOS:
             self.db,
             self._engine_state_dict,
             research_snapshot_fn=None,
+            position_state_fn=None,
         )
         self.long_engine = ScoutLongEngine(
             self.config, self.db, self.entry_guard, self.block_summary,
@@ -178,6 +187,9 @@ class ScoutAutoOS:
             telegram_send_fn=self.telegram_bot.send_text,
         )
         self.telegram_bot.research_snapshot_fn = self.research.snapshot
+        self.telegram_bot.position_state_fn = (
+            lambda: self.state_manager.summaries_for_open(self.positions.open_positions())
+        )
 
         if use_live:
             self.live_engine.start()
