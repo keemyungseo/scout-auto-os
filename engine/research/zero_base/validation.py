@@ -69,9 +69,10 @@ def rank_validation_engine(rows: list[dict], engine_name: str, top_k: int = 5) -
     scorer_key = VALIDATION_ENGINES.get(engine_name, engine_name)
     if scorer_key == "RANDOM_BASELINE":
         return rank_engine(rows, "RANDOM_BASELINE", top_k, scan_context(rows))
-    if scorer_key in SCORERS:
+    key = scorer_key if scorer_key in SCORERS else engine_name
+    if key in SCORERS:
         ctx = scan_context(rows)
-        ranked = sorted(rows, key=lambda r: SCORERS[scorer_key](r, ctx), reverse=True)
+        ranked = sorted(rows, key=lambda r: SCORERS[key](r, ctx), reverse=True)
         return [r["symbol"] for r in ranked[:top_k]]
     picks = rank_all_engines(rows, top_k=top_k)
     return picks.get(scorer_key, [])

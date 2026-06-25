@@ -1,0 +1,9 @@
+regime,champion_engine,confidence,reason,sample_count,avg_return_2h,win_rate,profit_factor,trap_rate,max_drawdown_avg,router_score,runners_up
+Bear,SKIP,high,validation: bear regime — router policy SKIP (no new entry rules),976,,,,,,,
+Bottom,UNKNOWN,insufficient_sample,n < 25,14,,,,,,,
+Breakout,UNKNOWN,insufficient_sample,n < 25,35,,,,,,,
+Bull,FORMULA_LEAGUE,medium,,240,5.1614,60.42,9.18,7.92,-2.1374,15.78,"['MOMENTUM', 'STATE_LEAGUE']"
+Capitulation,FEATURE_LEAGUE,hypothesis,,44,3.5547,43.18,24.2,0.0,-2.1448,31.43,"['FORMULA_LEAGUE', 'MOMENTUM']"
+Sideway,FORMULA_LEAGUE,medium,,260,5.8322,59.62,27.28,1.54,-1.443,37.87,"['MOMENTUM', 'STATE_LEAGUE']"
+Strong_Bull,FORMULA_LEAGUE,medium,,90,6.61,68.89,83.22,1.11,-1.0053,95.86,"['MOMENTUM', 'STATE_LEAGUE']"
+Unknown,FEATURE_LEAGUE,medium,,102,2.7614,34.31,13.24,0.98,-1.5212,18.49,"['FORMULA_LEAGUE', 'MOMENTUM']"
