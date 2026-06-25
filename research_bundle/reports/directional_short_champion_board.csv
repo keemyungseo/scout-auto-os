@@ -1,0 +1,6 @@
+direction,sample_count,return_30m_avg,return_1h_avg,avg_return_2h,median_return_2h,return_4h_avg,return_6h_avg,win_rate,profit_factor,max_drawdown_avg,trap_rate,big_winner_capture_rate,time_to_3pct_avg,time_to_5pct_avg,score,engine,board_rank,slot_eligible,beats_random,tier
+short,897,2.345,3.975,3.8598,3.059,3.4831,3.2653,50.84,7.96,2.2206,10.03,72.13,45.8,50.4,20.36,SHORT_CONTINUATION,1,True,True,champion_candidate
+short,897,1.1279,1.0638,1.0626,1.2247,1.0319,0.8902,27.42,1.71,3.5182,25.86,45.6,49.2,55.8,5.17,SHORT_V_REVERSAL,2,False,True,hypothesis
+short,897,0.95,0.9557,0.773,0.8079,0.2807,0.3777,28.21,1.41,4.0343,32.89,45.48,42.0,48.5,2.82,SHORT_ACCELERATION,3,False,True,hypothesis
+short,0,,,,,,,,,,,,,,0,RANDOM_SHORT,4,False,True,hypothesis
+short,897,-0.2336,-0.2953,-0.2564,0.098,-0.2348,-0.1834,12.93,0.82,3.0798,28.99,17.06,38.5,47.3,-4.25,SHORT_TOP_REVERSAL,5,False,True,hypothesis
