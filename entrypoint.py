@@ -88,6 +88,10 @@ print(
     f"interval_min={cfg['research']['scan_interval_min']} "
     f"top_n={cfg['research']['top_n']}"
 )
+# TODO: verify Research Engine thread starts after deploy; see engine/research_engine.py
+
+cfg.setdefault("entry_quality", {})
+cfg.setdefault("risk_guard", {})
 
 runtime_cfg = DATA / "config.runtime.yaml"
 runtime_cfg.write_text(yaml.dump(cfg, sort_keys=False, allow_unicode=True), encoding="utf-8")

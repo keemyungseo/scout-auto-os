@@ -54,6 +54,15 @@ class ReviewLayer:
             "trend_alive": row.get("trend_alive"),
             "acceleration": row.get("acceleration"),
             "entry_price": row.get("entry_price"),
+            "quote_volume_24h": row.get("quote_volume_24h"),
+            "quote_volume_5m": row.get("quote_volume_5m"),
+            "quote_volume_5m_ratio": row.get("quote_volume_5m_ratio"),
+            "pullback_from_15m_high_pct": row.get("pullback_from_15m_high_pct"),
+            "last_5m_candle_direction": row.get("last_5m_candle_direction"),
+            "estimated_slippage_pct": row.get("estimated_slippage_pct"),
+            "entry_quality_score": row.get("entry_quality_score"),
+            "entry_quality_pass": row.get("entry_quality_pass"),
+            "entry_block_reason": row.get("entry_block_reason"),
             "top5": [
                 {"rank": r.get("rank"), "symbol": r.get("symbol"), "score": r.get("a6_score")}
                 for r in []  # filled by caller if needed

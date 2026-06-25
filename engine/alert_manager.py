@@ -102,5 +102,24 @@ class AlertManager:
     def manual_alert(self, symbol: str, action: str) -> None:
         self._emit("MANUAL", f"[MANUAL LOCK]\nsymbol: {symbol}\naction: {action}")
 
+    def risk_guard_exit_alert(
+        self, symbol: str, roi: float, pnl_usdt: float, reason: str,
+    ) -> None:
+        msg = (
+            f"[RISK GUARD EXIT]\nsymbol: {symbol}\nroi: {roi:.2f}%\n"
+            f"pnl_usdt: {pnl_usdt:.4f}\nreason: {reason}"
+        )
+        if self.console:
+            print(msg)
+        self._telegram_send(msg)
+        self.db.execute(
+            "INSERT INTO alerts (timestamp, alert_type, message) VALUES (?,?,?)",
+            (now_kst(), "RISK_GUARD_EXIT", msg),
+        )
+
+    def entry_block_summary_alert(self, message: str) -> None:
+        """30m entry block summary — Telegram only, no console spam."""
+        self._telegram_send(message)
+
     def error_alert(self, module: str, message: str) -> None:
         self._emit("ERROR", f"[ERROR]\nmodule: {module}\nmessage: {message}")

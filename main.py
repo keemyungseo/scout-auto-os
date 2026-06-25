@@ -28,6 +28,8 @@ from scout_auto_os.engine.alert_manager import AlertManager
 from scout_auto_os.engine.bot_control import BotControl
 from scout_auto_os.engine.daily_trade_report import DailyTradeReportService
 from scout_auto_os.engine.dashboard_api import DashboardAPI
+from scout_auto_os.engine.entry_block_summary import EntryBlockSummary
+from scout_auto_os.engine.entry_quality_guard import EntryQualityGuard
 from scout_auto_os.engine.execution_engine import ExecutionEngine
 from scout_auto_os.engine.expected_ev_engine import ExpectedEVLogger
 from scout_auto_os.engine.live_data import LiveDataEngine
@@ -97,6 +99,10 @@ class ScoutAutoOS:
             ),
         )
         self.positions = PositionManager(self.config, self.db, self.csv_dir, adapter)
+        self.entry_guard = EntryQualityGuard(self.config)
+        self.block_summary = EntryBlockSummary(
+            interval_sec=int(self.config.get("entry_quality", {}).get("summary_interval_sec", 1800)),
+        )
         self.position_sync = PositionSync(self.config, self.db, self.execution.client)
         self.position_report = PositionReportService(self.execution.client)
         self.dashboard_api = DashboardAPI(
@@ -144,7 +150,9 @@ class ScoutAutoOS:
             self._engine_state_dict,
             research_snapshot_fn=None,
         )
-        self.long_engine = ScoutLongEngine(self.config, self.db)
+        self.long_engine = ScoutLongEngine(
+            self.config, self.db, self.entry_guard, self.block_summary,
+        )
         self.short_shadow = ScoutReverseShadow(self.config, self.db)
         self.last_update = now_kst()
         self.last_report_date: str | None = None
@@ -273,7 +281,9 @@ class ScoutAutoOS:
             self.long_engine.try_fill_slots(
                 top5, occupied, locked,
                 self.positions, self.execution, self.alerts, self.risk,
+                trade_recorder=self.execution.trade_recorder,
             )
+            self.block_summary.maybe_telegram_summary(self.alerts.entry_block_summary_alert)
             entered_symbols = self.positions.occupied_symbols() - occupied_before
             self.review.complete_scan(
                 scan_time, top5, entered_symbols, occupied_before, locked,

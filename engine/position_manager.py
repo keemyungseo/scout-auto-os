@@ -7,18 +7,20 @@ from datetime import datetime
 from pathlib import Path
 
 from scout_auto_os.engine.strategy_core import check_dynamic_exit, current_efr
+from scout_auto_os.engine.emergency_risk_guard import EmergencyRiskGuard
 from scout_auto_os.engine.expected_ev_engine import compute_live_ev
 from scout_auto_os.storage.db import Database, now_kst
 
 
 class PositionManager:
-    def __init__(self, config: dict, db: Database, csv_dir: Path, adapter) -> None:
+    def __init__(self, config: dict, db: Database, csv_dir: Path, adapter, risk_guard: EmergencyRiskGuard | None = None) -> None:
         self.config = config
         self.db = db
         self.csv_dir = csv_dir
         self.csv_dir.mkdir(parents=True, exist_ok=True)
         self.adapter = adapter
         self.max_long = int(config["position"]["max_long_slots"])
+        self.risk_guard = risk_guard or EmergencyRiskGuard(config)
 
     def open_positions(self) -> list[dict]:
         return self.db.fetchall(
@@ -101,10 +103,25 @@ class PositionManager:
             bars = self.adapter.get_bars(pos["symbol"], pos["entry_time"])
             if not bars:
                 continue
+            exit_px = bars[-1].c
+            entry = pos["entry_price"]
+            pnl_pct = (exit_px - entry) / entry * 100 if pos["side"] == "LONG" else (entry - exit_px) / entry * 100
+
+            rg = self.risk_guard.evaluate(pos, pnl_pct)
+            if rg.should_exit:
+                reason = f"risk_guard_{rg.reason}"
+                print(
+                    f"[RISK GUARD EXIT] symbol={pos['symbol']} roi={rg.roi_pct:.2f} "
+                    f"pnl={rg.pnl_usdt:.4f} reason={rg.reason}"
+                )
+                self._close_position(pos, exit_px, pnl_pct, reason, execution, alert_mgr, "AUTO")
+                alert_mgr.risk_guard_exit_alert(pos["symbol"], rg.roi_pct, rg.pnl_usdt, rg.reason)
+                closed.append(pos)
+                continue
+
             should, ret, reason = check_dynamic_exit(bars, pos["entry_price"])
             if not should:
                 continue
-            exit_px = bars[-1].c
             self._close_position(pos, exit_px, ret, reason, execution, alert_mgr, "AUTO")
             closed.append(pos)
         return closed

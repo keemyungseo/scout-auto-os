@@ -46,6 +46,21 @@ research:
   workers: 8
   forward_tick_sec: 60
 
+entry_quality:
+  min_24h_quote_volume_usdt: 10000000
+  min_1h_quote_volume_usdt: 400000
+  min_5m_quote_volume_ratio: 1.5
+  max_pullback_from_15m_high_pct: 2.5
+  block_last_5m_red_candle: true
+  max_estimated_slippage_pct: 0.3
+  block_negative_ev: true
+  summary_interval_sec: 1800
+
+risk_guard:
+  max_position_roi_loss_pct: -18
+  max_position_unrealized_loss_usdt: -0.60
+  max_hold_minutes_with_negative_pnl: 45
+
 alerts:
   console: true
   csv: true
