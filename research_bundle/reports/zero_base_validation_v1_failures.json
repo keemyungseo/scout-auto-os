@@ -1,0 +1,425 @@
+[
+  {
+    "engine": "RANDOM",
+    "status": "failed",
+    "reasons": [
+      "avg_return_2h below random baseline",
+      "median_return_2h not positive",
+      "negative avg in regimes: bear"
+    ],
+    "regime_avg_return_2h": {
+      "sideway": 0.2392,
+      "bull": 1.3761,
+      "bear": -1.0308
+    },
+    "top_losing_symbols": [
+      {
+        "symbol": "HEIUSDT",
+        "loss_count": 12
+      },
+      {
+        "symbol": "BTWUSDT",
+        "loss_count": 11
+      },
+      {
+        "symbol": "HUSDT",
+        "loss_count": 10
+      },
+      {
+        "symbol": "AIAUSDT",
+        "loss_count": 8
+      },
+      {
+        "symbol": "SIRENUSDT",
+        "loss_count": 8
+      }
+    ],
+    "champion_eligible": false
+  },
+  {
+    "engine": "A6",
+    "status": "failed",
+    "reasons": [
+      "avg_return_2h below random baseline",
+      "negative avg in regimes: bear"
+    ],
+    "regime_avg_return_2h": {
+      "sideway": 0.1867,
+      "bull": 1.7495,
+      "bear": -1.0114
+    },
+    "top_losing_symbols": [
+      {
+        "symbol": "GUAUSDT",
+        "loss_count": 11
+      },
+      {
+        "symbol": "HUSDT",
+        "loss_count": 9
+      },
+      {
+        "symbol": "EPICUSDT",
+        "loss_count": 9
+      },
+      {
+        "symbol": "HEIUSDT",
+        "loss_count": 9
+      },
+      {
+        "symbol": "OPGUSDT",
+        "loss_count": 9
+      }
+    ],
+    "champion_eligible": false
+  },
+  {
+    "engine": "FORMULA_LEAGUE",
+    "status": "failed",
+    "reasons": [
+      "trap_rate not lower than random"
+    ],
+    "regime_avg_return_2h": {
+      "sideway": 5.464,
+      "bull": 6.5797,
+      "bear": 3.7338
+    },
+    "top_losing_symbols": [
+      {
+        "symbol": "GUAUSDT",
+        "loss_count": 7
+      },
+      {
+        "symbol": "EPICUSDT",
+        "loss_count": 6
+      },
+      {
+        "symbol": "CLOUSDT",
+        "loss_count": 5
+      },
+      {
+        "symbol": "HUSDT",
+        "loss_count": 5
+      },
+      {
+        "symbol": "MYXUSDT",
+        "loss_count": 4
+      }
+    ],
+    "champion_eligible": false
+  },
+  {
+    "engine": "FEATURE_LEAGUE",
+    "status": "passed",
+    "reasons": [],
+    "regime_avg_return_2h": {
+      "sideway": 2.9891,
+      "bull": 2.7751,
+      "bear": 2.9501
+    },
+    "top_losing_symbols": [
+      {
+        "symbol": "EPICUSDT",
+        "loss_count": 9
+      },
+      {
+        "symbol": "AIAUSDT",
+        "loss_count": 5
+      },
+      {
+        "symbol": "SPORTFUNUSDT",
+        "loss_count": 4
+      },
+      {
+        "symbol": "ZESTUSDT",
+        "loss_count": 4
+      },
+      {
+        "symbol": "APRUSDT",
+        "loss_count": 3
+      }
+    ],
+    "champion_eligible": true
+  },
+  {
+    "engine": "STATE_LEAGUE",
+    "status": "failed",
+    "reasons": [
+      "trap_rate not lower than random"
+    ],
+    "regime_avg_return_2h": {
+      "sideway": 4.9121,
+      "bull": 6.6429,
+      "bear": 2.9906
+    },
+    "top_losing_symbols": [
+      {
+        "symbol": "HUSDT",
+        "loss_count": 14
+      },
+      {
+        "symbol": "CLOUSDT",
+        "loss_count": 9
+      },
+      {
+        "symbol": "EPICUSDT",
+        "loss_count": 7
+      },
+      {
+        "symbol": "GUAUSDT",
+        "loss_count": 6
+      },
+      {
+        "symbol": "OPNUSDT",
+        "loss_count": 5
+      }
+    ],
+    "champion_eligible": false
+  },
+  {
+    "engine": "MOMENTUM",
+    "status": "failed",
+    "reasons": [
+      "trap_rate not lower than random"
+    ],
+    "regime_avg_return_2h": {
+      "sideway": 5.464,
+      "bull": 6.5797,
+      "bear": 3.7338
+    },
+    "top_losing_symbols": [
+      {
+        "symbol": "GUAUSDT",
+        "loss_count": 7
+      },
+      {
+        "symbol": "EPICUSDT",
+        "loss_count": 6
+      },
+      {
+        "symbol": "CLOUSDT",
+        "loss_count": 5
+      },
+      {
+        "symbol": "HUSDT",
+        "loss_count": 5
+      },
+      {
+        "symbol": "MYXUSDT",
+        "loss_count": 4
+      }
+    ],
+    "champion_eligible": false
+  },
+  {
+    "engine": "BREAKOUT",
+    "status": "failed",
+    "reasons": [
+      "trap_rate not lower than random"
+    ],
+    "regime_avg_return_2h": {
+      "sideway": 4.0068,
+      "bull": 6.1114,
+      "bear": 2.4359
+    },
+    "top_losing_symbols": [
+      {
+        "symbol": "HUSDT",
+        "loss_count": 17
+      },
+      {
+        "symbol": "LABUSDT",
+        "loss_count": 12
+      },
+      {
+        "symbol": "EPICUSDT",
+        "loss_count": 11
+      },
+      {
+        "symbol": "CLOUSDT",
+        "loss_count": 11
+      },
+      {
+        "symbol": "OPNUSDT",
+        "loss_count": 11
+      }
+    ],
+    "champion_eligible": false
+  },
+  {
+    "engine": "COMPRESSION",
+    "status": "failed",
+    "reasons": [
+      "trap_rate not lower than random",
+      "negative avg in regimes: bear"
+    ],
+    "regime_avg_return_2h": {
+      "sideway": 0.9615,
+      "bull": 1.9786,
+      "bear": -0.4857
+    },
+    "top_losing_symbols": [
+      {
+        "symbol": "HUSDT",
+        "loss_count": 30
+      },
+      {
+        "symbol": "BTWUSDT",
+        "loss_count": 24
+      },
+      {
+        "symbol": "BEATUSDT",
+        "loss_count": 19
+      },
+      {
+        "symbol": "HEIUSDT",
+        "loss_count": 18
+      },
+      {
+        "symbol": "ALLOUSDT",
+        "loss_count": 17
+      }
+    ],
+    "champion_eligible": false
+  },
+  {
+    "engine": "RANGE_EXPANSION",
+    "status": "failed",
+    "reasons": [
+      "trap_rate not lower than random",
+      "negative avg in regimes: bear"
+    ],
+    "regime_avg_return_2h": {
+      "sideway": 0.9436,
+      "bull": 3.8859,
+      "bear": -1.0015
+    },
+    "top_losing_symbols": [
+      {
+        "symbol": "HUSDT",
+        "loss_count": 27
+      },
+      {
+        "symbol": "BTWUSDT",
+        "loss_count": 22
+      },
+      {
+        "symbol": "ESPORTSUSDT",
+        "loss_count": 20
+      },
+      {
+        "symbol": "BEATUSDT",
+        "loss_count": 19
+      },
+      {
+        "symbol": "LABUSDT",
+        "loss_count": 18
+      }
+    ],
+    "champion_eligible": false
+  },
+  {
+    "engine": "VWAP",
+    "status": "failed",
+    "reasons": [
+      "trap_rate not lower than random"
+    ],
+    "regime_avg_return_2h": {
+      "sideway": 1.6696,
+      "bull": 3.8139,
+      "bear": 0.2161
+    },
+    "top_losing_symbols": [
+      {
+        "symbol": "HUSDT",
+        "loss_count": 17
+      },
+      {
+        "symbol": "BEATUSDT",
+        "loss_count": 14
+      },
+      {
+        "symbol": "LABUSDT",
+        "loss_count": 14
+      },
+      {
+        "symbol": "ESPORTSUSDT",
+        "loss_count": 13
+      },
+      {
+        "symbol": "STGUSDT",
+        "loss_count": 10
+      }
+    ],
+    "champion_eligible": false
+  },
+  {
+    "engine": "PULLBACK",
+    "status": "failed",
+    "reasons": [
+      "trap_rate not lower than random"
+    ],
+    "regime_avg_return_2h": {
+      "sideway": 2.4357,
+      "bull": 3.2342,
+      "bear": 1.0788
+    },
+    "top_losing_symbols": [
+      {
+        "symbol": "HUSDT",
+        "loss_count": 10
+      },
+      {
+        "symbol": "BEATUSDT",
+        "loss_count": 9
+      },
+      {
+        "symbol": "AIAUSDT",
+        "loss_count": 9
+      },
+      {
+        "symbol": "BTWUSDT",
+        "loss_count": 9
+      },
+      {
+        "symbol": "OPNUSDT",
+        "loss_count": 8
+      }
+    ],
+    "champion_eligible": false
+  },
+  {
+    "engine": "RELATIVE_STRENGTH",
+    "status": "failed",
+    "reasons": [
+      "trap_rate not lower than random"
+    ],
+    "regime_avg_return_2h": {
+      "sideway": 5.464,
+      "bull": 6.5797,
+      "bear": 3.7338
+    },
+    "top_losing_symbols": [
+      {
+        "symbol": "GUAUSDT",
+        "loss_count": 7
+      },
+      {
+        "symbol": "EPICUSDT",
+        "loss_count": 6
+      },
+      {
+        "symbol": "CLOUSDT",
+        "loss_count": 5
+      },
+      {
+        "symbol": "HUSDT",
+        "loss_count": 5
+      },
+      {
+        "symbol": "MYXUSDT",
+        "loss_count": 4
+      }
+    ],
+    "champion_eligible": false
+  }
+]
