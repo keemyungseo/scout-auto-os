@@ -39,6 +39,13 @@ loop:
   position_update_sec: 30
   daily_report_hour_kst: 23
 
+research:
+  enabled: false
+  scan_interval_min: 5
+  top_n: 20
+  workers: 8
+  forward_tick_sec: 60
+
 alerts:
   console: true
   csv: true

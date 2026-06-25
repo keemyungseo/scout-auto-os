@@ -42,6 +42,7 @@ from scout_auto_os.engine.risk_manager import RiskManager
 from scout_auto_os.engine.scout_long_engine import ScoutLongEngine
 from scout_auto_os.engine.scout_reverse_shadow import ScoutReverseShadow
 from scout_auto_os.engine.trade_record import TradeRecordService
+from scout_auto_os.engine.research_engine import ResearchEngine
 from scout_auto_os.engine.telegram_commands import TelegramCommandBot
 from scout_auto_os.storage.db import Database, now_kst
 
@@ -141,6 +142,7 @@ class ScoutAutoOS:
             self.review.get_snapshot,
             self.db,
             self._engine_state_dict,
+            research_snapshot_fn=None,
         )
         self.long_engine = ScoutLongEngine(self.config, self.db)
         self.short_shadow = ScoutReverseShadow(self.config, self.db)
@@ -151,6 +153,24 @@ class ScoutAutoOS:
         self.metrics_path = _data_dir() / "live_metrics.json"
         self.bot_control = BotControl(_data_dir() / "bot_control.json")
 
+        def _research_price_fn(symbol: str) -> float:
+            if self.live_engine.enabled:
+                px = self.live_engine.get_price(symbol)
+                if px > 0:
+                    return px
+            return self._market_adapter.get_price(symbol)
+
+        self.research = ResearchEngine(
+            self.config,
+            data_dir,
+            cache_dir,
+            _research_price_fn,
+            live_engine=self.live_engine if use_live else None,
+            live_top5_fn=lambda: [r["symbol"] for r in self.watcher.last_top5],
+            telegram_send_fn=self.telegram_bot.send_text,
+        )
+        self.telegram_bot.research_snapshot_fn = self.research.snapshot
+
         if use_live:
             self.live_engine.start()
             self._bootstrap_subscriptions()
@@ -159,6 +179,7 @@ class ScoutAutoOS:
         self._write_status("running")
         self.db.log_event("main", "started", {"mode": self.config.get("mode", "paper")})
         self.telegram_bot.start()
+        self.research.start()
         self.review.update_snapshot()
 
     def _engine_state_dict(self) -> dict:
@@ -346,6 +367,7 @@ class ScoutAutoOS:
 
     def stop(self, *_args) -> None:
         self.running = False
+        self.research.stop()
         self.telegram_bot.stop()
         self.live_engine.stop()
         self._write_status("stopped")

@@ -18,7 +18,10 @@ from scout_auto_os.storage.trade_record_db import TradeRecordDB
 
 
 class TelegramCommandBot:
-    COMMANDS = ("/status", "/report", "/export", "/positions", "/missed")
+    COMMANDS = (
+        "/status", "/report", "/export", "/positions", "/missed",
+        "/research", "/league", "/features", "/missed_research",
+    )
 
     def __init__(
         self,
@@ -29,6 +32,7 @@ class TelegramCommandBot:
         review_snapshot_fn,
         os_db: Database,
         engine_state_fn,
+        research_snapshot_fn=None,
     ) -> None:
         self.config = config
         self.data_dir = data_dir
@@ -37,6 +41,7 @@ class TelegramCommandBot:
         self.review_snapshot_fn = review_snapshot_fn
         self.os_db = os_db
         self.engine_state_fn = engine_state_fn
+        self.research_snapshot_fn = research_snapshot_fn
         self.missed_store = MissedWinnersStore(data_dir, lambda _s: 0.0)
         self.token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
         self.chat_id = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
@@ -128,6 +133,14 @@ class TelegramCommandBot:
             self.send_text(self._cmd_positions())
         elif cmd == "/missed":
             self.send_text(self._cmd_missed())
+        elif cmd == "/research":
+            self.send_text(self._cmd_research())
+        elif cmd == "/league":
+            self.send_text(self._cmd_league())
+        elif cmd == "/features":
+            self.send_text(self._cmd_features())
+        elif cmd == "/missed_research":
+            self.send_text(self._cmd_missed_research())
 
     def _cmd_status(self) -> str:
         snap = self.review_snapshot_fn() or {}
@@ -232,3 +245,69 @@ class TelegramCommandBot:
         csv_path = self.data_dir / "scans.csv"
         if csv_path.exists():
             self.send_document(csv_path, "scans.csv export")
+
+    @review_safe("telegram_cmd")
+    def _cmd_research(self) -> str:
+        if not self.research_snapshot_fn:
+            return "SCOUT /research\nResearch Engine not wired."
+        snap = self.research_snapshot_fn() or {}
+        lines = [
+            "SCOUT /research",
+            f"Enabled: {snap.get('enabled', False)}",
+            f"Last scan: {snap.get('last_scan_time', 'n/a')}",
+            f"Scan count: {snap.get('scan_count', 0)}",
+            f"Forward pending: {snap.get('forward_pending', 0)}",
+        ]
+        report = snap.get("report") or {}
+        if report:
+            lines.append(f"A6 win2h: {report.get('a6_win_rate_2h', 0)}%")
+        return "\n".join(lines)
+
+    @review_safe("telegram_cmd")
+    def _cmd_league(self) -> str:
+        if not self.research_snapshot_fn:
+            return "SCOUT /league\nResearch Engine not wired."
+        rows = (self.research_snapshot_fn() or {}).get("formula_league") or []
+        lines = ["SCOUT /league (Formula League)"]
+        if not rows:
+            lines.append("(no data yet)")
+            return "\n".join(lines)
+        for r in rows[:8]:
+            lines.append(
+                f"  {r.get('formula_name')} score={r.get('score')} "
+                f"win2h={r.get('win_rate_2h')}% n={r.get('sample_count')}"
+            )
+        return "\n".join(lines)
+
+    @review_safe("telegram_cmd")
+    def _cmd_features(self) -> str:
+        if not self.research_snapshot_fn:
+            return "SCOUT /features\nResearch Engine not wired."
+        rows = (self.research_snapshot_fn() or {}).get("feature_league") or []
+        lines = ["SCOUT /features (Feature League top)"]
+        if not rows:
+            lines.append("(no data yet)")
+            return "\n".join(lines)
+        for r in rows[:8]:
+            lines.append(
+                f"  {r.get('feature_name')} {r.get('condition')} "
+                f"win2h={r.get('win_rate_2h')}% [{r.get('comment')}]"
+            )
+        return "\n".join(lines)
+
+    @review_safe("telegram_cmd")
+    def _cmd_missed_research(self) -> str:
+        if not self.research_snapshot_fn:
+            return "SCOUT /missed_research\nResearch Engine not wired."
+        report = (self.research_snapshot_fn() or {}).get("report") or {}
+        missed = report.get("missed_big_winners") or []
+        lines = ["SCOUT /missed_research (big winners outside TOP5)"]
+        if not missed:
+            lines.append("(none recorded yet)")
+            return "\n".join(lines)
+        for m in missed[:10]:
+            lines.append(
+                f"  {m.get('scan_time_kst')} {m.get('symbol')} "
+                f"ret2h={m.get('return_2h')}% rank={m.get('rank')}"
+            )
+        return "\n".join(lines)

@@ -24,6 +24,7 @@ LOGS = Path(os.environ.get("SCOUT_LOG_DIR", "/app/logs"))
 for sub in (
     DATA,
     LOGS,
+    DATA / "research",
     LOGS / "auto_os",
     LOGS / "live",
     LOGS / "phase19_winner_dna" / "kline_cache",
@@ -69,6 +70,13 @@ cfg.setdefault("live_data", {})["log_dir"] = str(LOGS / "live")
 
 if os.getenv("TELEGRAM_BOT_TOKEN") and os.getenv("TELEGRAM_CHAT_ID"):
     cfg.setdefault("alerts", {})["telegram"] = True
+
+research_enabled = os.getenv("RESEARCH_ENABLED", "false").strip().lower() in ("1", "true", "yes")
+cfg.setdefault("research", {})["enabled"] = research_enabled
+if os.getenv("RESEARCH_SCAN_INTERVAL_MIN"):
+    cfg.setdefault("research", {})["scan_interval_min"] = int(os.environ["RESEARCH_SCAN_INTERVAL_MIN"])
+if os.getenv("RESEARCH_TOP_N"):
+    cfg.setdefault("research", {})["top_n"] = int(os.environ["RESEARCH_TOP_N"])
 
 runtime_cfg = DATA / "config.runtime.yaml"
 runtime_cfg.write_text(yaml.dump(cfg, sort_keys=False, allow_unicode=True), encoding="utf-8")
