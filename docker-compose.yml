@@ -5,10 +5,6 @@ services:
     restart: unless-stopped
     env_file:
       - .env
-    environment:
-      - RESEARCH_ENABLED=${RESEARCH_ENABLED:-false}
-      - RESEARCH_SCAN_INTERVAL_MIN=${RESEARCH_SCAN_INTERVAL_MIN:-5}
-      - RESEARCH_TOP_N=${RESEARCH_TOP_N:-20}
     volumes:
       - ./data:/app/data
       - ./logs:/app/logs

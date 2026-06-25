@@ -11,6 +11,7 @@ import json
 import os
 import threading
 import time
+import traceback
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Callable
@@ -21,6 +22,7 @@ from scout_auto_os.engine.research.forward_tracker import ForwardTracker
 from scout_auto_os.engine.research.report import build_daily_report_payload, build_research_report_text
 from scout_auto_os.engine.research.safe import research_safe
 from scout_auto_os.engine.research.scanner import run_research_scan
+from scout_auto_os.engine.research.settings import research_enabled
 from scout_auto_os.engine.research.storage import ResearchStore
 from scout_auto_os.storage.db import now_kst
 
@@ -51,7 +53,7 @@ class ResearchEngine:
     ) -> None:
         self.config = config
         rcfg = config.get("research", {})
-        self.enabled = bool(rcfg.get("enabled", False))
+        self.enabled = research_enabled(config)
         self.scan_interval_sec = int(rcfg.get("scan_interval_min", 5)) * 60
         self.top_n = int(rcfg.get("top_n", 20))
         self.workers = int(rcfg.get("workers", 8))
@@ -75,13 +77,28 @@ class ResearchEngine:
         self._last_report_date: str | None = None
         self._scan_count = 0
         self._lock = threading.Lock()
+        print(
+            "[RESEARCH] init "
+            f"enabled={self.enabled} "
+            f"env={os.getenv('RESEARCH_ENABLED', '(unset)')} "
+            f"interval_sec={self.scan_interval_sec} top_n={self.top_n}"
+        )
 
     def start(self) -> None:
         if not self.enabled:
+            print(
+                "[RESEARCH] engine disabled — set RESEARCH_ENABLED=true in container .env "
+                f"(current env={os.getenv('RESEARCH_ENABLED', '(unset)')})"
+            )
             return
-        self._assert_no_order_access()
+        try:
+            self._assert_no_order_access()
+        except Exception as exc:
+            print(f"[RESEARCH FATAL] order guard failed: {exc}")
+            traceback.print_exc()
+            return
         self._running = True
-        self._thread = threading.Thread(target=self._loop, daemon=True, name="ResearchEngine")
+        self._thread = threading.Thread(target=self._loop_wrapper, daemon=True, name="ResearchEngine")
         self._thread.start()
         print("[RESEARCH] engine started")
 
@@ -114,23 +131,40 @@ class ResearchEngine:
             })
             return snap
 
+    def _loop_wrapper(self) -> None:
+        try:
+            print(f"[RESEARCH] thread loop starting forward_pending={self.forward.pending_count}")
+            self._loop()
+        except Exception as exc:
+            print(f"[RESEARCH FATAL] thread crashed: {exc}")
+            traceback.print_exc()
+
     def _loop(self) -> None:
         next_scan = time.time()
         next_forward = time.time()
+        # First scan soon after boot (do not wait full interval)
+        next_scan = time.time() + 5
         while self._running:
-            now = time.time()
-            if now >= next_forward:
-                self._tick_forward()
-                next_forward = now + self.forward_tick_sec
-            if now >= next_scan:
-                self.run_scan_once()
-                next_scan = now + self.scan_interval_sec
-            self._maybe_daily_report()
+            try:
+                now = time.time()
+                if now >= next_forward:
+                    self._tick_forward()
+                    next_forward = now + self.forward_tick_sec
+                if now >= next_scan:
+                    self.run_scan_once()
+                    next_scan = now + self.scan_interval_sec
+                self._maybe_daily_report()
+            except Exception as exc:
+                print(f"[RESEARCH ERROR] loop: {exc}")
+                traceback.print_exc()
             time.sleep(1)
 
     @research_safe("forward_tick")
     def _tick_forward(self) -> None:
+        pending_before = self.forward.pending_count
         completed = self.forward.update(self.price_fn)
+        pending_after = self.forward.pending_count
+        print(f"[RESEARCH] forward pending={pending_after} (completed={len(completed)})")
         if completed:
             self.store.append_forward(completed)
             self._refresh_leagues()
@@ -152,6 +186,7 @@ class ResearchEngine:
             symbol_list=self.symbol_list or None,
         )
         if not result.get("candidates"):
+            print(f"[RESEARCH] scan complete — no candidates (symbols={result.get('total_symbols', 0)})")
             return result
 
         for c in result["candidates"]:
@@ -185,7 +220,7 @@ class ResearchEngine:
             self._last_scan_time = scan_kst
             self._scan_count += 1
 
-        print("[RESEARCH] scan saved")
+        print(f"[RESEARCH] scan saved top_n={len(result['candidates'])} forward_pending={self.forward.pending_count}")
         return result
 
     @research_safe("leagues")

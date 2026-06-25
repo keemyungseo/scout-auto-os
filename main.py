@@ -179,6 +179,7 @@ class ScoutAutoOS:
         self._write_status("running")
         self.db.log_event("main", "started", {"mode": self.config.get("mode", "paper")})
         self.telegram_bot.start()
+        print(f"[RESEARCH] calling start() enabled={self.research.enabled}")
         self.research.start()
         self.review.update_snapshot()
 

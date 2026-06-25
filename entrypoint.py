@@ -71,12 +71,23 @@ cfg.setdefault("live_data", {})["log_dir"] = str(LOGS / "live")
 if os.getenv("TELEGRAM_BOT_TOKEN") and os.getenv("TELEGRAM_CHAT_ID"):
     cfg.setdefault("alerts", {})["telegram"] = True
 
-research_enabled = os.getenv("RESEARCH_ENABLED", "false").strip().lower() in ("1", "true", "yes")
-cfg.setdefault("research", {})["enabled"] = research_enabled
-if os.getenv("RESEARCH_SCAN_INTERVAL_MIN"):
-    cfg.setdefault("research", {})["scan_interval_min"] = int(os.environ["RESEARCH_SCAN_INTERVAL_MIN"])
-if os.getenv("RESEARCH_TOP_N"):
-    cfg.setdefault("research", {})["top_n"] = int(os.environ["RESEARCH_TOP_N"])
+# Research — env inside container wins (do not rely on compose ${VAR} substitution)
+from scout_auto_os.engine.research.settings import research_enabled, research_int_env
+
+cfg.setdefault("research", {})
+cfg["research"]["enabled"] = research_enabled(cfg)
+cfg["research"]["scan_interval_min"] = research_int_env(
+    "RESEARCH_SCAN_INTERVAL_MIN", "scan_interval_min", cfg, 5,
+)
+cfg["research"]["top_n"] = research_int_env("RESEARCH_TOP_N", "top_n", cfg, 20)
+
+print(
+    "[RESEARCH] config "
+    f"enabled={cfg['research']['enabled']} "
+    f"env_RESEARCH_ENABLED={os.getenv('RESEARCH_ENABLED', '(unset)')} "
+    f"interval_min={cfg['research']['scan_interval_min']} "
+    f"top_n={cfg['research']['top_n']}"
+)
 
 runtime_cfg = DATA / "config.runtime.yaml"
 runtime_cfg.write_text(yaml.dump(cfg, sort_keys=False, allow_unicode=True), encoding="utf-8")
