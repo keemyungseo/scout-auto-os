@@ -40,6 +40,14 @@ FEATURE_LEAGUE_FIELDS = [
     "avg_return_2h", "median_return_2h", "big_winner_rate", "trap_rate", "comment",
 ]
 
+STATE_LEAGUE_FIELDS = [
+    "league_rank", "formula_name", "trend_w", "momentum_w", "volume_w",
+    "expansion_w", "acceleration_w", "sample_count", "win_rate", "avg_return",
+    "avg_loss", "profit_factor", "avg_hold_minutes", "avg_mfe", "avg_mae",
+    "max_drawdown_avg", "trend_hold_2h_pct", "trend_hold_4h_pct",
+    "state_exit_rate", "league_score", "tier",
+]
+
 
 class ResearchStore:
     def __init__(self, data_dir: Path) -> None:
@@ -50,6 +58,8 @@ class ResearchStore:
         self.forward_path = self.root / "research_forward_results.csv"
         self.formula_path = self.root / "formula_league.csv"
         self.feature_path = self.root / "feature_league.csv"
+        self.state_league_path = self.root / "state_league.csv"
+        self.state_proposals_path = self.root / "state_proposals.json"
         self.report_path = self.root / "research_report.json"
         self.picks_path = self.root / "formula_picks.jsonl"
         self._ensure_headers()
@@ -61,6 +71,7 @@ class ResearchStore:
             (self.forward_path, FORWARD_FIELDS),
             (self.formula_path, FORMULA_LEAGUE_FIELDS),
             (self.feature_path, FEATURE_LEAGUE_FIELDS),
+            (self.state_league_path, STATE_LEAGUE_FIELDS),
         ]
         for path, fields in mapping:
             if not path.exists():
@@ -90,6 +101,14 @@ class ResearchStore:
     def write_feature_league(self, rows: list[dict]) -> None:
         write_csv(self.feature_path, rows)
 
+    def write_state_league(self, rows: list[dict]) -> None:
+        write_csv(self.state_league_path, rows)
+
+    def write_state_proposals(self, payload: dict) -> None:
+        self.state_proposals_path.write_text(
+            json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8",
+        )
+
     def write_report(self, payload: dict) -> None:
         self.report_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
 
@@ -115,6 +134,20 @@ class ResearchStore:
         with self.feature_path.open(encoding="utf-8") as f:
             return list(csv.DictReader(f))
 
+    def read_state_league(self) -> list[dict]:
+        if not self.state_league_path.exists():
+            return []
+        with self.state_league_path.open(encoding="utf-8") as f:
+            return list(csv.DictReader(f))
+
+    def read_state_proposals(self) -> dict:
+        if not self.state_proposals_path.exists():
+            return {}
+        try:
+            return json.loads(self.state_proposals_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            return {}
+
     def snapshot(self) -> dict:
         report = {}
         if self.report_path.exists():
@@ -129,4 +162,6 @@ class ResearchStore:
             "forward_csv": str(self.forward_path),
             "formula_league": self.read_formula_league()[:10],
             "feature_league": self.read_feature_league()[:10],
+            "state_league": self.read_state_league()[:10],
+            "state_proposals": self.read_state_proposals(),
         }

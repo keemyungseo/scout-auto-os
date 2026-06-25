@@ -264,17 +264,43 @@ class TelegramCommandBot:
         if not self.research_snapshot_fn:
             return "SCOUT /research\nResearch Engine not wired."
         snap = self.research_snapshot_fn() or {}
+        report = snap.get("report") or {}
         lines = [
-            "SCOUT /research",
+            "SCOUT /research (V1.5)",
             f"Enabled: {snap.get('enabled', False)}",
             f"Last scan: {snap.get('last_scan_time', 'n/a')}",
             f"Scan count: {snap.get('scan_count', 0)}",
             f"Forward pending: {snap.get('forward_pending', 0)}",
+            "",
+            f"A6 win2h: {report.get('a6_win_rate_2h', 0)}%",
+            f"LIVE State: {report.get('live_state_formula', 'LIVE_V14')} (frozen)",
         ]
-        report = snap.get("report") or {}
-        if report:
-            lines.append(f"A6 win2h: {report.get('a6_win_rate_2h', 0)}%")
-        return "\n".join(lines)
+        state_rows = snap.get("state_league") or report.get("state_league_top") or []
+        if state_rows:
+            lines.append("")
+            lines.append("State League TOP10:")
+            for r in state_rows[:10]:
+                lines.append(
+                    f"  #{r.get('league_rank')} {r.get('formula_name')} "
+                    f"win={r.get('win_rate')}% PF={r.get('profit_factor')} [{r.get('tier')}]"
+                )
+        rec = report.get("recommended_state_formula") or {}
+        if rec.get("formula_name"):
+            lines.append("")
+            lines.append(
+                f"Recommended: {rec.get('formula_name')} [{rec.get('tier')}] "
+                "(research only — user approval required for LIVE)"
+            )
+        evo = report.get("state_evolution") or {}
+        if evo.get("sample_count"):
+            lines.append("")
+            lines.append(f"Evolution n={evo.get('sample_count')} last100 win={evo.get('recent_100_win_rate')}%")
+        props = report.get("state_proposals") or snap.get("state_proposals", {}).get("proposals") or []
+        if props:
+            lines.append("State proposals:")
+            for p in props[:3]:
+                lines.append(f"  [{p.get('tier')}] {p.get('title')}")
+        return "\n".join(lines)[:4000]
 
     @review_safe("telegram_cmd")
     def _cmd_league(self) -> str:

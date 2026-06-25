@@ -10,6 +10,68 @@ from scout_research_r008_exit_engine import StateSnap, state_snapshot
 
 
 @dataclass
+class StateFormulaWeights:
+    """Configurable Alive Formula — LIVE uses LIVE_V14; Research evolves variants."""
+    name: str
+    trend: float
+    momentum: float
+    volume: float
+    expansion: float
+    acceleration: float
+    exhaustion_scale: float = 1.0
+
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+
+# Frozen LIVE weights (V1.4) — Research must not auto-override this.
+LIVE_STATE_FORMULA = StateFormulaWeights(
+    "LIVE_V14", trend=25, momentum=25, volume=25, expansion=15, acceleration=10,
+)
+
+
+def _exhaustion_penalty(snap: StateSnap, scale: float = 1.0) -> float:
+    ex = 0.0
+    if not snap.trend_alive and snap.momentum_weak:
+        ex += 20.0
+    if snap.volume_weak and snap.momentum_weak:
+        ex += 15.0
+    if not snap.trend_alive and not snap.expansion:
+        ex += 10.0
+    return min(35.0, ex * scale)
+
+
+def compute_alive_from_snap(
+    snap: StateSnap,
+    weights: StateFormulaWeights,
+    hold_alive: float = 70.0,
+    exit_alive: float = 45.0,
+) -> AliveScore:
+    trend = weights.trend if snap.trend_alive else 0.0
+    momentum = weights.momentum if not snap.momentum_weak else weights.momentum * 0.32
+    volume = weights.volume if not snap.volume_weak else weights.volume * 0.32
+    expansion = weights.expansion if snap.expansion else weights.expansion * 0.33
+    accel_bonus = weights.acceleration if snap.acceleration else 0.0
+    exhaustion = _exhaustion_penalty(snap, weights.exhaustion_scale)
+
+    total = max(0.0, min(100.0, trend + momentum + volume + expansion + accel_bonus - exhaustion))
+    return AliveScore(
+        alive_score=round(total, 2),
+        trend_alive=round(trend, 2),
+        momentum_alive=round(momentum, 2),
+        volume_alive=round(volume, 2),
+        expansion_alive=round(expansion, 2),
+        exhaustion=round(exhaustion, 2),
+        acceleration_bonus=round(accel_bonus, 2),
+        hold_recommendation=hold_recommendation(total, hold_alive, exit_alive),
+        trend_dead=not snap.trend_alive,
+        momentum_collapse=snap.momentum_weak,
+        volume_collapse=snap.volume_weak,
+        exhausted=exhaustion >= 20.0,
+    )
+
+
+@dataclass
 class AliveScore:
     alive_score: float
     trend_alive: float
@@ -52,47 +114,14 @@ def compute_alive_score(
     entry_i: int = 0,
     hold_alive: float = 70.0,
     exit_alive: float = 45.0,
+    weights: StateFormulaWeights | None = None,
 ) -> AliveScore | None:
     if not bars:
         return None
     i = len(bars) - 1
     snap = state_snapshot(bars, i, entry_i)
-
-    trend = 25.0 if snap.trend_alive else 0.0
-    momentum = 25.0 if not snap.momentum_weak else 8.0
-    volume = 25.0 if not snap.volume_weak else 8.0
-    expansion = 15.0 if snap.expansion else 5.0
-    accel_bonus = 10.0 if snap.acceleration else 0.0
-
-    exhaustion = 0.0
-    if not snap.trend_alive and snap.momentum_weak:
-        exhaustion += 20.0
-    if snap.volume_weak and snap.momentum_weak:
-        exhaustion += 15.0
-    if not snap.trend_alive and not snap.expansion:
-        exhaustion += 10.0
-    exhaustion = min(35.0, exhaustion)
-
-    total = max(0.0, min(100.0, trend + momentum + volume + expansion + accel_bonus - exhaustion))
-    trend_dead = not snap.trend_alive
-    momentum_collapse = snap.momentum_weak
-    volume_collapse = snap.volume_weak
-    exhausted = exhaustion >= 20.0
-
-    return AliveScore(
-        alive_score=round(total, 2),
-        trend_alive=round(trend, 2),
-        momentum_alive=round(momentum, 2),
-        volume_alive=round(volume, 2),
-        expansion_alive=round(expansion, 2),
-        exhaustion=round(exhaustion, 2),
-        acceleration_bonus=round(accel_bonus, 2),
-        hold_recommendation=hold_recommendation(total, hold_alive, exit_alive),
-        trend_dead=trend_dead,
-        momentum_collapse=momentum_collapse,
-        volume_collapse=volume_collapse,
-        exhausted=exhausted,
-    )
+    w = weights or LIVE_STATE_FORMULA
+    return compute_alive_from_snap(snap, w, hold_alive, exit_alive)
 
 
 def snap_summary(snap: StateSnap) -> dict:

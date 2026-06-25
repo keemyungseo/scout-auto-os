@@ -19,11 +19,16 @@ from typing import Callable
 from scout_auto_os.engine.research.feature_league import compute_feature_league
 from scout_auto_os.engine.research.formula_league import compute_formula_league, random_baseline_stats
 from scout_auto_os.engine.research.forward_tracker import ForwardTracker
+from scout_auto_os.engine.research.position_evolution import PositionEvolutionStore
 from scout_auto_os.engine.research.report import build_daily_report_payload, build_research_report_text
 from scout_auto_os.engine.research.safe import research_safe
 from scout_auto_os.engine.research.scanner import run_research_scan
 from scout_auto_os.engine.research.settings import research_enabled
+from scout_auto_os.engine.research.state_evolution import analyze_evolution
+from scout_auto_os.engine.research.state_league import compute_state_league
 from scout_auto_os.engine.research.storage import ResearchStore
+from scout_auto_os.engine.research.zero_base.runner import ZeroBaseRunner
+from scout_auto_os.engine.research.zero_base.storage import ZeroBaseStore
 from scout_auto_os.storage.db import now_kst
 
 KST = timezone(timedelta(hours=9))
@@ -71,10 +76,17 @@ class ResearchEngine:
 
         self.store = ResearchStore(data_dir)
         self.forward = ForwardTracker(self.store.root / "forward_pending.jsonl")
+        self.evolution = PositionEvolutionStore(self.store.root)
+        self.zero_base = ZeroBaseStore(data_dir)
+        zb_cfg = config.get("research", {}).get("zero_base", {})
+        self.zero_base_enabled = str(os.getenv("ZEROBASE_ENABLED", zb_cfg.get("enabled", "true"))).lower() in ("1", "true", "yes")
+        self.zero_base_max_scans = int(zb_cfg.get("max_scans_per_refresh", 20))
+        self.zero_base_random_draws = int(zb_cfg.get("random_draws", 100))
         self._thread: threading.Thread | None = None
         self._running = False
         self._last_scan_time: str | None = None
         self._last_report_date: str | None = None
+        self._last_zero_base_date: str | None = None
         self._scan_count = 0
         self._lock = threading.Lock()
         print(
@@ -128,6 +140,7 @@ class ResearchEngine:
                 "last_scan_time": self._last_scan_time,
                 "scan_count": self._scan_count,
                 "forward_pending": self.forward.pending_count,
+                "zero_base": self.zero_base.snapshot(),
             })
             return snap
 
@@ -245,10 +258,45 @@ class ResearchEngine:
         self.store.write_feature_league(features)
         print("[RESEARCH] feature league updated")
 
+        state_league, blind_state = compute_state_league(complete, self.cache_dir)
+        if state_league:
+            self.store.write_state_league(state_league)
+            print(f"[RESEARCH] state league updated n_formulas={len(state_league)}")
+
+        record_time = now_kst()
+        live_n = self.evolution.ingest_live_reviews(self.data_dir, record_time)
+        replay_n = self.evolution.build_replay_checkpoints(complete, record_time)
+        if live_n or replay_n:
+            print(f"[RESEARCH] evolution ingested live={live_n} replay={replay_n}")
+
+        evolution = analyze_evolution(self.evolution.read_all())
+        self.store.write_state_proposals(evolution)
+
         report = build_daily_report_payload(
             self.store, formula, features, complete, len(candidates),
+            state_league=state_league,
+            state_evolution=evolution,
+            blind_state=blind_state,
+            zero_base=self.zero_base.snapshot(),
         )
         self.store.write_report(report)
+
+    @research_safe("zerobase")
+    def _refresh_zero_base(self) -> dict:
+        if not self.zero_base_enabled:
+            return {}
+        runner = ZeroBaseRunner(
+            self.data_dir,
+            random_draws=self.zero_base_random_draws,
+        )
+        result = runner.run(max_scans=self.zero_base_max_scans)
+        return {
+            "champion_board_top": result.get("champion_board", []),
+            "a6": result.get("a6", {}),
+            "random_stats": result.get("random_stats", {}),
+            "better_than_a6": [c.get("engine") for c in result.get("better_than_a6", [])[:5]],
+            "meta": result.get("meta", {}),
+        }
 
     def _read_candidates(self) -> list[dict]:
         path = self.store.candidates_path
@@ -267,6 +315,9 @@ class ResearchEngine:
         if not self.telegram_send:
             self._last_report_date = today
             return
+        if self.zero_base_enabled and self._last_zero_base_date != today:
+            self._refresh_zero_base()
+            self._last_zero_base_date = today
         self._refresh_leagues()
         snap = self.store.snapshot()
         report = snap.get("report") or {}
@@ -279,6 +330,8 @@ class ResearchEngine:
         self._last_report_date = today
 
     def force_report(self) -> str:
+        if self.zero_base_enabled:
+            self._refresh_zero_base()
         self._refresh_leagues()
         report = self.store.snapshot().get("report") or {}
         return build_research_report_text(report)

@@ -41,6 +41,42 @@ def build_research_report_text(report: dict) -> str:
     lines.append("A6 improvement candidates:")
     for c in (report.get("improvement_candidates") or [])[:5]:
         lines.append(f"  [{c.get('tier')}] {c.get('label')}: {c.get('detail')}")
+    lines.append("")
+    lines.append(f"LIVE State Formula: {report.get('live_state_formula', 'LIVE_V14')}")
+    lines.append("State League TOP10:")
+    for row in (report.get("state_league_top") or [])[:10]:
+        lines.append(
+            f"  #{row.get('league_rank')} {row.get('formula_name')} "
+            f"score={row.get('league_score')} win={row.get('win_rate')}% "
+            f"PF={row.get('profit_factor')} [{row.get('tier')}]"
+        )
+    rec = report.get("recommended_state_formula") or {}
+    if rec:
+        lines.append(
+            f"Recommended (research): {rec.get('formula_name')} "
+            f"tier={rec.get('tier')} — NOT auto-applied to LIVE"
+        )
+    evo = report.get("state_evolution") or {}
+    if evo.get("status") == "ok":
+        lines.append(f"Evolution sample: {evo.get('sample_count')} win100={evo.get('recent_100_win_rate')}%")
+        for comp in (evo.get("component_contribution") or [])[:2]:
+            lines.append(f"  lead component: {comp.get('component')} delta={comp.get('delta')}")
+    for p in (report.get("state_proposals") or [])[:3]:
+        lines.append(f"  [{p.get('tier')}] {p.get('title')}")
+    zb = report.get("zero_base") or {}
+    zb_top = report.get("zero_base_champion_top") or zb.get("champion_board_top") or []
+    if zb_top:
+        lines.append("")
+        lines.append("Zero-Base Champion Board (Lab):")
+        for row in zb_top[:5]:
+            lines.append(
+                f"  #{row.get('board_rank')} {row.get('engine')} "
+                f"avg2h={row.get('avg_return_2h')}% vsA6={row.get('avg_return_2h_delta_vs_a6', 0)} "
+                f"[{row.get('tier')}]"
+            )
+        better = zb.get("better_than_a6") or []
+        if better:
+            lines.append(f"  Beats A6: {', '.join(better[:5])}")
     return "\n".join(lines)
 
 
@@ -86,6 +122,10 @@ def build_daily_report_payload(
     feature_league: list[dict],
     forward_rows: list[dict],
     candidate_count_yesterday: int,
+    state_league: list[dict] | None = None,
+    state_evolution: dict | None = None,
+    blind_state: list[dict] | None = None,
+    zero_base: dict | None = None,
 ) -> dict:
     today = datetime.now(KST).strftime("%Y-%m-%d")
     a6 = next((x for x in formula_league if x.get("formula_name") == "A6_CURRENT"), {})
@@ -101,6 +141,11 @@ def build_daily_report_payload(
     traps = [r for r in forward_rows if str(r.get("label_trap", "")).lower() in ("true", "1")]
     traps.sort(key=lambda x: float(x.get("return_2h") or 0))
 
+    state_league = state_league or []
+    state_evolution = state_evolution or {}
+    candidates_state = [r for r in state_league if r.get("tier") == "state_candidate"]
+    recommended = candidates_state[0] if candidates_state else (state_league[0] if state_league else {})
+
     payload = {
         "report_date": today,
         "generated_at_kst": datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S"),
@@ -112,8 +157,16 @@ def build_daily_report_payload(
         "random_avg_return_2h": random_stats.get("avg_return_2h", 0),
         "formula_league_top": formula_league[:8],
         "feature_league_top": feature_league[:10],
+        "state_league_top": state_league[:10],
+        "live_state_formula": "LIVE_V14",
+        "recommended_state_formula": recommended,
+        "state_blind_validation": blind_state or [],
+        "state_evolution": state_evolution,
+        "state_proposals": state_evolution.get("proposals") or [],
         "missed_big_winners": missed[:10],
         "trap_patterns": traps[:10],
         "improvement_candidates": classify_improvements(formula_league, feature_league),
+        "zero_base": zero_base or {},
+        "zero_base_champion_top": (zero_base or {}).get("champion_board_top") or [],
     }
     return payload
