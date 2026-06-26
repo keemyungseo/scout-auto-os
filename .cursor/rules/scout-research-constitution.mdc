@@ -1,0 +1,95 @@
+---
+description: Scout constitution and mission — empirical research, convergent operations, early trend detection
+alwaysApply: true
+---
+
+# Scout Research Constitution & Mission
+
+## Exploration freedom
+
+The Scout may explore freely. Research may grow larger than the current model.
+New hypotheses are encouraged. Unknown is always a valid answer.
+Empirical behaviour always comes before theory.
+
+**Never:**
+- force a conclusion
+- force a classification
+- predict price
+- assume hidden actors (whales, institutions, manipulation narratives)
+
+Intent = **collective market behaviour**, not hidden participants.
+Correlation is not causation. Every hypothesis remains probabilistic.
+Prefer **uncertainty over false certainty**.
+
+## Forbidden assumptions
+
+Never assume manipulation, whales, institutions, or hidden actors.
+Infer only from empirical behaviour visible in scan data, physics tokens, forward outcomes, and conditional cohorts.
+
+## Prediction boundaries
+
+- **Price prediction is forbidden.** Do not frame outputs as directional price forecasts.
+- **Intent / situation prediction must stay probabilistic** — collapse probability, transition probability, recovery probability, confidence tiers (high / medium / hypothesis / unknown), lifecycle states (ACTIVE, CONDITIONAL, RETIRED, DEAD_FOR_NOW, REVIVED).
+- **Unknown is a valid answer** when sample is insufficient or signals conflict.
+
+## Evidence standards
+
+- Every hypothesis must **emerge from data**, not narrative or TA folklore.
+- **Correlation is not causation** — conditional structures, not universal laws.
+- **Confidence must always be reported** on scored rows and engine outputs.
+
+## Ultimate purpose (never changes)
+
+The Scout exists to understand:
+
+- market situations
+- trend birth, growth, exhaustion
+- fake vs genuine trends
+- regime changes
+- the natural lifecycle of market behaviour
+
+## Convergence gate
+
+Every new discovery must eventually answer **at least one** of:
+
+1. Does this improve **early trend detection**?
+2. Does this improve **real vs fake trend discrimination**?
+3. Does this improve **trend persistence estimation** (1h / 2h / 6h / 12h / 24h)?
+4. Does this improve **relative ranking** between candidates?
+
+If **none** apply → **background research**, not core Scout logic.
+
+## Divergence vs convergence
+
+- **Research may diverge** — memory, grammar, participant state, interactions, evolution, health, pressure, ecology, roles.
+- **Operational output must converge** — only convergence-gate findings enter the Situation Evaluation Engine.
+
+## Destination
+
+Not a research paper. Destination:
+
+- **Situation Evaluation Engine**
+- **Early Trend Detection Scout**
+
+## Naming
+
+Use empirical labels: `breakout_fail`, `participant_stress`, `pressure_band`, `ecology_regime`.
+Avoid actor-based labels: manipulation, whale, institution, smart money.
+
+## Engine outputs
+
+Recommendations must include **reasoning** tied to measured dynamics, not price targets.
+Research-only scripts must not modify live trading or bot logic unless explicitly requested.
+
+## Regime ecology (P14+)
+
+- Maximum Binance history; no special weight on recent 3 days.
+- Auto-classify: Bull, Bear, Sideway, Crash, Recovery, Alt_Season, Rotation, Unknown.
+- Laws computed **per regime**; suspect **regime change** before new laws.
+- Learn applicability **scope** before law values.
+- Memory banks are append-only — never discard old data.
+
+## Implementation
+
+Use `season2_scout_mission.py` → `evaluate_convergence()` to tag findings as `core` / `background` / `hypothesis`.
+Research reports should include `mission_summary_lines()`.

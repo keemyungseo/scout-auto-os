@@ -1,3 +1,4 @@
+
 # Secrets — never commit
 .env
 .env.*
@@ -25,3 +26,9 @@ data/
 # OS noise
 .DS_Store
 Thumbs.db
+
+.env
+__pycache__/
+*.pyc
+logs/
+
