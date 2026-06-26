@@ -15,6 +15,8 @@ from scout_auto_os.engine.control.manual_close import (
 from scout_auto_os.engine.control.manual_lock import ManualLockStore
 from scout_auto_os.engine.control.dashboard import register_dashboard_routes
 from scout_auto_os.engine.control.safety_guard import SafetyGuard
+from scout_auto_os.engine.control.security.auth import AuthManager, load_password_hash
+from scout_auto_os.engine.control.security.install import register_security
 
 try:
     from fastapi import FastAPI, HTTPException
@@ -194,11 +196,23 @@ class ControlService:
         self._manual_override.save(data)
 
 
-def create_control_app(service: ControlService) -> Any:
+def create_control_app(
+    service: ControlService,
+    *,
+    admin_password_hash: str | None = None,
+    cookie_secure: bool | None = None,
+) -> Any:
     if FastAPI is None:
         raise ImportError("fastapi is required for create_control_app — pip install fastapi")
 
-    app = FastAPI(title="SCOUT Command Center", version="1.0")
+    app = FastAPI(title="SCOUT Command Center", version="1.0", docs_url=None, redoc_url=None)
+
+    auth = AuthManager(
+        service.control_dir,
+        password_hash=load_password_hash(admin_password_hash),
+        cookie_secure=cookie_secure,
+    )
+    register_security(app, auth)
 
     @app.get("/control/status")
     def get_status() -> dict:

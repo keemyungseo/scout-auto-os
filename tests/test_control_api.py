@@ -13,6 +13,7 @@ sys.path.insert(0, str(ROOT))
 from scout_auto_os.engine.control.control_api import ControlService, create_control_app
 from scout_auto_os.engine.control.manual_close import DryRunCloseExecutor
 from scout_auto_os.engine.control.safety_guard import SafetyGuard
+from scout_auto_os.tests.control_auth_helper import login_client, test_password_hash
 
 fastapi = unittest.skipUnless(
     __import__("importlib").util.find_spec("fastapi") is not None,
@@ -123,7 +124,8 @@ class ControlAPITests(unittest.TestCase):
         self._tmp = tempfile.TemporaryDirectory()
         self.control_dir = Path(self._tmp.name)
         self.svc = ControlService(self.control_dir, executor=DryRunCloseExecutor(self.control_dir))
-        self.client = TestClient(create_control_app(self.svc))
+        self.client = TestClient(create_control_app(self.svc, admin_password_hash=test_password_hash()))
+        login_client(self.client)
 
     def tearDown(self) -> None:
         self._tmp.cleanup()

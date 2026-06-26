@@ -16,6 +16,7 @@ from scout_auto_os.engine.control.control_api import ControlService, create_cont
 from scout_auto_os.engine.control.dashboard import load_template
 from scout_auto_os.engine.control.manual_close import DryRunCloseExecutor
 from scout_auto_os.engine.control.predator_shadow_status import build_predator_shadow_status
+from scout_auto_os.tests.control_auth_helper import login_client, test_password_hash
 
 fastapi = unittest.skipUnless(
     __import__("importlib").util.find_spec("fastapi") is not None,
@@ -151,7 +152,8 @@ class PredatorShadowAPITests(unittest.TestCase):
             executor=DryRunCloseExecutor(self.control_dir),
             data_dir=self.data_dir,
         )
-        self.client = TestClient(create_control_app(self.svc))
+        self.client = TestClient(create_control_app(self.svc, admin_password_hash=test_password_hash()))
+        login_client(self.client)
 
     def tearDown(self) -> None:
         self._tmp.cleanup()

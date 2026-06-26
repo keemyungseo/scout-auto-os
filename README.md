@@ -40,6 +40,24 @@ Copy `.env.example` → `.env` and fill in:
 | `REPORT_TIME` | no | Daily report hour KST, e.g. `08:00` |
 | `TELEGRAM_BOT_TOKEN` | no | Alert bot token |
 | `TELEGRAM_CHAT_ID` | no | Alert chat ID |
+| `SCOUT_ADMIN_PASSWORD_HASH` | Command Center | bcrypt hash — see [Security](#command-center-security) |
+| `SCOUT_COOKIE_SECURE` | no | `true` when served over HTTPS |
+
+### Command Center security
+
+Generate admin password hash (never commit plaintext):
+
+```bash
+python -c "import bcrypt; print(bcrypt.hashpw(b'YOUR_STRONG_PASSWORD', bcrypt.gensalt()).decode())"
+```
+
+Add to `.env`:
+
+```
+SCOUT_ADMIN_PASSWORD_HASH=$2b$12$...
+```
+
+Command Center (`command-center` service) requires this variable. Sessions expire after 30 minutes (sliding). Five failed logins lock the IP for 15 minutes.
 
 ### 4. Volumes (persisted on host)
 
