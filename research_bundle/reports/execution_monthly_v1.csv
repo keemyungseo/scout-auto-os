@@ -1,0 +1,2 @@
+fold_id,split_type,direction,scan_groups,rule_trade_count,baseline_trade_count,rule_avg_return_2h,baseline_avg_return_2h,rule_win_rate_pct,baseline_win_rate_pct,rule_return_per_day,baseline_return_per_day,rule_mdd_pct,baseline_mdd_pct,rule_sharpe,baseline_sharpe,rule_beats_baseline,coverage_pct
+2026-06,monthly,long,12,21,21,5.8078,3.9396,47.62,42.86,17.4234,11.8187,-74.4342,-85.1916,1.1449,0.7404,True,46.15

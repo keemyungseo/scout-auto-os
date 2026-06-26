@@ -1,0 +1,74 @@
+{
+  "rule_count": 563,
+  "long_rule_count": 277,
+  "scan_count": 180,
+  "group_count": 26,
+  "router": {
+    "router_avg_return_2h": 2.8559,
+    "baseline_avg_return_2h": 1.6756,
+    "lift_pct": 70.44,
+    "router_beats_baseline": true,
+    "router_trade_count": 45,
+    "routes_used": 2,
+    "router_table_size": 6
+  },
+  "generated_at": "2026-06-25T14:49:26.944804+09:00",
+  "cluster_summary": [
+    {
+      "cluster_id": "bull_trend",
+      "rule_count": 210,
+      "avg_return_mean": 3.7515,
+      "top_rule_id": "EX_OR_E_direction_confidence_gte_0.7824_E_rank_obs_return_top5_gte_0.125",
+      "regime_affinity": "bull"
+    },
+    {
+      "cluster_id": "execution_aligned",
+      "rule_count": 8,
+      "avg_return_mean": 3.5048,
+      "top_rule_id": "EX_4",
+      "regime_affinity": "bull"
+    },
+    {
+      "cluster_id": "high_atr",
+      "rule_count": 1,
+      "avg_return_mean": 4.3405,
+      "top_rule_id": "EX_24",
+      "regime_affinity": "bull"
+    },
+    {
+      "cluster_id": "low_atr",
+      "rule_count": 1,
+      "avg_return_mean": 4.3405,
+      "top_rule_id": "EX_23",
+      "regime_affinity": "bull"
+    },
+    {
+      "cluster_id": "mixed",
+      "rule_count": 14,
+      "avg_return_mean": 1.959,
+      "top_rule_id": "EX_NOT_E_obs_body_pct_gte_9.53875",
+      "regime_affinity": "sideway"
+    },
+    {
+      "cluster_id": "reversal",
+      "rule_count": 8,
+      "avg_return_mean": 4.2473,
+      "top_rule_id": "EX_3",
+      "regime_affinity": "bull"
+    },
+    {
+      "cluster_id": "sideways",
+      "rule_count": 5,
+      "avg_return_mean": 0.2731,
+      "top_rule_id": "EX_25",
+      "regime_affinity": "sideway"
+    },
+    {
+      "cluster_id": "strong_breakout",
+      "rule_count": 316,
+      "avg_return_mean": 1.357,
+      "top_rule_id": "EX_OR_E_obs_low_pct_gte_-2.914012_E_rank_obs_return_top5_gte_0.125",
+      "regime_affinity": "sideway"
+    }
+  ]
+}

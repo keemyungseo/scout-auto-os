@@ -1,0 +1,9 @@
+direction,metric,value
+long,accuracy,0.1949
+long,top2_accuracy,0.3713
+long,macro_f1,0.1766
+long,weighted_f1,0.2188
+short,accuracy,0.1765
+short,top2_accuracy,0.4154
+short,macro_f1,0.131
+short,weighted_f1,0.1957

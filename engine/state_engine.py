@@ -115,9 +115,28 @@ def compute_alive_score(
     hold_alive: float = 70.0,
     exit_alive: float = 45.0,
     weights: StateFormulaWeights | None = None,
+    side: str = "LONG",
 ) -> AliveScore | None:
     if not bars:
         return None
+    from scout_auto_os.engine.position_evaluation.side_rules import compute_side_alive_score, normalize_side
+    side = normalize_side(side)
+    if side == "SHORT":
+        alive = compute_side_alive_score(side, bars, entry_i)
+        return AliveScore(
+            alive_score=alive,
+            trend_alive=alive * 0.25,
+            momentum_alive=alive * 0.25,
+            volume_alive=alive * 0.25,
+            expansion_alive=alive * 0.15,
+            exhaustion=max(0.0, 35.0 - alive * 0.35),
+            acceleration_bonus=0.0,
+            hold_recommendation=hold_recommendation(alive, hold_alive, exit_alive),
+            trend_dead=alive < exit_alive,
+            momentum_collapse=alive < exit_alive,
+            volume_collapse=alive < exit_alive * 0.8,
+            exhausted=alive < exit_alive,
+        )
     i = len(bars) - 1
     snap = state_snapshot(bars, i, entry_i)
     w = weights or LIVE_STATE_FORMULA

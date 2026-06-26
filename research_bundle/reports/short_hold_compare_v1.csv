@@ -1,0 +1,4 @@
+strategy,rule_id,trade_count,avg_return_pct,median_return_pct,win_rate,sharpe,sortino,mdd,profit_factor,avg_hold_minutes,avg_peak_capture_pct,avg_mfe_pct,avg_mae_pct
+hold_2h_constitution,hold_2h,164,4.5213,2.9703,50.0,8.9581,45.6405,-15.5745,15.8832,120,38.35,8.7078,1.6484
+hold_4h,hold_4h,164,4.6213,3.6879,57.32,6.2446,12.9406,-42.3743,4.6929,240,28.01,10.3522,2.9495
+dynamic_best,roi_trail5,164,5.3166,3.5834,56.71,8.8492,57.8318,-12.029,14.7603,205.1,34.0,9.9892,1.7126

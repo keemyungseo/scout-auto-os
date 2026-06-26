@@ -1,0 +1,12 @@
+scan_time_kst,symbol,direction,feature,feature_label,value,threshold,gap,gap_pct,almost_pass
+2026-06-02 12:00:00,SKYAIUSDT,long,1h_current_body_pct,Body,13.1953,13.83363,0.63833,4.6143,True
+2026-06-03 00:00:00,APRUSDT,long,1h_current_body_pct,Body,12.5428,13.83363,1.29083,9.3311,False
+2026-06-05 16:00:00,OPNUSDT,long,1h_current_body_pct,Body,13.7377,13.83363,0.09593,0.6935,True
+2026-06-07 04:00:00,LABUSDT,long,1h_current_body_pct,Body,13.6245,13.83363,0.20913,1.5118,True
+2026-06-07 12:00:00,ALLOUSDT,short,1h_current_range_pct,Range,26.911,26.929756,0.018756,0.0696,True
+2026-06-08 10:00:00,BTWUSDT,short,2h_current_return_pct,Momentum,-18.3461,-20.089984,1.743884,8.6804,False
+2026-06-08 16:00:00,ESPORTSUSDT,long,1h_current_body_pct,Body,13.0277,13.83363,0.80593,5.8259,False
+2026-06-08 16:00:00,ALLOUSDT,long,1h_current_body_pct,Body,13.1823,13.83363,0.65133,4.7083,True
+2026-06-08 22:00:00,ALLOUSDT,long,1h_current_body_pct,Body,13.5819,13.83363,0.25173,1.8197,True
+2026-06-12 14:00:00,HUSDT,long,1h_current_body_pct,Body,13.5837,13.83363,0.24993,1.8067,True
+2026-06-15 20:00:00,EVAAUSDT,short,1h_current_return_pct,Momentum,-10.833,-11.76382,0.93082,7.9126,False

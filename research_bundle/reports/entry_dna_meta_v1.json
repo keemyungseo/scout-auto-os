@@ -1,0 +1,11 @@
+{
+  "lookback_months": 6,
+  "date_min": "2026-06-01",
+  "date_max": "2026-06-15",
+  "scan_count": 180,
+  "top_k": 5,
+  "long_signal_count": 897,
+  "short_signal_count": 897,
+  "feature_count": 68,
+  "generated_at": "2026-06-25T12:04:20.319816+09:00"
+}

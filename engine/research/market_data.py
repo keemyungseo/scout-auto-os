@@ -30,6 +30,44 @@ def fetch_klines(
         return json.loads(resp.read().decode())
 
 
+def fetch_klines_range(
+    rest_base: str,
+    symbol: str,
+    interval: str,
+    start_ms: int,
+    end_ms: int,
+    *,
+    timeout: float = 20.0,
+) -> list[list]:
+    """Paginated forward klines between start_ms (inclusive) and end_ms."""
+    interval_ms = {
+        "1m": 60_000, "3m": 180_000, "5m": 300_000, "15m": 900_000,
+        "30m": 1_800_000, "1h": 3_600_000, "2h": 7_200_000, "4h": 14_400_000,
+    }.get(interval, 900_000)
+    all_klines: list[list] = []
+    current = start_ms
+    while current < end_ms:
+        params = {
+            "symbol": symbol,
+            "interval": interval,
+            "startTime": current,
+            "endTime": end_ms,
+            "limit": 1500,
+        }
+        url = f"{rest_base.rstrip('/')}/fapi/v1/klines?{urllib.parse.urlencode(params)}"
+        with urllib.request.urlopen(urllib.request.Request(url), timeout=timeout) as resp:
+            batch = json.loads(resp.read().decode())
+        if not batch:
+            break
+        all_klines.extend(batch)
+        last_open = int(batch[-1][0])
+        next_start = last_open + interval_ms
+        if next_start <= current:
+            break
+        current = next_start
+    return all_klines
+
+
 def btc_returns(rest_base: str) -> tuple[float, float]:
     kl = fetch_klines(rest_base, "BTCUSDT", "1h", limit=5)
     if len(kl) < 5:

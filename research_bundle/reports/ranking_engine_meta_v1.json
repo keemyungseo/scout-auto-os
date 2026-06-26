@@ -1,0 +1,19 @@
+{
+  "sample_count": 6536,
+  "feature_count": 170,
+  "blind_scans": 55,
+  "models_trained": 7,
+  "random_seed": 42,
+  "best_model": "catboost_ranker",
+  "decision": {
+    "best_model": "ridge_return",
+    "vs_formula_league_v2": "**Hypothesis YES** \u2014 Ranking vs Formula V2 avg 2h 4.8367% vs 4.6707% (NDCG 0.6413 vs 0.5844).",
+    "vs_execution": "**Hypothesis YES** \u2014 Ranking vs Execution proxy avg 2h 4.8367% vs 2.4294% (NDCG 0.6413 vs 0.4879).",
+    "replace_search_formula": "**Hypothesis partial** \u2014 ranking beats A6 on blind avg 2h; requires extended walk-forward before config change.",
+    "top_features": "ctx_rank_5m_release, ctx_rank_5m_compression, direction_confidence, entry_score, dna_2h_previous_volume_ratio",
+    "live_applicability": "**HYPOTHESIS** \u2014 candidate for shadow mode only.",
+    "blockers": "Short blind window (~15 days); observation features need causal LIVE pipeline; no multi-regime validation; model not registered in live scanner."
+  },
+  "generated_at": "2026-06-25T16:06:05.148902+09:00",
+  "gain_top5": []
+}

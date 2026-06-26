@@ -1,0 +1,29 @@
+{
+  "base_snapshot_minutes": 120,
+  "base_scan_count": 180,
+  "lookback_days": 180,
+  "intervals_tested": [
+    1,
+    3,
+    5,
+    10,
+    15,
+    30,
+    60,
+    120
+  ],
+  "recommendation": {
+    "best_return_interval_min": 60,
+    "most_stable_interval_min": 60,
+    "best_efficiency_interval_min": 60,
+    "primary_scan_interval_min": 60,
+    "candidate_refresh_interval_min": 1,
+    "portfolio_rebalance_interval_min": 60,
+    "discard_intervals": [
+      1,
+      3
+    ],
+    "primary_reason": "Interval 60m: return/day=16.3941 return/turnover=11.1778 turnover/scan=0.0611"
+  },
+  "generated_at": "2026-06-25T14:10:17.335169+09:00"
+}

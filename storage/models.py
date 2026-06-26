@@ -21,7 +21,8 @@ CREATE TABLE IF NOT EXISTS positions (
     last_update_time TEXT,
     a6_score REAL,
     expected_ev REAL,
-    exit_plan TEXT
+    exit_plan TEXT,
+    thesis_id TEXT
 );
 
 CREATE TABLE IF NOT EXISTS trades (

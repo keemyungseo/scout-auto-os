@@ -28,7 +28,13 @@ class Database:
 
     def _init(self) -> None:
         self.conn.executescript(TABLES_SQL)
+        self._migrate()
         self.conn.commit()
+
+    def _migrate(self) -> None:
+        cols = {r[1] for r in self.conn.execute("PRAGMA table_info(positions)").fetchall()}
+        if "thesis_id" not in cols:
+            self.conn.execute("ALTER TABLE positions ADD COLUMN thesis_id TEXT")
 
     def execute(self, sql: str, params: tuple = ()) -> sqlite3.Cursor:
         cur = self.conn.execute(sql, params)

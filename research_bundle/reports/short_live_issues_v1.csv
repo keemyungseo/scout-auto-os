@@ -1,0 +1,11 @@
+rank,issue,file,severity,detail,classification,fix_priority
+1,StateExitEngine protective SL is long-oriented only,engine/state_exit_engine.py,CRITICAL,SL uses entry*(1-pct) and bars[-1].l — wrong direction for SHORT positions,logic_bug_short,1
+2,Alive score / state_snapshot has no side parameter,"engine/state_engine.py, state_exit_engine.py",CRITICAL,R008 state_snapshot is long-biased; short positions get inverted hold/exit signals,logic_bug_short,1
+3,alive_score >= hold_alive (70) blocks exit beyond 2h target,engine/state_exit_engine.py,HIGH,HEI +30% ROI pattern: strong alive score returns should_exit=False indefinitely,exit_failure,2
+4,No short-specific ROI take-profit in StateExitEngine,engine/state_exit_engine.py,HIGH,Primary exit is alive-score only; no TP at favorable ROI for short,missing_exit_rule,2
+5,MET long hold — min_hold 30m then alive hold if score high,engine/position_state_manager.py,MEDIUM,Positions with persistent trend_alive stay open past hold_target_minutes=120,extended_hold_by_design,3
+6,manual_lock bypass verified in check_exits,engine/position_manager.py:124,INFO,manual_lock / auto_manage=False / source=MANUAL skip exit — WLD safe if flagged,manual_protection_ok,0
+7,Review interval 30m may delay exit after signal decay,engine/position_state_manager.py,MEDIUM,maybe_review only logs on interval unless should_exit immediate,timing_lag,4
+8,Emergency risk guard separate from state exit — floor only,engine/position_manager.py,LOW,Risk guard runs first but is emergency floor not profit capture,architecture,5
+9,Short execution research shows peak before 2h on many picks,research: short_execution/holding_dna,MEDIUM,Fixed 2h constitution hold leaves trailing gap vs roi_trail / tp rules,execution_mismatch,3
+10,Live log paths empty in repo — audit incomplete without trades.db,"logs/auto_os, data/trades.db",HIGH,Deploy environment must export position_review.csv for MET/HEI case study,data_gap,1

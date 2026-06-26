@@ -1,0 +1,36 @@
+{
+  "decision": "Needs further validation",
+  "reason": "Rule beats Execution Score on blind (14.3148 vs 2.7002) but sample is small (n=12) \u2014 extend blind window before LIVE",
+  "baseline_exec_avg": 2.7002,
+  "baseline_entry_top2_avg": 3.2529,
+  "best_rule_avg": 14.3148,
+  "best_rule_id": "EX_OR_E_direction_confidence_gte_0.7824_E_rank_obs_return_top5_gte_0.125",
+  "best_rule_expr": "(direction_confidence >= 0.7824 OR rank_obs_return_top5 >= 0.125)",
+  "recommended_rule": {
+    "rule_id": "EX_OR_E_direction_confidence_gte_0.7824_E_rank_obs_return_top5_gte_0.125",
+    "rule_expr": "(direction_confidence >= 0.7824 OR rank_obs_return_top5 >= 0.125)",
+    "direction": "long",
+    "ast": {
+      "type": "or",
+      "children": [
+        {
+          "type": "pred",
+          "kind": "threshold",
+          "feature_a": "direction_confidence",
+          "feature_b": null,
+          "operator": "gte",
+          "threshold": 0.7824
+        },
+        {
+          "type": "pred",
+          "kind": "threshold",
+          "feature_a": "rank_obs_return_top5",
+          "feature_b": null,
+          "operator": "gte",
+          "threshold": 0.125
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-06-25T14:21:04.872007+09:00"
+}

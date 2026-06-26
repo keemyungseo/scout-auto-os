@@ -1,0 +1,4 @@
+strategy,direction,avg_return_2h,trade_count,win_rate_pct,rule_pass_count,scan_groups,pass_per_day,precision_proxy_pct,rule_id,rule_expr,lift_vs_exec_score_pct,lift_vs_entry_top2_pct
+top2_entry_score,combined,3.2529,26,53.85,0,15,0.0,0.0,,,,
+top2_execution_score,combined,2.7002,26,50.0,0,15,0.0,0.0,,,,
+top2_discovered_rule,long,14.3148,12,58.33,10,7,3.3333,83.33,EX_OR_E_direction_confidence_gte_0.7824_E_rank_obs_return_top5_gte_0.125,(direction_confidence >= 0.7824 OR rank_obs_return_top5 >= 0.125),430.14,340.06

@@ -1,4 +1,4 @@
-"""Open position lifecycle — State Engine V1.4 exit path."""
+"""Open position lifecycle — State Engine V1.4 + Position Evaluation V1."""
 
 from __future__ import annotations
 
@@ -43,6 +43,12 @@ class PositionManager:
     def long_slots_used(self) -> int:
         return len([p for p in self.open_positions() if p["side"] == "LONG" and p["engine"] == "A6_LONG"])
 
+    def portfolio_long_slots_used(self) -> int:
+        return len([p for p in self.open_positions() if p["side"] == "LONG" and p["engine"] == "PORTFOLIO_LONG"])
+
+    def short_slots_used(self) -> int:
+        return len([p for p in self.open_positions() if p["side"] == "SHORT" and p["engine"] == "PORTFOLIO_SHORT"])
+
     def has_slot(self) -> bool:
         return self.long_slots_used() < self.max_long
 
@@ -57,24 +63,50 @@ class PositionManager:
         expected_ev: float = 0.0,
         manual_lock: bool = False,
         auto_manage: bool = True,
+        rank: int = 1,
+        primary_reason: str = "",
     ) -> str:
         pid = self.db.new_id("pos")
         ts = now_kst()
+        thesis_id = ""
+        if manual_lock or source.upper() == "MANUAL" or not auto_manage:
+            source = "MANUAL"
+            auto_manage = False
+            manual_lock = True
+
+        pos_row = {
+            "position_id": pid,
+            "symbol": symbol,
+            "side": side,
+            "source": source,
+            "engine": engine,
+            "entry_time": ts,
+            "entry_price": entry_price,
+            "manual_lock": int(manual_lock),
+            "auto_manage": int(auto_manage),
+            "a6_score": a6_score,
+        }
+        if self.state_manager:
+            thesis_id = self.state_manager.create_thesis_for_position({
+                **pos_row,
+                "expected_ev": expected_ev,
+            })
+
         self.db.execute(
             """INSERT INTO positions
             (position_id, symbol, side, source, engine, entry_time, entry_price, current_price,
              unrealized_pnl_pct, status, manual_lock, auto_manage, last_update_time, a6_score,
-             expected_ev, exit_plan)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+             expected_ev, exit_plan, thesis_id)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
             (
                 pid, symbol, side, source, engine, ts, entry_price, entry_price,
                 0.0, "OPEN", int(manual_lock), int(auto_manage), ts, a6_score,
-                expected_ev, "state_engine_v14",
+                expected_ev, "position_evaluation_v1", thesis_id,
             ),
         )
         if self.state_manager:
             bars = self.adapter.get_bars(symbol, ts)
-            self.state_manager.register_entry(pid, symbol, ts, bars or [])
+            self.state_manager.register_entry(pid, symbol, ts, bars or [], side=side)
         self._sync_csv()
         return pid
 
@@ -94,17 +126,21 @@ class PositionManager:
                 pos["symbol"], bars or [], pos.get("a6_score") or 0, pos["entry_time"],
             )
             alive_line = ""
+            thesis_line = ""
             if self.state_manager and bars:
                 alive = self.state_manager.update_current(
-                    pos["position_id"], pos["symbol"], pos["entry_time"], bars,
+                    pos["position_id"], pos["symbol"], pos["entry_time"], bars, side=pos["side"],
                 )
                 if alive:
                     alive_line = f"alive={alive.alive_score} rec={alive.hold_recommendation}"
-            exit_plan = f"{alive_line} rem_ev={ev['remaining_ev']:.2f}%"
+                thesis = self.state_manager.evaluation.store.get_by_position(pos["position_id"])
+                if thesis:
+                    thesis_line = f"thesis={thesis.thesis_id[:8]}"
+            exit_plan = f"{thesis_line} {alive_line} rem_ev={ev['remaining_ev']:.2f}%".strip()
             self.db.execute(
                 """UPDATE positions SET current_price=?, unrealized_pnl_pct=?,
                    last_update_time=?, exit_plan=?, expected_ev=? WHERE position_id=?""",
-                (px, upnl, now_kst(), exit_plan.strip(), ev["expected_ev"], pos["position_id"]),
+                (px, upnl, now_kst(), exit_plan, ev["expected_ev"], pos["position_id"]),
             )
             updated.append({
                 **pos, "current_price": px, "unrealized_pnl_pct": upnl, **ev,
@@ -112,10 +148,22 @@ class PositionManager:
         self._sync_csv()
         return updated
 
-    def check_exits(self, execution, alert_mgr) -> list[dict]:
+    def check_exits(
+        self,
+        execution,
+        alert_mgr,
+        *,
+        allow_auto_exit: bool = True,
+        symbol_exit_allowed=None,
+    ) -> list[dict]:
         closed: list[dict] = []
         for pos in self.open_positions():
             if pos["manual_lock"] or not pos["auto_manage"] or pos["source"] == "MANUAL":
+                continue
+            if not allow_auto_exit:
+                continue
+            sym = pos["symbol"]
+            if symbol_exit_allowed is not None and not symbol_exit_allowed(sym):
                 continue
             bars = self.adapter.get_bars(pos["symbol"], pos["entry_time"])
             if not bars:
@@ -124,7 +172,6 @@ class PositionManager:
             entry = pos["entry_price"]
             pnl_pct = (exit_px - entry) / entry * 100 if pos["side"] == "LONG" else (entry - exit_px) / entry * 100
 
-            # Emergency floor only (not primary exit)
             rg = self.risk_guard.evaluate(pos, pnl_pct)
             if rg.should_exit:
                 reason = f"risk_guard_{rg.reason}"

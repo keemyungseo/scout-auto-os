@@ -1,0 +1,3 @@
+strategy,trade_count,scan_count,avg_return_2h,top2_avg_return_2h,top5_avg_return_2h,win_rate,precision_top3,recall_top3_proxy,sharpe,sortino,mdd,coverage_pct,return_per_trade,return_per_scan,rank_ndcg5,rank_map,rank_p1,rank_p2,rank_p5,rank_r5,rank_mrr,rank_hit_top3
+uniform_frozen_ranker,272,55,4.7902,7.5366,4.7902,52.94,59.93,52.94,9.1936,25.3166,-34.5881,100.0,4.7902,23.6898,0.9664,1.0,1.0,0.9909,0.5927,0.9939,1.0,1.0
+adaptive_conditional_weight,272,55,4.2089,7.416,4.2089,48.9,56.25,48.9,8.0186,20.194,-36.2376,100.0,4.2089,20.815,0.9344,1.0,1.0,0.9909,0.5564,0.9333,1.0,1.0

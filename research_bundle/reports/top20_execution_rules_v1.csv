@@ -1,0 +1,21 @@
+avg_return_2h,trade_count,win_rate_pct,rule_pass_count,scan_groups,pass_per_day,precision_proxy_pct,rule_id,rule_expr,direction,lift_vs_exec_score_pct,lift_vs_entry_top2_pct
+14.3148,12,58.33,10,7,3.3333,83.33,EX_OR_E_direction_confidence_gte_0.7824_E_rank_obs_return_top5_gte_0.125,(direction_confidence >= 0.7824 OR rank_obs_return_top5 >= 0.125),long,430.14,340.06
+14.3148,12,58.33,10,7,3.3333,83.33,EX_OR_E_direction_confidence_gte_0.7824_E_rank_obs_return_top5_gte_0.25,(direction_confidence >= 0.7824 OR rank_obs_return_top5 >= 0.25),long,430.14,340.06
+14.3148,12,58.33,10,7,3.3333,83.33,EX_OR_E_direction_confidence_gte_0.8912_E_rank_obs_return_top5_gte_0.125,(direction_confidence >= 0.8912 OR rank_obs_return_top5 >= 0.125),long,430.14,340.06
+14.3148,12,58.33,10,7,3.3333,83.33,EX_OR_E_direction_confidence_gte_0.8912_E_rank_obs_return_top5_gte_0.25,(direction_confidence >= 0.8912 OR rank_obs_return_top5 >= 0.25),long,430.14,340.06
+14.3148,12,58.33,11,7,3.6667,91.67,EX_OR_E_obs_low_pct_gte_-2.914012_E_rank_obs_return_top5_gte_0.125,(obs_low_pct >= -2.914 OR rank_obs_return_top5 >= 0.125),long,430.14,340.06
+14.3148,12,58.33,11,7,3.6667,91.67,EX_OR_E_obs_low_pct_gte_-2.914012_E_rank_obs_return_top5_gte_0.25,(obs_low_pct >= -2.914 OR rank_obs_return_top5 >= 0.25),long,430.14,340.06
+14.3148,12,58.33,10,7,3.3333,83.33,EX_OR_E_execution_score_gte_-0.27795_E_rank_obs_return_top5_gte_0.125,(execution_score >= -0.2779 OR rank_obs_return_top5 >= 0.125),long,430.14,340.06
+14.3148,12,58.33,10,7,3.3333,83.33,EX_OR_E_execution_score_gte_-0.27795_E_rank_obs_return_top5_gte_0.25,(execution_score >= -0.2779 OR rank_obs_return_top5 >= 0.25),long,430.14,340.06
+14.3148,12,58.33,11,7,3.6667,91.67,EX_OR_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771_E_rank_obs_return_top5_gte_0.125,((obs_return_pct - gap_to_best_entry) >= -5.877 OR rank_obs_return_top5 >= 0.125),long,430.14,340.06
+14.3148,12,58.33,11,7,3.6667,91.67,EX_OR_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771_E_rank_obs_return_top5_gte_0.25,((obs_return_pct - gap_to_best_entry) >= -5.877 OR rank_obs_return_top5 >= 0.25),long,430.14,340.06
+14.3148,12,58.33,10,7,3.3333,83.33,EX_OR_E_direction_confidence_gte_0.5648_E_rank_obs_return_top5_gte_0.125,(direction_confidence >= 0.5648 OR rank_obs_return_top5 >= 0.125),long,430.14,340.06
+14.3148,12,58.33,10,7,3.3333,83.33,EX_OR_E_direction_confidence_gte_0.5648_E_rank_obs_return_top5_gte_0.25,(direction_confidence >= 0.5648 OR rank_obs_return_top5 >= 0.25),long,430.14,340.06
+14.3148,12,58.33,10,7,3.3333,83.33,EX_OR_E_direction_confidence_gte_0.6736_E_rank_obs_return_top5_gte_0.125,(direction_confidence >= 0.6736 OR rank_obs_return_top5 >= 0.125),long,430.14,340.06
+14.3148,12,58.33,10,7,3.3333,83.33,EX_OR_E_direction_confidence_gte_0.6736_E_rank_obs_return_top5_gte_0.25,(direction_confidence >= 0.6736 OR rank_obs_return_top5 >= 0.25),long,430.14,340.06
+14.3148,12,58.33,8,7,2.6667,66.67,EX_AND_E_rank_obs_return_top5_gte_0.125_E_rank_obs_return_top5_gte_0.25,(rank_obs_return_top5 >= 0.125 AND rank_obs_return_top5 >= 0.25),long,430.14,340.06
+14.3148,12,58.33,8,7,2.6667,66.67,EX_AND_E_rank_obs_return_top5_gte_0.125_E_rank_obs_return_top5_gte_0.375,(rank_obs_return_top5 >= 0.125 AND rank_obs_return_top5 >= 0.375),long,430.14,340.06
+14.3148,12,58.33,8,7,2.6667,66.67,EX_AND_E_rank_obs_return_top5_gte_0.125_E_rank_obs_return_top5_gte_0.5,(rank_obs_return_top5 >= 0.125 AND rank_obs_return_top5 >= 0.5),long,430.14,340.06
+14.3148,12,58.33,8,7,2.6667,66.67,EX_AND_E_rank_obs_return_top5_gte_0.25_E_rank_obs_return_top5_gte_0.375,(rank_obs_return_top5 >= 0.25 AND rank_obs_return_top5 >= 0.375),long,430.14,340.06
+14.3148,12,58.33,8,7,2.6667,66.67,EX_AND_E_rank_obs_return_top5_gte_0.25_E_rank_obs_return_top5_gte_0.5,(rank_obs_return_top5 >= 0.25 AND rank_obs_return_top5 >= 0.5),long,430.14,340.06
+14.3148,12,58.33,8,7,2.6667,66.67,EX_AND_E_rank_obs_return_top5_gte_0.375_E_rank_obs_return_top5_gte_0.5,(rank_obs_return_top5 >= 0.375 AND rank_obs_return_top5 >= 0.5),long,430.14,340.06

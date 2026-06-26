@@ -1,0 +1,67 @@
+{
+  "decision": "REJECT",
+  "summary": "Rule beats baseline in aggregate but fails fold/regime robustness gates",
+  "fold_win_rate": 1.0,
+  "folds_beat_baseline": 15,
+  "fold_count": 15,
+  "reasons": [
+    "negative in 2 regimes: ['bear', 'sideway']"
+  ],
+  "rule": {
+    "rule_id": "EX_OR_E_direction_confidence_gte_0.7824_E_rank_obs_return_top5_gte_0.125",
+    "rule_expr": "(direction_confidence >= 0.7824 OR rank_obs_return_top5 >= 0.125)",
+    "direction": "long",
+    "ast": {
+      "type": "or",
+      "children": [
+        {
+          "type": "pred",
+          "kind": "threshold",
+          "feature_a": "direction_confidence",
+          "feature_b": null,
+          "operator": "gte",
+          "threshold": 0.7824
+        },
+        {
+          "type": "pred",
+          "kind": "threshold",
+          "feature_a": "rank_obs_return_top5",
+          "feature_b": null,
+          "operator": "gte",
+          "threshold": 0.125
+        }
+      ]
+    }
+  },
+  "meta": {
+    "rule_id": "EX_OR_E_direction_confidence_gte_0.7824_E_rank_obs_return_top5_gte_0.125",
+    "rule_expr": "(direction_confidence >= 0.7824 OR rank_obs_return_top5 >= 0.125)",
+    "direction": "long",
+    "scan_count": 180,
+    "group_count": 12,
+    "overall_rule_avg": 5.8078,
+    "overall_base_avg": 3.9396,
+    "overall_rule_win": 47.62,
+    "overall_base_win": 42.86,
+    "overall_rule_trades": 21,
+    "overall_base_trades": 21,
+    "overall_rule_mdd": -74.4342,
+    "overall_base_mdd": -85.1916,
+    "overall_rule_sharpe": 1.1449,
+    "overall_base_sharpe": 0.7404,
+    "overall_rule_rpd": 17.4234,
+    "overall_base_rpd": 11.8187,
+    "monthly_stability": 0.0,
+    "decision": {
+      "decision": "REJECT",
+      "summary": "Rule beats baseline in aggregate but fails fold/regime robustness gates",
+      "fold_win_rate": 1.0,
+      "folds_beat_baseline": 15,
+      "fold_count": 15,
+      "reasons": [
+        "negative in 2 regimes: ['bear', 'sideway']"
+      ]
+    },
+    "generated_at": "2026-06-25T14:28:19.222222+09:00"
+  }
+}

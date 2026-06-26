@@ -1,0 +1,2 @@
+trade_count,scan_count,avg_return_2h,top2_avg_return_2h,top5_avg_return_2h,win_rate,precision_top3,recall_top3_proxy,sharpe,sortino,mdd,coverage_pct,return_per_trade,return_per_scan,rank_ndcg5,rank_map,rank_p1,rank_p2,rank_p5,rank_r5,rank_mrr,rank_hit_top3,profit_factor,split,rank_correlation,calibration_gap
+272,55,5.2608,8.5783,5.2608,54.78,50.0,54.78,11.149,39.599,-34.9749,100.0,5.2608,26.0172,0.7587,0.6303,0.7273,0.7091,0.4945,0.8303,0.8545,1.0,13.866,blind_holdout,0.6413,0.3913

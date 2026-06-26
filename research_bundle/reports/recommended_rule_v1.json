@@ -1,0 +1,143 @@
+{
+  "decision": "Adopt",
+  "reason": "Long: Adopt. Short: Adopt. Candidate beats V2 pass/day (2.0 vs 1.6) with precision 1.0",
+  "recommended_rule_id": "OR_TH_1h_current_body_pct_gte_TH_1h_current_range_pct_gte",
+  "recommended_rule_expr": "(1h_current_body_pct >= 18.24 OR 1h_current_range_pct >= 24.01)",
+  "direction": "long",
+  "deployment_mode": "replace_v2",
+  "long": {
+    "decision": "Adopt",
+    "reason": "Candidate beats V2 pass/day (2.0 vs 1.6) with precision 1.0",
+    "recommended_rule_id": "OR_TH_1h_current_body_pct_gte_TH_1h_current_range_pct_gte",
+    "recommended_rule_expr": "(1h_current_body_pct >= 18.24 OR 1h_current_range_pct >= 24.01)",
+    "deployment_mode": "replace_v2"
+  },
+  "short": {
+    "decision": "Adopt",
+    "reason": "Candidate beats V2 pass/day (2.8 vs 2.0) with precision 0.9286",
+    "recommended_rule_id": "AND_TH_1h_current_body_pct_gte_TH_1h_current_return_pct_lte",
+    "recommended_rule_expr": "(1h_current_body_pct >= 10.96 AND 1h_current_return_pct <= -8.345)",
+    "deployment_mode": "replace_v2"
+  },
+  "v2_blind_long": {
+    "rule_id": "AND_BD",
+    "rule_expr": "(B AND D)",
+    "direction": "long",
+    "pass_count": 8,
+    "precision": 1.0,
+    "recall": 0.1569,
+    "lift": 5.3333,
+    "avg_return_2h": 27.979,
+    "avg_return_4h": 32.2433,
+    "coverage_pct": 2.94,
+    "pass_per_day": 1.6
+  },
+  "v2_blind_short": {
+    "rule_id": "OR_ABD_C",
+    "rule_expr": "((A AND B AND D) OR C)",
+    "direction": "short",
+    "pass_count": 10,
+    "precision": 0.9,
+    "recall": 0.1957,
+    "lift": 5.3217,
+    "avg_return_2h": 17.1915,
+    "avg_return_4h": 17.7112,
+    "coverage_pct": 3.68,
+    "pass_per_day": 2.0
+  },
+  "top_long_rule": {
+    "rule_id": "OR_TH_1h_current_body_pct_gte_TH_1h_current_range_pct_gte",
+    "rule_expr": "(1h_current_body_pct >= 18.24 OR 1h_current_range_pct >= 24.01)",
+    "direction": "long",
+    "pass_count": 10,
+    "fail_count": 262,
+    "precision": 1.0,
+    "recall": 0.1961,
+    "f1": 0.3279,
+    "lift": 5.3333,
+    "avg_return_2h": 27.1955,
+    "avg_return_4h": 33.0943,
+    "win_rate_pct": 100.0,
+    "coverage_pct": 3.68,
+    "pass_per_day": 2.0,
+    "baseline_precision": 1.0,
+    "precision_floor": 0.98,
+    "meets_precision_floor": true,
+    "coverage_lift_vs_v2": 25.0,
+    "rank": 13
+  },
+  "top_short_rule": {
+    "rule_id": "AND_TH_1h_current_body_pct_gte_TH_1h_current_return_pct_lte",
+    "rule_expr": "(1h_current_body_pct >= 10.96 AND 1h_current_return_pct <= -8.345)",
+    "direction": "short",
+    "pass_count": 14,
+    "fail_count": 258,
+    "precision": 0.9286,
+    "recall": 0.2826,
+    "f1": 0.4333,
+    "lift": 5.4907,
+    "avg_return_2h": 15.952,
+    "avg_return_4h": 17.4416,
+    "win_rate_pct": 92.86,
+    "coverage_pct": 5.15,
+    "pass_per_day": 2.8,
+    "baseline_precision": 0.9,
+    "precision_floor": 0.88,
+    "meets_precision_floor": true,
+    "coverage_lift_vs_v2": 40.0,
+    "rank": 1
+  },
+  "generated_at": "2026-06-25T13:48:59.428452+09:00",
+  "long_ast": {
+    "rule_id": "OR_TH_1h_current_body_pct_gte_TH_1h_current_range_pct_gte",
+    "rule_expr": "(1h_current_body_pct >= 14.62 OR 1h_current_range_pct >= 24.01)",
+    "direction": "long",
+    "ast": {
+      "type": "or",
+      "children": [
+        {
+          "type": "pred",
+          "kind": "threshold",
+          "feature_a": "1h_current_body_pct",
+          "feature_b": null,
+          "operator": "gte",
+          "threshold": 14.62148
+        },
+        {
+          "type": "pred",
+          "kind": "threshold",
+          "feature_a": "1h_current_range_pct",
+          "feature_b": null,
+          "operator": "gte",
+          "threshold": 24.0078
+        }
+      ]
+    }
+  },
+  "short_ast": {
+    "rule_id": "AND_TH_1h_current_body_pct_gte_TH_1h_current_return_pct_lte",
+    "rule_expr": "(1h_current_body_pct >= 10.96 AND 1h_current_return_pct <= -8.345)",
+    "direction": "short",
+    "ast": {
+      "type": "and",
+      "children": [
+        {
+          "type": "pred",
+          "kind": "threshold",
+          "feature_a": "1h_current_body_pct",
+          "feature_b": null,
+          "operator": "gte",
+          "threshold": 10.96392
+        },
+        {
+          "type": "pred",
+          "kind": "threshold",
+          "feature_a": "1h_current_return_pct",
+          "feature_b": null,
+          "operator": "lte",
+          "threshold": -8.34516
+        }
+      ]
+    }
+  }
+}

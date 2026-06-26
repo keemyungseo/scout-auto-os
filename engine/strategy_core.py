@@ -58,6 +58,30 @@ def _train_context(cutoff: str) -> tuple[dict, object, object, dict]:
     return profile, th, stats, by_scan
 
 
+def run_universe_features(
+    scan_kst: str,
+    cache_dir: Path,
+    max_symbols: int = 0,
+    live_engine: LiveDataEngine | None = None,
+) -> list[dict]:
+    """Full universe rows with DNA features (for Portfolio Engine)."""
+    p19.CACHE_DIR = cache_dir
+    p16.CACHE_DIR = cache_dir
+    end_ms = int(parse_kst(scan_kst).timestamp() * 1000)
+    cache_only = os.environ.get("SCOUT_UNIVERSE_CACHE_ONLY", "true").lower() in ("1", "true", "yes")
+    symbols = sorted(load_eligible_symbols(refresh=False, cache_only=cache_only))
+    if max_symbols > 0:
+        symbols = symbols[:max_symbols]
+    rows: list[dict] = []
+    for sym in symbols:
+        feats = extract_dna_features(sym, end_ms)
+        if feats:
+            rows.append({"scan_kst": scan_kst, "symbol": sym, "features": feats})
+    if live_engine and live_engine.enabled:
+        live_engine.subscribe([r["symbol"] for r in rows[:40]])
+    return rows
+
+
 def run_a6_scan(
     scan_kst: str,
     cache_dir: Path,

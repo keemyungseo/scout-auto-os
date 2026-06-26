@@ -1,0 +1,11 @@
+{
+  "lookback_months": 6,
+  "date_min": "2026-06-01",
+  "date_max": "2026-06-15",
+  "scan_count": 180,
+  "long_signal_count": 897,
+  "short_signal_count": 897,
+  "timeline_row_count": 87906,
+  "transition_count": 46401,
+  "generated_at": "2026-06-25T13:39:35.422482+09:00"
+}

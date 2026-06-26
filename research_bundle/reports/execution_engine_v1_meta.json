@@ -1,0 +1,24 @@
+{
+  "train_scan_count": 125,
+  "blind_scan_count": 55,
+  "observation_minutes": 15,
+  "total_picks": 52,
+  "weights": {
+    "obs_return": 0.35,
+    "volume": 0.15,
+    "vwap": 0.1,
+    "atr": 0.1,
+    "breakout": 0.15,
+    "prior_break": 0.1,
+    "momentum": 0.15,
+    "false_penalty": -1.0
+  },
+  "combined_blind": {
+    "top5_avg": 1.5672,
+    "entry_top2_avg": 1.87,
+    "exec_top2_avg": 2.1266,
+    "lift_vs_top5_pct": 35.69,
+    "lift_vs_entry_top2_pct": 13.72
+  },
+  "generated_at": "2026-06-25T14:16:17.704801+09:00"
+}

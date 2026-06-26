@@ -1,0 +1,562 @@
+rule_id,rule_expr,direction,cluster_hint,act_bear_pct,n_bear,act_bull_pct,n_bull,act_sideway_pct,n_sideway,act_vol_low_volatility_pct,n_vol_low_volatility
+EX_OR_E_direction_confidence_gte_0.7824_E_rank_obs_return_top5_gte_0.125,(direction_confidence >= 0.7824 OR rank_obs_return_top5 >= 0.125),long,candidate,50.0,4,76.92,13,75.0,4,71.43,21
+EX_OR_E_direction_confidence_gte_0.7824_E_rank_obs_return_top5_gte_0.25,(direction_confidence >= 0.7824 OR rank_obs_return_top5 >= 0.25),long,candidate,50.0,4,76.92,13,75.0,4,71.43,21
+EX_OR_E_direction_confidence_gte_0.8912_E_rank_obs_return_top5_gte_0.125,(direction_confidence >= 0.8912 OR rank_obs_return_top5 >= 0.125),long,candidate,50.0,4,76.92,13,75.0,4,71.43,21
+EX_OR_E_direction_confidence_gte_0.8912_E_rank_obs_return_top5_gte_0.25,(direction_confidence >= 0.8912 OR rank_obs_return_top5 >= 0.25),long,candidate,50.0,4,76.92,13,75.0,4,71.43,21
+EX_OR_E_obs_low_pct_gte_-2.914012_E_rank_obs_return_top5_gte_0.125,(obs_low_pct >= -2.914 OR rank_obs_return_top5 >= 0.125),long,candidate,50.0,4,84.62,13,75.0,4,76.19,21
+EX_OR_E_obs_low_pct_gte_-2.914012_E_rank_obs_return_top5_gte_0.25,(obs_low_pct >= -2.914 OR rank_obs_return_top5 >= 0.25),long,candidate,50.0,4,84.62,13,75.0,4,76.19,21
+EX_OR_E_execution_score_gte_-0.27795_E_rank_obs_return_top5_gte_0.125,(execution_score >= -0.2779 OR rank_obs_return_top5 >= 0.125),long,candidate,50.0,4,76.92,13,75.0,4,71.43,21
+EX_OR_E_execution_score_gte_-0.27795_E_rank_obs_return_top5_gte_0.25,(execution_score >= -0.2779 OR rank_obs_return_top5 >= 0.25),long,candidate,50.0,4,76.92,13,75.0,4,71.43,21
+EX_OR_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771_E_rank_obs_return_top5_gte_0.125,((obs_return_pct - gap_to_best_entry) >= -5.877 OR rank_obs_return_top5 >= 0.125),long,candidate,50.0,4,84.62,13,75.0,4,76.19,21
+EX_OR_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771_E_rank_obs_return_top5_gte_0.25,((obs_return_pct - gap_to_best_entry) >= -5.877 OR rank_obs_return_top5 >= 0.25),long,candidate,50.0,4,84.62,13,75.0,4,76.19,21
+EX_OR_E_direction_confidence_gte_0.5648_E_rank_obs_return_top5_gte_0.125,(direction_confidence >= 0.5648 OR rank_obs_return_top5 >= 0.125),long,candidate,75.0,4,76.92,13,75.0,4,76.19,21
+EX_OR_E_direction_confidence_gte_0.5648_E_rank_obs_return_top5_gte_0.25,(direction_confidence >= 0.5648 OR rank_obs_return_top5 >= 0.25),long,candidate,75.0,4,76.92,13,75.0,4,76.19,21
+EX_OR_E_direction_confidence_gte_0.6736_E_rank_obs_return_top5_gte_0.125,(direction_confidence >= 0.6736 OR rank_obs_return_top5 >= 0.125),long,candidate,75.0,4,76.92,13,75.0,4,76.19,21
+EX_OR_E_direction_confidence_gte_0.6736_E_rank_obs_return_top5_gte_0.25,(direction_confidence >= 0.6736 OR rank_obs_return_top5 >= 0.25),long,candidate,75.0,4,76.92,13,75.0,4,76.19,21
+EX_12,rank_obs_return_top5 >= 0.125,long,discovered,50.0,4,61.54,13,75.0,4,61.9,21
+EX_13,rank_obs_return_top5 >= 0.25,long,discovered,50.0,4,61.54,13,75.0,4,61.9,21
+EX_14,rank_obs_return_top5 >= 0.375,long,discovered,50.0,4,61.54,13,75.0,4,61.9,21
+EX_15,rank_obs_return_top5 >= 0.5,long,discovered,50.0,4,61.54,13,75.0,4,61.9,21
+EX_16,rank_obs_return_top5 >= 0.625,long,discovered,50.0,4,53.85,13,75.0,4,57.14,21
+EX_17,rank_obs_return_top5 >= 0.75,long,discovered,50.0,4,53.85,13,75.0,4,57.14,21
+EX_18,rank_obs_return_top5 >= 0.875,long,discovered,50.0,4,53.85,13,75.0,4,57.14,21
+EX_19,rank_obs_return_top5 >= 1,long,discovered,50.0,4,53.85,13,75.0,4,57.14,21
+EX_20,rank(obs_return_pct) >= 0.4,long,discovered,50.0,4,61.54,13,75.0,4,61.9,21
+EX_21,rank(obs_return_pct) >= 0.6,long,discovered,50.0,4,53.85,13,75.0,4,57.14,21
+EX_22,rank(obs_return_pct) >= 0.8,long,discovered,50.0,4,53.85,13,75.0,4,57.14,21
+EX_AND_E_rank_obs_return_top5_gte_0.125_E_rank_obs_return_top5_gte_0.25,(rank_obs_return_top5 >= 0.125 AND rank_obs_return_top5 >= 0.25),long,candidate,50.0,4,61.54,13,75.0,4,61.9,21
+EX_AND_E_rank_obs_return_top5_gte_0.125_E_rank_obs_return_top5_gte_0.375,(rank_obs_return_top5 >= 0.125 AND rank_obs_return_top5 >= 0.375),long,candidate,50.0,4,61.54,13,75.0,4,61.9,21
+EX_AND_E_rank_obs_return_top5_gte_0.125_E_rank_obs_return_top5_gte_0.5,(rank_obs_return_top5 >= 0.125 AND rank_obs_return_top5 >= 0.5),long,candidate,50.0,4,61.54,13,75.0,4,61.9,21
+EX_AND_E_rank_obs_return_top5_gte_0.125_E_rank_obs_return_top5_gte_0.625,(rank_obs_return_top5 >= 0.125 AND rank_obs_return_top5 >= 0.625),long,rank_only,50.0,4,53.85,13,75.0,4,57.14,21
+EX_AND_E_rank_obs_return_top5_gte_0.125_E_rank_obs_return_top5_gte_0.75,(rank_obs_return_top5 >= 0.125 AND rank_obs_return_top5 >= 0.75),long,rank_only,50.0,4,53.85,13,75.0,4,57.14,21
+EX_AND_E_rank_obs_return_top5_gte_0.25_E_rank_obs_return_top5_gte_0.375,(rank_obs_return_top5 >= 0.25 AND rank_obs_return_top5 >= 0.375),long,candidate,50.0,4,61.54,13,75.0,4,61.9,21
+EX_AND_E_rank_obs_return_top5_gte_0.25_E_rank_obs_return_top5_gte_0.5,(rank_obs_return_top5 >= 0.25 AND rank_obs_return_top5 >= 0.5),long,candidate,50.0,4,61.54,13,75.0,4,61.9,21
+EX_AND_E_rank_obs_return_top5_gte_0.25_E_rank_obs_return_top5_gte_0.625,(rank_obs_return_top5 >= 0.25 AND rank_obs_return_top5 >= 0.625),long,rank_only,50.0,4,53.85,13,75.0,4,57.14,21
+EX_AND_E_rank_obs_return_top5_gte_0.25_E_rank_obs_return_top5_gte_0.75,(rank_obs_return_top5 >= 0.25 AND rank_obs_return_top5 >= 0.75),long,rank_only,50.0,4,53.85,13,75.0,4,57.14,21
+EX_AND_E_rank_obs_return_top5_gte_0.375_E_rank_obs_return_top5_gte_0.5,(rank_obs_return_top5 >= 0.375 AND rank_obs_return_top5 >= 0.5),long,candidate,50.0,4,61.54,13,75.0,4,61.9,21
+EX_AND_E_rank_obs_return_top5_gte_0.375_E_rank_obs_return_top5_gte_0.625,(rank_obs_return_top5 >= 0.375 AND rank_obs_return_top5 >= 0.625),long,rank_only,50.0,4,53.85,13,75.0,4,57.14,21
+EX_AND_E_rank_obs_return_top5_gte_0.375_E_rank_obs_return_top5_gte_0.75,(rank_obs_return_top5 >= 0.375 AND rank_obs_return_top5 >= 0.75),long,rank_only,50.0,4,53.85,13,75.0,4,57.14,21
+EX_AND_E_rank_obs_return_top5_gte_0.5_E_rank_obs_return_top5_gte_0.625,(rank_obs_return_top5 >= 0.5 AND rank_obs_return_top5 >= 0.625),long,rank_only,50.0,4,53.85,13,75.0,4,57.14,21
+EX_AND_E_rank_obs_return_top5_gte_0.5_E_rank_obs_return_top5_gte_0.75,(rank_obs_return_top5 >= 0.5 AND rank_obs_return_top5 >= 0.75),long,rank_only,50.0,4,53.85,13,75.0,4,57.14,21
+EX_AND_E_rank_obs_return_top5_gte_0.625_E_rank_obs_return_top5_gte_0.75,(rank_obs_return_top5 >= 0.625 AND rank_obs_return_top5 >= 0.75),long,rank_only,50.0,4,53.85,13,75.0,4,57.14,21
+EX_OR_E_direction_confidence_gte_1.0_E_rank_obs_return_top5_gte_0.125,(direction_confidence >= 1 OR rank_obs_return_top5 >= 0.125),long,momentum_hybrid,50.0,4,69.23,13,75.0,4,66.67,21
+EX_OR_E_direction_confidence_gte_1.0_E_rank_obs_return_top5_gte_0.25,(direction_confidence >= 1 OR rank_obs_return_top5 >= 0.25),long,momentum_hybrid,50.0,4,69.23,13,75.0,4,66.67,21
+EX_OR_E_pattern_confidence_lte_0.452425_E_rank_obs_return_top5_gte_0.125,(pattern_confidence <= 0.4524 OR rank_obs_return_top5 >= 0.125),long,discovered,75.0,4,76.92,13,75.0,4,76.19,21
+EX_OR_E_pattern_confidence_lte_0.452425_E_rank_obs_return_top5_gte_0.25,(pattern_confidence <= 0.4524 OR rank_obs_return_top5 >= 0.25),long,discovered,75.0,4,76.92,13,75.0,4,76.19,21
+EX_OR_E_pattern_confidence_lte_0.474463_E_rank_obs_return_top5_gte_0.125,(pattern_confidence <= 0.4745 OR rank_obs_return_top5 >= 0.125),long,discovered,75.0,4,76.92,13,75.0,4,76.19,21
+EX_OR_E_pattern_confidence_lte_0.474463_E_rank_obs_return_top5_gte_0.25,(pattern_confidence <= 0.4745 OR rank_obs_return_top5 >= 0.25),long,discovered,75.0,4,76.92,13,75.0,4,76.19,21
+EX_OR_E_obs_body_pct_gte_9.53875_E_rank_obs_return_top5_gte_0.125,(obs_body_pct >= 9.539 OR rank_obs_return_top5 >= 0.125),long,discovered,75.0,4,61.54,13,75.0,4,66.67,21
+EX_OR_E_obs_body_pct_gte_9.53875_E_rank_obs_return_top5_gte_0.25,(obs_body_pct >= 9.539 OR rank_obs_return_top5 >= 0.25),long,discovered,75.0,4,61.54,13,75.0,4,66.67,21
+EX_OR_E_obs_body_pct_gte_11.448538_E_rank_obs_return_top5_gte_0.125,(obs_body_pct >= 11.45 OR rank_obs_return_top5 >= 0.125),long,discovered,75.0,4,61.54,13,75.0,4,66.67,21
+EX_OR_E_obs_body_pct_gte_11.448538_E_rank_obs_return_top5_gte_0.25,(obs_body_pct >= 11.45 OR rank_obs_return_top5 >= 0.25),long,discovered,75.0,4,61.54,13,75.0,4,66.67,21
+EX_0,direction_confidence >= 0.7824,long,mined_pool,50.0,4,61.54,13,25.0,4,52.38,21
+EX_1,direction_confidence >= 0.8912,long,mined_pool,50.0,4,53.85,13,25.0,4,47.62,21
+EX_0,direction_confidence >= 1,short,mined_pool,50.0,6,38.46,13,60.0,5,45.83,24
+EX_3,obs_low_pct >= -2.914,long,mined_pool,50.0,4,61.54,13,50.0,4,57.14,21
+EX_4,execution_score >= -0.2779,long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_5,(obs_return_pct - gap_to_best_entry) >= -5.877,long,mined_pool,50.0,4,69.23,13,50.0,4,61.9,21
+EX_6,pattern_confidence <= 0.4524,long,mined_pool,50.0,4,53.85,13,25.0,4,47.62,21
+EX_7,pattern_confidence <= 0.4745,long,mined_pool,50.0,4,53.85,13,25.0,4,47.62,21
+EX_8,obs_body_pct >= 9.539,long,mined_pool,50.0,4,23.08,13,50.0,4,33.33,21
+EX_9,obs_body_pct >= 11.45,long,mined_pool,50.0,4,15.38,13,50.0,4,28.57,21
+EX_10,direction_confidence >= 0.5648,long,mined_pool,75.0,4,61.54,13,25.0,4,57.14,21
+EX_11,direction_confidence >= 0.6736,long,mined_pool,75.0,4,61.54,13,25.0,4,57.14,21
+EX_23,obs_range_pct >= 16.45,long,mined_pool,50.0,4,7.69,13,75.0,4,28.57,21
+EX_24,atr_increase_ratio >= 0.6759,long,mined_pool,50.0,4,7.69,13,75.0,4,28.57,21
+EX_17,top5_rank <= 1,short,mined_pool,50.0,6,53.85,13,80.0,5,58.33,24
+EX_18,top5_rank <= 1.125,short,mined_pool,50.0,6,53.85,13,80.0,5,58.33,24
+EX_19,top5_rank <= 1.25,short,mined_pool,50.0,6,53.85,13,80.0,5,58.33,24
+EX_20,top5_rank <= 1.375,short,mined_pool,50.0,6,53.85,13,80.0,5,58.33,24
+EX_21,top5_rank <= 1.5,short,mined_pool,50.0,6,53.85,13,80.0,5,58.33,24
+EX_AND_E_direction_confidence_gte_0.7824_E_direction_confidence_gte_0.8912,(direction_confidence >= 0.7824 AND direction_confidence >= 0.8912),long,mined_pool,50.0,4,53.85,13,25.0,4,47.62,21
+EX_AND_E_direction_confidence_gte_0.7824_E_direction_confidence_gte_1.0,(direction_confidence >= 0.7824 AND direction_confidence >= 1),long,mined_pool,50.0,4,38.46,13,25.0,4,38.1,21
+EX_AND_E_direction_confidence_gte_0.7824_E_obs_low_pct_gte_-2.914012,(direction_confidence >= 0.7824 AND obs_low_pct >= -2.914),long,mined_pool,50.0,4,53.85,13,25.0,4,47.62,21
+EX_AND_E_direction_confidence_gte_0.7824_E_execution_score_gte_-0.27795,(direction_confidence >= 0.7824 AND execution_score >= -0.2779),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_direction_confidence_gte_0.7824_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771,(direction_confidence >= 0.7824 AND (obs_return_pct - gap_to_best_entry) >= -5.877),long,mined_pool,50.0,4,61.54,13,25.0,4,52.38,21
+EX_AND_E_direction_confidence_gte_0.7824_E_pattern_confidence_lte_0.452425,(direction_confidence >= 0.7824 AND pattern_confidence <= 0.4524),long,mined_pool,25.0,4,46.15,13,25.0,4,38.1,21
+EX_AND_E_direction_confidence_gte_0.7824_E_pattern_confidence_lte_0.474463,(direction_confidence >= 0.7824 AND pattern_confidence <= 0.4745),long,mined_pool,25.0,4,46.15,13,25.0,4,38.1,21
+EX_AND_E_direction_confidence_gte_0.7824_E_obs_body_pct_gte_9.53875,(direction_confidence >= 0.7824 AND obs_body_pct >= 9.539),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_E_direction_confidence_gte_0.7824_E_obs_body_pct_gte_11.448538,(direction_confidence >= 0.7824 AND obs_body_pct >= 11.45),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_E_direction_confidence_gte_0.7824_E_direction_confidence_gte_0.5648,(direction_confidence >= 0.7824 AND direction_confidence >= 0.5648),long,mined_pool,50.0,4,61.54,13,25.0,4,52.38,21
+EX_AND_E_direction_confidence_gte_0.7824_E_direction_confidence_gte_0.6736,(direction_confidence >= 0.7824 AND direction_confidence >= 0.6736),long,mined_pool,50.0,4,61.54,13,25.0,4,52.38,21
+EX_AND_E_direction_confidence_gte_0.7824_E_rank_obs_return_top5_gte_0.125,(direction_confidence >= 0.7824 AND rank_obs_return_top5 >= 0.125),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_direction_confidence_gte_0.7824_E_rank_obs_return_top5_gte_0.25,(direction_confidence >= 0.7824 AND rank_obs_return_top5 >= 0.25),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_direction_confidence_gte_0.7824_E_rank_obs_return_top5_gte_0.375,(direction_confidence >= 0.7824 AND rank_obs_return_top5 >= 0.375),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_direction_confidence_gte_0.7824_E_rank_obs_return_top5_gte_0.5,(direction_confidence >= 0.7824 AND rank_obs_return_top5 >= 0.5),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_direction_confidence_gte_0.7824_E_rank_obs_return_top5_gte_0.625,(direction_confidence >= 0.7824 AND rank_obs_return_top5 >= 0.625),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_direction_confidence_gte_0.7824_E_rank_obs_return_top5_gte_0.75,(direction_confidence >= 0.7824 AND rank_obs_return_top5 >= 0.75),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_direction_confidence_gte_0.8912_E_direction_confidence_gte_1.0,(direction_confidence >= 0.8912 AND direction_confidence >= 1),long,mined_pool,50.0,4,38.46,13,25.0,4,38.1,21
+EX_AND_E_direction_confidence_gte_0.8912_E_obs_low_pct_gte_-2.914012,(direction_confidence >= 0.8912 AND obs_low_pct >= -2.914),long,mined_pool,50.0,4,53.85,13,25.0,4,47.62,21
+EX_AND_E_direction_confidence_gte_0.8912_E_execution_score_gte_-0.27795,(direction_confidence >= 0.8912 AND execution_score >= -0.2779),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_direction_confidence_gte_0.8912_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771,(direction_confidence >= 0.8912 AND (obs_return_pct - gap_to_best_entry) >= -5.877),long,mined_pool,50.0,4,53.85,13,25.0,4,47.62,21
+EX_AND_E_direction_confidence_gte_0.8912_E_pattern_confidence_lte_0.452425,(direction_confidence >= 0.8912 AND pattern_confidence <= 0.4524),long,mined_pool,25.0,4,46.15,13,25.0,4,38.1,21
+EX_AND_E_direction_confidence_gte_0.8912_E_pattern_confidence_lte_0.474463,(direction_confidence >= 0.8912 AND pattern_confidence <= 0.4745),long,mined_pool,25.0,4,46.15,13,25.0,4,38.1,21
+EX_AND_E_direction_confidence_gte_0.8912_E_obs_body_pct_gte_9.53875,(direction_confidence >= 0.8912 AND obs_body_pct >= 9.539),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_E_direction_confidence_gte_0.8912_E_obs_body_pct_gte_11.448538,(direction_confidence >= 0.8912 AND obs_body_pct >= 11.45),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_E_direction_confidence_gte_0.8912_E_direction_confidence_gte_0.5648,(direction_confidence >= 0.8912 AND direction_confidence >= 0.5648),long,mined_pool,50.0,4,53.85,13,25.0,4,47.62,21
+EX_AND_E_direction_confidence_gte_0.8912_E_direction_confidence_gte_0.6736,(direction_confidence >= 0.8912 AND direction_confidence >= 0.6736),long,mined_pool,50.0,4,53.85,13,25.0,4,47.62,21
+EX_AND_E_direction_confidence_gte_0.8912_E_rank_obs_return_top5_gte_0.125,(direction_confidence >= 0.8912 AND rank_obs_return_top5 >= 0.125),long,mined_pool,50.0,4,38.46,13,25.0,4,38.1,21
+EX_AND_E_direction_confidence_gte_0.8912_E_rank_obs_return_top5_gte_0.25,(direction_confidence >= 0.8912 AND rank_obs_return_top5 >= 0.25),long,mined_pool,50.0,4,38.46,13,25.0,4,38.1,21
+EX_AND_E_direction_confidence_gte_0.8912_E_rank_obs_return_top5_gte_0.375,(direction_confidence >= 0.8912 AND rank_obs_return_top5 >= 0.375),long,mined_pool,50.0,4,38.46,13,25.0,4,38.1,21
+EX_AND_E_direction_confidence_gte_0.8912_E_rank_obs_return_top5_gte_0.5,(direction_confidence >= 0.8912 AND rank_obs_return_top5 >= 0.5),long,mined_pool,50.0,4,38.46,13,25.0,4,38.1,21
+EX_AND_E_direction_confidence_gte_0.8912_E_rank_obs_return_top5_gte_0.625,(direction_confidence >= 0.8912 AND rank_obs_return_top5 >= 0.625),long,mined_pool,50.0,4,38.46,13,25.0,4,38.1,21
+EX_AND_E_direction_confidence_gte_0.8912_E_rank_obs_return_top5_gte_0.75,(direction_confidence >= 0.8912 AND rank_obs_return_top5 >= 0.75),long,mined_pool,50.0,4,38.46,13,25.0,4,38.1,21
+EX_AND_E_direction_confidence_gte_1.0_E_obs_low_pct_gte_-2.914012,(direction_confidence >= 1 AND obs_low_pct >= -2.914),long,mined_pool,50.0,4,38.46,13,25.0,4,38.1,21
+EX_AND_E_direction_confidence_gte_1.0_E_execution_score_gte_-0.27795,(direction_confidence >= 1 AND execution_score >= -0.2779),long,mined_pool,50.0,4,30.77,13,25.0,4,33.33,21
+EX_AND_E_direction_confidence_gte_1.0_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771,(direction_confidence >= 1 AND (obs_return_pct - gap_to_best_entry) >= -5.877),long,mined_pool,50.0,4,38.46,13,25.0,4,38.1,21
+EX_AND_E_direction_confidence_gte_1.0_E_pattern_confidence_lte_0.452425,(direction_confidence >= 1 AND pattern_confidence <= 0.4524),long,mined_pool,25.0,4,30.77,13,25.0,4,28.57,21
+EX_AND_E_direction_confidence_gte_1.0_E_pattern_confidence_lte_0.474463,(direction_confidence >= 1 AND pattern_confidence <= 0.4745),long,mined_pool,25.0,4,30.77,13,25.0,4,28.57,21
+EX_AND_E_direction_confidence_gte_1.0_E_obs_body_pct_gte_9.53875,(direction_confidence >= 1 AND obs_body_pct >= 9.539),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_E_direction_confidence_gte_1.0_E_obs_body_pct_gte_11.448538,(direction_confidence >= 1 AND obs_body_pct >= 11.45),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_E_direction_confidence_gte_1.0_E_direction_confidence_gte_0.5648,(direction_confidence >= 1 AND direction_confidence >= 0.5648),long,mined_pool,50.0,4,38.46,13,25.0,4,38.1,21
+EX_AND_E_direction_confidence_gte_1.0_E_direction_confidence_gte_0.6736,(direction_confidence >= 1 AND direction_confidence >= 0.6736),long,mined_pool,50.0,4,38.46,13,25.0,4,38.1,21
+EX_AND_E_direction_confidence_gte_1.0_E_rank_obs_return_top5_gte_0.125,(direction_confidence >= 1 AND rank_obs_return_top5 >= 0.125),long,mined_pool,50.0,4,30.77,13,25.0,4,33.33,21
+EX_AND_E_direction_confidence_gte_1.0_E_rank_obs_return_top5_gte_0.25,(direction_confidence >= 1 AND rank_obs_return_top5 >= 0.25),long,mined_pool,50.0,4,30.77,13,25.0,4,33.33,21
+EX_AND_E_direction_confidence_gte_1.0_E_rank_obs_return_top5_gte_0.375,(direction_confidence >= 1 AND rank_obs_return_top5 >= 0.375),long,mined_pool,50.0,4,30.77,13,25.0,4,33.33,21
+EX_AND_E_direction_confidence_gte_1.0_E_rank_obs_return_top5_gte_0.5,(direction_confidence >= 1 AND rank_obs_return_top5 >= 0.5),long,mined_pool,50.0,4,30.77,13,25.0,4,33.33,21
+EX_AND_E_direction_confidence_gte_1.0_E_rank_obs_return_top5_gte_0.625,(direction_confidence >= 1 AND rank_obs_return_top5 >= 0.625),long,mined_pool,50.0,4,30.77,13,25.0,4,33.33,21
+EX_AND_E_direction_confidence_gte_1.0_E_rank_obs_return_top5_gte_0.75,(direction_confidence >= 1 AND rank_obs_return_top5 >= 0.75),long,mined_pool,50.0,4,30.77,13,25.0,4,33.33,21
+EX_AND_E_obs_low_pct_gte_-2.914012_E_execution_score_gte_-0.27795,(obs_low_pct >= -2.914 AND execution_score >= -0.2779),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_obs_low_pct_gte_-2.914012_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771,(obs_low_pct >= -2.914 AND (obs_return_pct - gap_to_best_entry) >= -5.877),long,mined_pool,50.0,4,53.85,13,50.0,4,52.38,21
+EX_AND_E_obs_low_pct_gte_-2.914012_E_pattern_confidence_lte_0.452425,(obs_low_pct >= -2.914 AND pattern_confidence <= 0.4524),long,mined_pool,25.0,4,46.15,13,25.0,4,38.1,21
+EX_AND_E_obs_low_pct_gte_-2.914012_E_pattern_confidence_lte_0.474463,(obs_low_pct >= -2.914 AND pattern_confidence <= 0.4745),long,mined_pool,25.0,4,46.15,13,25.0,4,38.1,21
+EX_AND_E_obs_low_pct_gte_-2.914012_E_obs_body_pct_gte_9.53875,(obs_low_pct >= -2.914 AND obs_body_pct >= 9.539),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_E_obs_low_pct_gte_-2.914012_E_obs_body_pct_gte_11.448538,(obs_low_pct >= -2.914 AND obs_body_pct >= 11.45),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_E_obs_low_pct_gte_-2.914012_E_direction_confidence_gte_0.5648,(obs_low_pct >= -2.914 AND direction_confidence >= 0.5648),long,mined_pool,50.0,4,53.85,13,25.0,4,47.62,21
+EX_AND_E_obs_low_pct_gte_-2.914012_E_direction_confidence_gte_0.6736,(obs_low_pct >= -2.914 AND direction_confidence >= 0.6736),long,mined_pool,50.0,4,53.85,13,25.0,4,47.62,21
+EX_AND_E_obs_low_pct_gte_-2.914012_E_rank_obs_return_top5_gte_0.125,(obs_low_pct >= -2.914 AND rank_obs_return_top5 >= 0.125),long,mined_pool,50.0,4,38.46,13,50.0,4,42.86,21
+EX_AND_E_obs_low_pct_gte_-2.914012_E_rank_obs_return_top5_gte_0.25,(obs_low_pct >= -2.914 AND rank_obs_return_top5 >= 0.25),long,mined_pool,50.0,4,38.46,13,50.0,4,42.86,21
+EX_AND_E_obs_low_pct_gte_-2.914012_E_rank_obs_return_top5_gte_0.375,(obs_low_pct >= -2.914 AND rank_obs_return_top5 >= 0.375),long,mined_pool,50.0,4,38.46,13,50.0,4,42.86,21
+EX_AND_E_obs_low_pct_gte_-2.914012_E_rank_obs_return_top5_gte_0.5,(obs_low_pct >= -2.914 AND rank_obs_return_top5 >= 0.5),long,mined_pool,50.0,4,38.46,13,50.0,4,42.86,21
+EX_AND_E_obs_low_pct_gte_-2.914012_E_rank_obs_return_top5_gte_0.625,(obs_low_pct >= -2.914 AND rank_obs_return_top5 >= 0.625),long,mined_pool,50.0,4,38.46,13,50.0,4,42.86,21
+EX_AND_E_obs_low_pct_gte_-2.914012_E_rank_obs_return_top5_gte_0.75,(obs_low_pct >= -2.914 AND rank_obs_return_top5 >= 0.75),long,mined_pool,50.0,4,38.46,13,50.0,4,42.86,21
+EX_AND_E_execution_score_gte_-0.27795_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771,(execution_score >= -0.2779 AND (obs_return_pct - gap_to_best_entry) >= -5.877),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_execution_score_gte_-0.27795_E_pattern_confidence_lte_0.452425,(execution_score >= -0.2779 AND pattern_confidence <= 0.4524),long,mined_pool,25.0,4,46.15,13,25.0,4,38.1,21
+EX_AND_E_execution_score_gte_-0.27795_E_pattern_confidence_lte_0.474463,(execution_score >= -0.2779 AND pattern_confidence <= 0.4745),long,mined_pool,25.0,4,46.15,13,25.0,4,38.1,21
+EX_AND_E_execution_score_gte_-0.27795_E_obs_body_pct_gte_9.53875,(execution_score >= -0.2779 AND obs_body_pct >= 9.539),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_E_execution_score_gte_-0.27795_E_obs_body_pct_gte_11.448538,(execution_score >= -0.2779 AND obs_body_pct >= 11.45),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_E_execution_score_gte_-0.27795_E_direction_confidence_gte_0.5648,(execution_score >= -0.2779 AND direction_confidence >= 0.5648),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_execution_score_gte_-0.27795_E_direction_confidence_gte_0.6736,(execution_score >= -0.2779 AND direction_confidence >= 0.6736),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_execution_score_gte_-0.27795_E_rank_obs_return_top5_gte_0.125,(execution_score >= -0.2779 AND rank_obs_return_top5 >= 0.125),long,mined_pool,50.0,4,30.77,13,25.0,4,33.33,21
+EX_AND_E_execution_score_gte_-0.27795_E_rank_obs_return_top5_gte_0.25,(execution_score >= -0.2779 AND rank_obs_return_top5 >= 0.25),long,mined_pool,50.0,4,30.77,13,25.0,4,33.33,21
+EX_AND_E_execution_score_gte_-0.27795_E_rank_obs_return_top5_gte_0.375,(execution_score >= -0.2779 AND rank_obs_return_top5 >= 0.375),long,mined_pool,50.0,4,30.77,13,25.0,4,33.33,21
+EX_AND_E_execution_score_gte_-0.27795_E_rank_obs_return_top5_gte_0.5,(execution_score >= -0.2779 AND rank_obs_return_top5 >= 0.5),long,mined_pool,50.0,4,30.77,13,25.0,4,33.33,21
+EX_AND_E_execution_score_gte_-0.27795_E_rank_obs_return_top5_gte_0.625,(execution_score >= -0.2779 AND rank_obs_return_top5 >= 0.625),long,mined_pool,50.0,4,30.77,13,25.0,4,33.33,21
+EX_AND_E_execution_score_gte_-0.27795_E_rank_obs_return_top5_gte_0.75,(execution_score >= -0.2779 AND rank_obs_return_top5 >= 0.75),long,mined_pool,50.0,4,30.77,13,25.0,4,33.33,21
+EX_AND_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771_E_pattern_confidence_lte_0.452425,((obs_return_pct - gap_to_best_entry) >= -5.877 AND pattern_confidence <= 0.4524),long,mined_pool,25.0,4,46.15,13,25.0,4,38.1,21
+EX_AND_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771_E_pattern_confidence_lte_0.474463,((obs_return_pct - gap_to_best_entry) >= -5.877 AND pattern_confidence <= 0.4745),long,mined_pool,25.0,4,46.15,13,25.0,4,38.1,21
+EX_AND_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771_E_obs_body_pct_gte_9.53875,((obs_return_pct - gap_to_best_entry) >= -5.877 AND obs_body_pct >= 9.539),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771_E_obs_body_pct_gte_11.448538,((obs_return_pct - gap_to_best_entry) >= -5.877 AND obs_body_pct >= 11.45),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771_E_direction_confidence_gte_0.5648,((obs_return_pct - gap_to_best_entry) >= -5.877 AND direction_confidence >= 0.5648),long,mined_pool,50.0,4,61.54,13,25.0,4,52.38,21
+EX_AND_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771_E_direction_confidence_gte_0.6736,((obs_return_pct - gap_to_best_entry) >= -5.877 AND direction_confidence >= 0.6736),long,mined_pool,50.0,4,61.54,13,25.0,4,52.38,21
+EX_AND_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771_E_rank_obs_return_top5_gte_0.125,((obs_return_pct - gap_to_best_entry) >= -5.877 AND rank_obs_return_top5 >= 0.125),long,mined_pool,50.0,4,46.15,13,50.0,4,47.62,21
+EX_AND_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771_E_rank_obs_return_top5_gte_0.25,((obs_return_pct - gap_to_best_entry) >= -5.877 AND rank_obs_return_top5 >= 0.25),long,mined_pool,50.0,4,46.15,13,50.0,4,47.62,21
+EX_AND_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771_E_rank_obs_return_top5_gte_0.375,((obs_return_pct - gap_to_best_entry) >= -5.877 AND rank_obs_return_top5 >= 0.375),long,mined_pool,50.0,4,46.15,13,50.0,4,47.62,21
+EX_AND_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771_E_rank_obs_return_top5_gte_0.5,((obs_return_pct - gap_to_best_entry) >= -5.877 AND rank_obs_return_top5 >= 0.5),long,mined_pool,50.0,4,46.15,13,50.0,4,47.62,21
+EX_AND_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771_E_rank_obs_return_top5_gte_0.625,((obs_return_pct - gap_to_best_entry) >= -5.877 AND rank_obs_return_top5 >= 0.625),long,mined_pool,50.0,4,46.15,13,50.0,4,47.62,21
+EX_AND_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771_E_rank_obs_return_top5_gte_0.75,((obs_return_pct - gap_to_best_entry) >= -5.877 AND rank_obs_return_top5 >= 0.75),long,mined_pool,50.0,4,46.15,13,50.0,4,47.62,21
+EX_AND_E_pattern_confidence_lte_0.452425_E_pattern_confidence_lte_0.474463,(pattern_confidence <= 0.4524 AND pattern_confidence <= 0.4745),long,mined_pool,50.0,4,53.85,13,25.0,4,47.62,21
+EX_AND_E_pattern_confidence_lte_0.452425_E_obs_body_pct_gte_9.53875,(pattern_confidence <= 0.4524 AND obs_body_pct >= 9.539),long,mined_pool,50.0,4,7.69,13,25.0,4,19.05,21
+EX_AND_E_pattern_confidence_lte_0.452425_E_obs_body_pct_gte_11.448538,(pattern_confidence <= 0.4524 AND obs_body_pct >= 11.45),long,mined_pool,50.0,4,7.69,13,25.0,4,19.05,21
+EX_AND_E_pattern_confidence_lte_0.452425_E_direction_confidence_gte_0.5648,(pattern_confidence <= 0.4524 AND direction_confidence >= 0.5648),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_pattern_confidence_lte_0.452425_E_direction_confidence_gte_0.6736,(pattern_confidence <= 0.4524 AND direction_confidence >= 0.6736),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_pattern_confidence_lte_0.452425_E_rank_obs_return_top5_gte_0.125,(pattern_confidence <= 0.4524 AND rank_obs_return_top5 >= 0.125),long,mined_pool,25.0,4,38.46,13,25.0,4,33.33,21
+EX_AND_E_pattern_confidence_lte_0.452425_E_rank_obs_return_top5_gte_0.25,(pattern_confidence <= 0.4524 AND rank_obs_return_top5 >= 0.25),long,mined_pool,25.0,4,38.46,13,25.0,4,33.33,21
+EX_AND_E_pattern_confidence_lte_0.452425_E_rank_obs_return_top5_gte_0.375,(pattern_confidence <= 0.4524 AND rank_obs_return_top5 >= 0.375),long,mined_pool,25.0,4,38.46,13,25.0,4,33.33,21
+EX_AND_E_pattern_confidence_lte_0.452425_E_rank_obs_return_top5_gte_0.5,(pattern_confidence <= 0.4524 AND rank_obs_return_top5 >= 0.5),long,mined_pool,25.0,4,38.46,13,25.0,4,33.33,21
+EX_AND_E_pattern_confidence_lte_0.452425_E_rank_obs_return_top5_gte_0.625,(pattern_confidence <= 0.4524 AND rank_obs_return_top5 >= 0.625),long,mined_pool,25.0,4,38.46,13,25.0,4,33.33,21
+EX_AND_E_pattern_confidence_lte_0.452425_E_rank_obs_return_top5_gte_0.75,(pattern_confidence <= 0.4524 AND rank_obs_return_top5 >= 0.75),long,mined_pool,25.0,4,38.46,13,25.0,4,33.33,21
+EX_AND_E_pattern_confidence_lte_0.474463_E_obs_body_pct_gte_9.53875,(pattern_confidence <= 0.4745 AND obs_body_pct >= 9.539),long,mined_pool,50.0,4,7.69,13,25.0,4,19.05,21
+EX_AND_E_pattern_confidence_lte_0.474463_E_obs_body_pct_gte_11.448538,(pattern_confidence <= 0.4745 AND obs_body_pct >= 11.45),long,mined_pool,50.0,4,7.69,13,25.0,4,19.05,21
+EX_AND_E_pattern_confidence_lte_0.474463_E_direction_confidence_gte_0.5648,(pattern_confidence <= 0.4745 AND direction_confidence >= 0.5648),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_pattern_confidence_lte_0.474463_E_direction_confidence_gte_0.6736,(pattern_confidence <= 0.4745 AND direction_confidence >= 0.6736),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_pattern_confidence_lte_0.474463_E_rank_obs_return_top5_gte_0.125,(pattern_confidence <= 0.4745 AND rank_obs_return_top5 >= 0.125),long,mined_pool,25.0,4,38.46,13,25.0,4,33.33,21
+EX_AND_E_pattern_confidence_lte_0.474463_E_rank_obs_return_top5_gte_0.25,(pattern_confidence <= 0.4745 AND rank_obs_return_top5 >= 0.25),long,mined_pool,25.0,4,38.46,13,25.0,4,33.33,21
+EX_AND_E_pattern_confidence_lte_0.474463_E_rank_obs_return_top5_gte_0.375,(pattern_confidence <= 0.4745 AND rank_obs_return_top5 >= 0.375),long,mined_pool,25.0,4,38.46,13,25.0,4,33.33,21
+EX_AND_E_pattern_confidence_lte_0.474463_E_rank_obs_return_top5_gte_0.5,(pattern_confidence <= 0.4745 AND rank_obs_return_top5 >= 0.5),long,mined_pool,25.0,4,38.46,13,25.0,4,33.33,21
+EX_AND_E_pattern_confidence_lte_0.474463_E_rank_obs_return_top5_gte_0.625,(pattern_confidence <= 0.4745 AND rank_obs_return_top5 >= 0.625),long,mined_pool,25.0,4,38.46,13,25.0,4,33.33,21
+EX_AND_E_pattern_confidence_lte_0.474463_E_rank_obs_return_top5_gte_0.75,(pattern_confidence <= 0.4745 AND rank_obs_return_top5 >= 0.75),long,mined_pool,25.0,4,38.46,13,25.0,4,33.33,21
+EX_AND_E_obs_body_pct_gte_9.53875_E_obs_body_pct_gte_11.448538,(obs_body_pct >= 9.539 AND obs_body_pct >= 11.45),long,mined_pool,50.0,4,15.38,13,50.0,4,28.57,21
+EX_AND_E_obs_body_pct_gte_9.53875_E_direction_confidence_gte_0.5648,(obs_body_pct >= 9.539 AND direction_confidence >= 0.5648),long,mined_pool,50.0,4,7.69,13,25.0,4,19.05,21
+EX_AND_E_obs_body_pct_gte_9.53875_E_direction_confidence_gte_0.6736,(obs_body_pct >= 9.539 AND direction_confidence >= 0.6736),long,mined_pool,50.0,4,7.69,13,25.0,4,19.05,21
+EX_AND_E_obs_body_pct_gte_9.53875_E_rank_obs_return_top5_gte_0.125,(obs_body_pct >= 9.539 AND rank_obs_return_top5 >= 0.125),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_E_obs_body_pct_gte_9.53875_E_rank_obs_return_top5_gte_0.25,(obs_body_pct >= 9.539 AND rank_obs_return_top5 >= 0.25),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_E_obs_body_pct_gte_9.53875_E_rank_obs_return_top5_gte_0.375,(obs_body_pct >= 9.539 AND rank_obs_return_top5 >= 0.375),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_E_obs_body_pct_gte_9.53875_E_rank_obs_return_top5_gte_0.5,(obs_body_pct >= 9.539 AND rank_obs_return_top5 >= 0.5),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_E_obs_body_pct_gte_9.53875_E_rank_obs_return_top5_gte_0.625,(obs_body_pct >= 9.539 AND rank_obs_return_top5 >= 0.625),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_E_obs_body_pct_gte_9.53875_E_rank_obs_return_top5_gte_0.75,(obs_body_pct >= 9.539 AND rank_obs_return_top5 >= 0.75),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_E_obs_body_pct_gte_11.448538_E_direction_confidence_gte_0.5648,(obs_body_pct >= 11.45 AND direction_confidence >= 0.5648),long,mined_pool,50.0,4,7.69,13,25.0,4,19.05,21
+EX_AND_E_obs_body_pct_gte_11.448538_E_direction_confidence_gte_0.6736,(obs_body_pct >= 11.45 AND direction_confidence >= 0.6736),long,mined_pool,50.0,4,7.69,13,25.0,4,19.05,21
+EX_AND_E_obs_body_pct_gte_11.448538_E_rank_obs_return_top5_gte_0.125,(obs_body_pct >= 11.45 AND rank_obs_return_top5 >= 0.125),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_E_obs_body_pct_gte_11.448538_E_rank_obs_return_top5_gte_0.25,(obs_body_pct >= 11.45 AND rank_obs_return_top5 >= 0.25),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_E_obs_body_pct_gte_11.448538_E_rank_obs_return_top5_gte_0.375,(obs_body_pct >= 11.45 AND rank_obs_return_top5 >= 0.375),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_E_obs_body_pct_gte_11.448538_E_rank_obs_return_top5_gte_0.5,(obs_body_pct >= 11.45 AND rank_obs_return_top5 >= 0.5),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_E_obs_body_pct_gte_11.448538_E_rank_obs_return_top5_gte_0.625,(obs_body_pct >= 11.45 AND rank_obs_return_top5 >= 0.625),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_E_obs_body_pct_gte_11.448538_E_rank_obs_return_top5_gte_0.75,(obs_body_pct >= 11.45 AND rank_obs_return_top5 >= 0.75),long,mined_pool,25.0,4,7.69,13,25.0,4,14.29,21
+EX_AND_E_direction_confidence_gte_0.5648_E_direction_confidence_gte_0.6736,(direction_confidence >= 0.5648 AND direction_confidence >= 0.6736),long,mined_pool,75.0,4,61.54,13,25.0,4,57.14,21
+EX_AND_E_direction_confidence_gte_0.5648_E_rank_obs_return_top5_gte_0.125,(direction_confidence >= 0.5648 AND rank_obs_return_top5 >= 0.125),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_direction_confidence_gte_0.5648_E_rank_obs_return_top5_gte_0.25,(direction_confidence >= 0.5648 AND rank_obs_return_top5 >= 0.25),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_direction_confidence_gte_0.5648_E_rank_obs_return_top5_gte_0.375,(direction_confidence >= 0.5648 AND rank_obs_return_top5 >= 0.375),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_direction_confidence_gte_0.5648_E_rank_obs_return_top5_gte_0.5,(direction_confidence >= 0.5648 AND rank_obs_return_top5 >= 0.5),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_direction_confidence_gte_0.5648_E_rank_obs_return_top5_gte_0.625,(direction_confidence >= 0.5648 AND rank_obs_return_top5 >= 0.625),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_direction_confidence_gte_0.5648_E_rank_obs_return_top5_gte_0.75,(direction_confidence >= 0.5648 AND rank_obs_return_top5 >= 0.75),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_direction_confidence_gte_0.6736_E_rank_obs_return_top5_gte_0.125,(direction_confidence >= 0.6736 AND rank_obs_return_top5 >= 0.125),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_direction_confidence_gte_0.6736_E_rank_obs_return_top5_gte_0.25,(direction_confidence >= 0.6736 AND rank_obs_return_top5 >= 0.25),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_direction_confidence_gte_0.6736_E_rank_obs_return_top5_gte_0.375,(direction_confidence >= 0.6736 AND rank_obs_return_top5 >= 0.375),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_direction_confidence_gte_0.6736_E_rank_obs_return_top5_gte_0.5,(direction_confidence >= 0.6736 AND rank_obs_return_top5 >= 0.5),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_direction_confidence_gte_0.6736_E_rank_obs_return_top5_gte_0.625,(direction_confidence >= 0.6736 AND rank_obs_return_top5 >= 0.625),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_AND_E_direction_confidence_gte_0.6736_E_rank_obs_return_top5_gte_0.75,(direction_confidence >= 0.6736 AND rank_obs_return_top5 >= 0.75),long,mined_pool,50.0,4,46.15,13,25.0,4,42.86,21
+EX_OR_E_direction_confidence_gte_0.7824_E_direction_confidence_gte_0.8912,(direction_confidence >= 0.7824 OR direction_confidence >= 0.8912),long,mined_pool,50.0,4,61.54,13,25.0,4,52.38,21
+EX_OR_E_direction_confidence_gte_0.7824_E_direction_confidence_gte_1.0,(direction_confidence >= 0.7824 OR direction_confidence >= 1),long,mined_pool,50.0,4,61.54,13,25.0,4,52.38,21
+EX_OR_E_direction_confidence_gte_0.7824_E_obs_low_pct_gte_-2.914012,(direction_confidence >= 0.7824 OR obs_low_pct >= -2.914),long,mined_pool,50.0,4,69.23,13,50.0,4,61.9,21
+EX_OR_E_direction_confidence_gte_0.7824_E_execution_score_gte_-0.27795,(direction_confidence >= 0.7824 OR execution_score >= -0.2779),long,mined_pool,50.0,4,61.54,13,25.0,4,52.38,21
+EX_OR_E_direction_confidence_gte_0.7824_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771,(direction_confidence >= 0.7824 OR (obs_return_pct - gap_to_best_entry) >= -5.877),long,mined_pool,50.0,4,69.23,13,50.0,4,61.9,21
+EX_OR_E_direction_confidence_gte_0.7824_E_pattern_confidence_lte_0.452425,(direction_confidence >= 0.7824 OR pattern_confidence <= 0.4524),long,mined_pool,75.0,4,69.23,13,25.0,4,61.9,21
+EX_OR_E_direction_confidence_gte_0.7824_E_pattern_confidence_lte_0.474463,(direction_confidence >= 0.7824 OR pattern_confidence <= 0.4745),long,mined_pool,75.0,4,69.23,13,25.0,4,61.9,21
+EX_OR_E_direction_confidence_gte_0.7824_E_obs_body_pct_gte_9.53875,(direction_confidence >= 0.7824 OR obs_body_pct >= 9.539),long,mined_pool,75.0,4,69.23,13,50.0,4,66.67,21
+EX_OR_E_direction_confidence_gte_0.7824_E_obs_body_pct_gte_11.448538,(direction_confidence >= 0.7824 OR obs_body_pct >= 11.45),long,mined_pool,75.0,4,69.23,13,50.0,4,66.67,21
+EX_OR_E_direction_confidence_gte_0.7824_E_direction_confidence_gte_0.5648,(direction_confidence >= 0.7824 OR direction_confidence >= 0.5648),long,mined_pool,75.0,4,61.54,13,25.0,4,57.14,21
+EX_OR_E_direction_confidence_gte_0.7824_E_direction_confidence_gte_0.6736,(direction_confidence >= 0.7824 OR direction_confidence >= 0.6736),long,mined_pool,75.0,4,61.54,13,25.0,4,57.14,21
+EX_OR_E_direction_confidence_gte_0.8912_E_direction_confidence_gte_1.0,(direction_confidence >= 0.8912 OR direction_confidence >= 1),long,mined_pool,50.0,4,53.85,13,25.0,4,47.62,21
+EX_OR_E_direction_confidence_gte_0.8912_E_obs_low_pct_gte_-2.914012,(direction_confidence >= 0.8912 OR obs_low_pct >= -2.914),long,mined_pool,50.0,4,61.54,13,50.0,4,57.14,21
+EX_OR_E_direction_confidence_gte_0.8912_E_execution_score_gte_-0.27795,(direction_confidence >= 0.8912 OR execution_score >= -0.2779),long,mined_pool,50.0,4,53.85,13,25.0,4,47.62,21
+EX_OR_E_direction_confidence_gte_0.8912_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771,(direction_confidence >= 0.8912 OR (obs_return_pct - gap_to_best_entry) >= -5.877),long,mined_pool,50.0,4,69.23,13,50.0,4,61.9,21
+EX_OR_E_direction_confidence_gte_0.8912_E_pattern_confidence_lte_0.452425,(direction_confidence >= 0.8912 OR pattern_confidence <= 0.4524),long,mined_pool,75.0,4,61.54,13,25.0,4,57.14,21
+EX_OR_E_direction_confidence_gte_0.8912_E_pattern_confidence_lte_0.474463,(direction_confidence >= 0.8912 OR pattern_confidence <= 0.4745),long,mined_pool,75.0,4,61.54,13,25.0,4,57.14,21
+EX_OR_E_direction_confidence_gte_0.8912_E_obs_body_pct_gte_9.53875,(direction_confidence >= 0.8912 OR obs_body_pct >= 9.539),long,mined_pool,75.0,4,61.54,13,50.0,4,61.9,21
+EX_OR_E_direction_confidence_gte_0.8912_E_obs_body_pct_gte_11.448538,(direction_confidence >= 0.8912 OR obs_body_pct >= 11.45),long,mined_pool,75.0,4,61.54,13,50.0,4,61.9,21
+EX_OR_E_direction_confidence_gte_0.8912_E_direction_confidence_gte_0.5648,(direction_confidence >= 0.8912 OR direction_confidence >= 0.5648),long,mined_pool,75.0,4,61.54,13,25.0,4,57.14,21
+EX_OR_E_direction_confidence_gte_0.8912_E_direction_confidence_gte_0.6736,(direction_confidence >= 0.8912 OR direction_confidence >= 0.6736),long,mined_pool,75.0,4,61.54,13,25.0,4,57.14,21
+EX_OR_E_direction_confidence_gte_1.0_E_obs_low_pct_gte_-2.914012,(direction_confidence >= 1 OR obs_low_pct >= -2.914),long,mined_pool,50.0,4,61.54,13,50.0,4,57.14,21
+EX_OR_E_direction_confidence_gte_1.0_E_execution_score_gte_-0.27795,(direction_confidence >= 1 OR execution_score >= -0.2779),long,mined_pool,50.0,4,53.85,13,25.0,4,47.62,21
+EX_OR_E_direction_confidence_gte_1.0_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771,(direction_confidence >= 1 OR (obs_return_pct - gap_to_best_entry) >= -5.877),long,mined_pool,50.0,4,69.23,13,50.0,4,61.9,21
+EX_OR_E_direction_confidence_gte_1.0_E_pattern_confidence_lte_0.452425,(direction_confidence >= 1 OR pattern_confidence <= 0.4524),long,mined_pool,75.0,4,61.54,13,25.0,4,57.14,21
+EX_OR_E_direction_confidence_gte_1.0_E_pattern_confidence_lte_0.474463,(direction_confidence >= 1 OR pattern_confidence <= 0.4745),long,mined_pool,75.0,4,61.54,13,25.0,4,57.14,21
+EX_OR_E_direction_confidence_gte_1.0_E_obs_body_pct_gte_9.53875,(direction_confidence >= 1 OR obs_body_pct >= 9.539),long,mined_pool,75.0,4,46.15,13,50.0,4,52.38,21
+EX_OR_E_direction_confidence_gte_1.0_E_obs_body_pct_gte_11.448538,(direction_confidence >= 1 OR obs_body_pct >= 11.45),long,mined_pool,75.0,4,46.15,13,50.0,4,52.38,21
+EX_OR_E_direction_confidence_gte_1.0_E_direction_confidence_gte_0.5648,(direction_confidence >= 1 OR direction_confidence >= 0.5648),long,mined_pool,75.0,4,61.54,13,25.0,4,57.14,21
+EX_OR_E_direction_confidence_gte_1.0_E_direction_confidence_gte_0.6736,(direction_confidence >= 1 OR direction_confidence >= 0.6736),long,mined_pool,75.0,4,61.54,13,25.0,4,57.14,21
+EX_OR_E_obs_low_pct_gte_-2.914012_E_execution_score_gte_-0.27795,(obs_low_pct >= -2.914 OR execution_score >= -0.2779),long,mined_pool,50.0,4,61.54,13,50.0,4,57.14,21
+EX_OR_E_obs_low_pct_gte_-2.914012_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771,(obs_low_pct >= -2.914 OR (obs_return_pct - gap_to_best_entry) >= -5.877),long,mined_pool,50.0,4,76.92,13,50.0,4,66.67,21
+EX_OR_E_obs_low_pct_gte_-2.914012_E_pattern_confidence_lte_0.452425,(obs_low_pct >= -2.914 OR pattern_confidence <= 0.4524),long,mined_pool,75.0,4,69.23,13,50.0,4,66.67,21
+EX_OR_E_obs_low_pct_gte_-2.914012_E_pattern_confidence_lte_0.474463,(obs_low_pct >= -2.914 OR pattern_confidence <= 0.4745),long,mined_pool,75.0,4,69.23,13,50.0,4,66.67,21
+EX_OR_E_obs_low_pct_gte_-2.914012_E_obs_body_pct_gte_9.53875,(obs_low_pct >= -2.914 OR obs_body_pct >= 9.539),long,mined_pool,75.0,4,69.23,13,50.0,4,66.67,21
+EX_OR_E_obs_low_pct_gte_-2.914012_E_obs_body_pct_gte_11.448538,(obs_low_pct >= -2.914 OR obs_body_pct >= 11.45),long,mined_pool,75.0,4,69.23,13,50.0,4,66.67,21
+EX_OR_E_obs_low_pct_gte_-2.914012_E_direction_confidence_gte_0.5648,(obs_low_pct >= -2.914 OR direction_confidence >= 0.5648),long,mined_pool,75.0,4,69.23,13,50.0,4,66.67,21
+EX_OR_E_obs_low_pct_gte_-2.914012_E_direction_confidence_gte_0.6736,(obs_low_pct >= -2.914 OR direction_confidence >= 0.6736),long,mined_pool,75.0,4,69.23,13,50.0,4,66.67,21
+EX_OR_E_execution_score_gte_-0.27795_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771,(execution_score >= -0.2779 OR (obs_return_pct - gap_to_best_entry) >= -5.877),long,mined_pool,50.0,4,69.23,13,50.0,4,61.9,21
+EX_OR_E_execution_score_gte_-0.27795_E_pattern_confidence_lte_0.452425,(execution_score >= -0.2779 OR pattern_confidence <= 0.4524),long,mined_pool,75.0,4,53.85,13,25.0,4,52.38,21
+EX_OR_E_execution_score_gte_-0.27795_E_pattern_confidence_lte_0.474463,(execution_score >= -0.2779 OR pattern_confidence <= 0.4745),long,mined_pool,75.0,4,53.85,13,25.0,4,52.38,21
+EX_OR_E_execution_score_gte_-0.27795_E_obs_body_pct_gte_9.53875,(execution_score >= -0.2779 OR obs_body_pct >= 9.539),long,mined_pool,75.0,4,61.54,13,50.0,4,61.9,21
+EX_OR_E_execution_score_gte_-0.27795_E_obs_body_pct_gte_11.448538,(execution_score >= -0.2779 OR obs_body_pct >= 11.45),long,mined_pool,75.0,4,53.85,13,50.0,4,57.14,21
+EX_OR_E_execution_score_gte_-0.27795_E_direction_confidence_gte_0.5648,(execution_score >= -0.2779 OR direction_confidence >= 0.5648),long,mined_pool,75.0,4,61.54,13,25.0,4,57.14,21
+EX_OR_E_execution_score_gte_-0.27795_E_direction_confidence_gte_0.6736,(execution_score >= -0.2779 OR direction_confidence >= 0.6736),long,mined_pool,75.0,4,61.54,13,25.0,4,57.14,21
+EX_OR_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771_E_pattern_confidence_lte_0.452425,((obs_return_pct - gap_to_best_entry) >= -5.877 OR pattern_confidence <= 0.4524),long,mined_pool,75.0,4,76.92,13,50.0,4,71.43,21
+EX_OR_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771_E_pattern_confidence_lte_0.474463,((obs_return_pct - gap_to_best_entry) >= -5.877 OR pattern_confidence <= 0.4745),long,mined_pool,75.0,4,76.92,13,50.0,4,71.43,21
+EX_OR_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771_E_obs_body_pct_gte_9.53875,((obs_return_pct - gap_to_best_entry) >= -5.877 OR obs_body_pct >= 9.539),long,mined_pool,75.0,4,76.92,13,50.0,4,71.43,21
+EX_OR_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771_E_obs_body_pct_gte_11.448538,((obs_return_pct - gap_to_best_entry) >= -5.877 OR obs_body_pct >= 11.45),long,mined_pool,75.0,4,76.92,13,50.0,4,71.43,21
+EX_OR_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771_E_direction_confidence_gte_0.5648,((obs_return_pct - gap_to_best_entry) >= -5.877 OR direction_confidence >= 0.5648),long,mined_pool,75.0,4,69.23,13,50.0,4,66.67,21
+EX_OR_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771_E_direction_confidence_gte_0.6736,((obs_return_pct - gap_to_best_entry) >= -5.877 OR direction_confidence >= 0.6736),long,mined_pool,75.0,4,69.23,13,50.0,4,66.67,21
+EX_OR_E_pattern_confidence_lte_0.452425_E_pattern_confidence_lte_0.474463,(pattern_confidence <= 0.4524 OR pattern_confidence <= 0.4745),long,mined_pool,50.0,4,53.85,13,25.0,4,47.62,21
+EX_OR_E_pattern_confidence_lte_0.452425_E_obs_body_pct_gte_9.53875,(pattern_confidence <= 0.4524 OR obs_body_pct >= 9.539),long,mined_pool,50.0,4,69.23,13,50.0,4,61.9,21
+EX_OR_E_pattern_confidence_lte_0.452425_E_obs_body_pct_gte_11.448538,(pattern_confidence <= 0.4524 OR obs_body_pct >= 11.45),long,mined_pool,50.0,4,61.54,13,50.0,4,57.14,21
+EX_OR_E_pattern_confidence_lte_0.452425_E_direction_confidence_gte_0.5648,(pattern_confidence <= 0.4524 OR direction_confidence >= 0.5648),long,mined_pool,75.0,4,69.23,13,25.0,4,61.9,21
+EX_OR_E_pattern_confidence_lte_0.452425_E_direction_confidence_gte_0.6736,(pattern_confidence <= 0.4524 OR direction_confidence >= 0.6736),long,mined_pool,75.0,4,69.23,13,25.0,4,61.9,21
+EX_OR_E_pattern_confidence_lte_0.474463_E_obs_body_pct_gte_9.53875,(pattern_confidence <= 0.4745 OR obs_body_pct >= 9.539),long,mined_pool,50.0,4,69.23,13,50.0,4,61.9,21
+EX_OR_E_pattern_confidence_lte_0.474463_E_obs_body_pct_gte_11.448538,(pattern_confidence <= 0.4745 OR obs_body_pct >= 11.45),long,mined_pool,50.0,4,61.54,13,50.0,4,57.14,21
+EX_OR_E_pattern_confidence_lte_0.474463_E_direction_confidence_gte_0.5648,(pattern_confidence <= 0.4745 OR direction_confidence >= 0.5648),long,mined_pool,75.0,4,69.23,13,25.0,4,61.9,21
+EX_OR_E_pattern_confidence_lte_0.474463_E_direction_confidence_gte_0.6736,(pattern_confidence <= 0.4745 OR direction_confidence >= 0.6736),long,mined_pool,75.0,4,69.23,13,25.0,4,61.9,21
+EX_OR_E_obs_body_pct_gte_9.53875_E_obs_body_pct_gte_11.448538,(obs_body_pct >= 9.539 OR obs_body_pct >= 11.45),long,mined_pool,50.0,4,23.08,13,50.0,4,33.33,21
+EX_OR_E_obs_body_pct_gte_9.53875_E_direction_confidence_gte_0.5648,(obs_body_pct >= 9.539 OR direction_confidence >= 0.5648),long,mined_pool,75.0,4,69.23,13,50.0,4,66.67,21
+EX_OR_E_obs_body_pct_gte_9.53875_E_direction_confidence_gte_0.6736,(obs_body_pct >= 9.539 OR direction_confidence >= 0.6736),long,mined_pool,75.0,4,69.23,13,50.0,4,66.67,21
+EX_OR_E_obs_body_pct_gte_11.448538_E_direction_confidence_gte_0.5648,(obs_body_pct >= 11.45 OR direction_confidence >= 0.5648),long,mined_pool,75.0,4,69.23,13,50.0,4,66.67,21
+EX_OR_E_obs_body_pct_gte_11.448538_E_direction_confidence_gte_0.6736,(obs_body_pct >= 11.45 OR direction_confidence >= 0.6736),long,mined_pool,75.0,4,69.23,13,50.0,4,66.67,21
+EX_OR_E_direction_confidence_gte_0.5648_E_direction_confidence_gte_0.6736,(direction_confidence >= 0.5648 OR direction_confidence >= 0.6736),long,mined_pool,75.0,4,61.54,13,25.0,4,57.14,21
+EX_OR_E_rank_obs_return_top5_gte_0.125_E_rank_obs_return_top5_gte_0.25,(rank_obs_return_top5 >= 0.125 OR rank_obs_return_top5 >= 0.25),long,mined_pool,50.0,4,61.54,13,75.0,4,61.9,21
+EX_NOT_E_direction_confidence_gte_0.7824,NOT (direction_confidence >= 0.7824),long,mined_pool,50.0,4,46.15,13,75.0,4,52.38,21
+EX_NOT_E_direction_confidence_gte_0.8912,NOT (direction_confidence >= 0.8912),long,mined_pool,50.0,4,53.85,13,75.0,4,57.14,21
+EX_NOT_E_direction_confidence_gte_1.0,NOT (direction_confidence >= 1),short,mined_pool,50.0,6,76.92,13,80.0,5,70.83,24
+EX_NOT_E_obs_low_pct_gte_-2.914012,NOT (obs_low_pct >= -2.914),long,mined_pool,50.0,4,46.15,13,75.0,4,52.38,21
+EX_NOT_E_execution_score_gte_-0.27795,NOT (execution_score >= -0.2779),long,mined_pool,50.0,4,53.85,13,75.0,4,57.14,21
+EX_NOT_ED_obs_return_pct_gap_to_best_entry_gte_-5.8771,NOT ((obs_return_pct - gap_to_best_entry) >= -5.877),long,mined_pool,50.0,4,38.46,13,75.0,4,47.62,21
+EX_NOT_E_pattern_confidence_lte_0.452425,NOT (pattern_confidence <= 0.4524),long,mined_pool,50.0,4,53.85,13,75.0,4,57.14,21
+EX_NOT_E_pattern_confidence_lte_0.474463,NOT (pattern_confidence <= 0.4745),long,mined_pool,50.0,4,53.85,13,75.0,4,57.14,21
+EX_NOT_E_obs_body_pct_gte_9.53875,NOT (obs_body_pct >= 9.539),long,mined_pool,50.0,4,92.31,13,75.0,4,80.95,21
+EX_NOT_E_obs_body_pct_gte_11.448538,NOT (obs_body_pct >= 11.45),long,mined_pool,50.0,4,92.31,13,75.0,4,80.95,21
+EX_1,prior_high_break >= 0.125,short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_2,prior_high_break >= 0.25,short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_3,prior_high_break >= 0.375,short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_4,prior_high_break >= 0.5,short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_5,prior_high_break >= 0.625,short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_6,prior_high_break >= 0.75,short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_7,prior_high_break >= 0.875,short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_8,prior_high_break >= 1,short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_9,momentum_persist >= 0.125,short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_10,momentum_persist >= 0.25,short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_11,momentum_persist >= 0.375,short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_12,momentum_persist >= 0.5,short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_13,momentum_persist >= 0.625,short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_14,momentum_persist >= 0.75,short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_15,momentum_persist >= 0.875,short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_16,momentum_persist >= 1,short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_22,top5_rank <= 1.625,short,mined_pool,50.0,6,53.85,13,80.0,5,58.33,24
+EX_23,top5_rank <= 1.75,short,mined_pool,50.0,6,53.85,13,80.0,5,58.33,24
+EX_24,top5_rank <= 1.875,short,mined_pool,50.0,6,53.85,13,80.0,5,58.33,24
+EX_25,top5_rank_pct >= 0.125,short,mined_pool,50.0,6,61.54,13,80.0,5,62.5,24
+EX_26,top5_rank_pct >= 0.25,short,mined_pool,50.0,6,61.54,13,80.0,5,62.5,24
+EX_27,top5_rank_pct >= 0.375,short,mined_pool,50.0,6,61.54,13,80.0,5,62.5,24
+EX_28,top5_rank_pct >= 0.5,short,mined_pool,50.0,6,61.54,13,80.0,5,62.5,24
+EX_29,top5_rank_pct >= 0.625,short,mined_pool,50.0,6,53.85,13,80.0,5,58.33,24
+EX_AND_E_direction_confidence_gte_1.0_E_prior_high_break_gte_0.125,(direction_confidence >= 1 AND prior_high_break >= 0.125),short,mined_pool,50.0,6,38.46,13,60.0,5,45.83,24
+EX_AND_E_direction_confidence_gte_1.0_E_prior_high_break_gte_0.25,(direction_confidence >= 1 AND prior_high_break >= 0.25),short,mined_pool,50.0,6,38.46,13,60.0,5,45.83,24
+EX_AND_E_direction_confidence_gte_1.0_E_prior_high_break_gte_0.375,(direction_confidence >= 1 AND prior_high_break >= 0.375),short,mined_pool,50.0,6,38.46,13,60.0,5,45.83,24
+EX_AND_E_direction_confidence_gte_1.0_E_prior_high_break_gte_0.5,(direction_confidence >= 1 AND prior_high_break >= 0.5),short,mined_pool,50.0,6,38.46,13,60.0,5,45.83,24
+EX_AND_E_direction_confidence_gte_1.0_E_prior_high_break_gte_0.625,(direction_confidence >= 1 AND prior_high_break >= 0.625),short,mined_pool,50.0,6,38.46,13,60.0,5,45.83,24
+EX_AND_E_direction_confidence_gte_1.0_E_prior_high_break_gte_0.75,(direction_confidence >= 1 AND prior_high_break >= 0.75),short,mined_pool,50.0,6,38.46,13,60.0,5,45.83,24
+EX_AND_E_direction_confidence_gte_1.0_E_prior_high_break_gte_0.875,(direction_confidence >= 1 AND prior_high_break >= 0.875),short,mined_pool,50.0,6,38.46,13,60.0,5,45.83,24
+EX_AND_E_direction_confidence_gte_1.0_E_prior_high_break_gte_1.0,(direction_confidence >= 1 AND prior_high_break >= 1),short,mined_pool,50.0,6,38.46,13,60.0,5,45.83,24
+EX_AND_E_direction_confidence_gte_1.0_E_momentum_persist_gte_0.125,(direction_confidence >= 1 AND momentum_persist >= 0.125),short,mined_pool,50.0,6,38.46,13,60.0,5,45.83,24
+EX_AND_E_direction_confidence_gte_1.0_E_momentum_persist_gte_0.25,(direction_confidence >= 1 AND momentum_persist >= 0.25),short,mined_pool,50.0,6,38.46,13,60.0,5,45.83,24
+EX_AND_E_direction_confidence_gte_1.0_E_momentum_persist_gte_0.375,(direction_confidence >= 1 AND momentum_persist >= 0.375),short,mined_pool,50.0,6,38.46,13,60.0,5,45.83,24
+EX_AND_E_direction_confidence_gte_1.0_E_momentum_persist_gte_0.5,(direction_confidence >= 1 AND momentum_persist >= 0.5),short,mined_pool,50.0,6,38.46,13,60.0,5,45.83,24
+EX_AND_E_direction_confidence_gte_1.0_E_momentum_persist_gte_0.625,(direction_confidence >= 1 AND momentum_persist >= 0.625),short,mined_pool,50.0,6,38.46,13,60.0,5,45.83,24
+EX_AND_E_direction_confidence_gte_1.0_E_momentum_persist_gte_0.75,(direction_confidence >= 1 AND momentum_persist >= 0.75),short,mined_pool,50.0,6,38.46,13,60.0,5,45.83,24
+EX_AND_E_direction_confidence_gte_1.0_E_momentum_persist_gte_0.875,(direction_confidence >= 1 AND momentum_persist >= 0.875),short,mined_pool,50.0,6,38.46,13,60.0,5,45.83,24
+EX_AND_E_direction_confidence_gte_1.0_E_momentum_persist_gte_1.0,(direction_confidence >= 1 AND momentum_persist >= 1),short,mined_pool,50.0,6,38.46,13,60.0,5,45.83,24
+EX_AND_E_direction_confidence_gte_1.0_E_top5_rank_lte_1.0,(direction_confidence >= 1 AND top5_rank <= 1),short,mined_pool,50.0,6,23.08,13,60.0,5,37.5,24
+EX_AND_E_prior_high_break_gte_0.125_E_prior_high_break_gte_0.25,(prior_high_break >= 0.125 AND prior_high_break >= 0.25),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.125_E_prior_high_break_gte_0.375,(prior_high_break >= 0.125 AND prior_high_break >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.125_E_prior_high_break_gte_0.5,(prior_high_break >= 0.125 AND prior_high_break >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.125_E_prior_high_break_gte_0.625,(prior_high_break >= 0.125 AND prior_high_break >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.125_E_prior_high_break_gte_0.75,(prior_high_break >= 0.125 AND prior_high_break >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.125_E_prior_high_break_gte_0.875,(prior_high_break >= 0.125 AND prior_high_break >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.125_E_prior_high_break_gte_1.0,(prior_high_break >= 0.125 AND prior_high_break >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.125_E_momentum_persist_gte_0.125,(prior_high_break >= 0.125 AND momentum_persist >= 0.125),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.125_E_momentum_persist_gte_0.25,(prior_high_break >= 0.125 AND momentum_persist >= 0.25),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.125_E_momentum_persist_gte_0.375,(prior_high_break >= 0.125 AND momentum_persist >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.125_E_momentum_persist_gte_0.5,(prior_high_break >= 0.125 AND momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.125_E_momentum_persist_gte_0.625,(prior_high_break >= 0.125 AND momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.125_E_momentum_persist_gte_0.75,(prior_high_break >= 0.125 AND momentum_persist >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.125_E_momentum_persist_gte_0.875,(prior_high_break >= 0.125 AND momentum_persist >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.125_E_momentum_persist_gte_1.0,(prior_high_break >= 0.125 AND momentum_persist >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.125_E_top5_rank_lte_1.0,(prior_high_break >= 0.125 AND top5_rank <= 1),short,mined_pool,50.0,6,23.08,13,60.0,5,37.5,24
+EX_AND_E_prior_high_break_gte_0.25_E_prior_high_break_gte_0.375,(prior_high_break >= 0.25 AND prior_high_break >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.25_E_prior_high_break_gte_0.5,(prior_high_break >= 0.25 AND prior_high_break >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.25_E_prior_high_break_gte_0.625,(prior_high_break >= 0.25 AND prior_high_break >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.25_E_prior_high_break_gte_0.75,(prior_high_break >= 0.25 AND prior_high_break >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.25_E_prior_high_break_gte_0.875,(prior_high_break >= 0.25 AND prior_high_break >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.25_E_prior_high_break_gte_1.0,(prior_high_break >= 0.25 AND prior_high_break >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.25_E_momentum_persist_gte_0.125,(prior_high_break >= 0.25 AND momentum_persist >= 0.125),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.25_E_momentum_persist_gte_0.25,(prior_high_break >= 0.25 AND momentum_persist >= 0.25),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.25_E_momentum_persist_gte_0.375,(prior_high_break >= 0.25 AND momentum_persist >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.25_E_momentum_persist_gte_0.5,(prior_high_break >= 0.25 AND momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.25_E_momentum_persist_gte_0.625,(prior_high_break >= 0.25 AND momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.25_E_momentum_persist_gte_0.75,(prior_high_break >= 0.25 AND momentum_persist >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.25_E_momentum_persist_gte_0.875,(prior_high_break >= 0.25 AND momentum_persist >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.25_E_momentum_persist_gte_1.0,(prior_high_break >= 0.25 AND momentum_persist >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.25_E_top5_rank_lte_1.0,(prior_high_break >= 0.25 AND top5_rank <= 1),short,mined_pool,50.0,6,23.08,13,60.0,5,37.5,24
+EX_AND_E_prior_high_break_gte_0.375_E_prior_high_break_gte_0.5,(prior_high_break >= 0.375 AND prior_high_break >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.375_E_prior_high_break_gte_0.625,(prior_high_break >= 0.375 AND prior_high_break >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.375_E_prior_high_break_gte_0.75,(prior_high_break >= 0.375 AND prior_high_break >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.375_E_prior_high_break_gte_0.875,(prior_high_break >= 0.375 AND prior_high_break >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.375_E_prior_high_break_gte_1.0,(prior_high_break >= 0.375 AND prior_high_break >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.375_E_momentum_persist_gte_0.125,(prior_high_break >= 0.375 AND momentum_persist >= 0.125),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.375_E_momentum_persist_gte_0.25,(prior_high_break >= 0.375 AND momentum_persist >= 0.25),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.375_E_momentum_persist_gte_0.375,(prior_high_break >= 0.375 AND momentum_persist >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.375_E_momentum_persist_gte_0.5,(prior_high_break >= 0.375 AND momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.375_E_momentum_persist_gte_0.625,(prior_high_break >= 0.375 AND momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.375_E_momentum_persist_gte_0.75,(prior_high_break >= 0.375 AND momentum_persist >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.375_E_momentum_persist_gte_0.875,(prior_high_break >= 0.375 AND momentum_persist >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.375_E_momentum_persist_gte_1.0,(prior_high_break >= 0.375 AND momentum_persist >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.375_E_top5_rank_lte_1.0,(prior_high_break >= 0.375 AND top5_rank <= 1),short,mined_pool,50.0,6,23.08,13,60.0,5,37.5,24
+EX_AND_E_prior_high_break_gte_0.5_E_prior_high_break_gte_0.625,(prior_high_break >= 0.5 AND prior_high_break >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.5_E_prior_high_break_gte_0.75,(prior_high_break >= 0.5 AND prior_high_break >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.5_E_prior_high_break_gte_0.875,(prior_high_break >= 0.5 AND prior_high_break >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.5_E_prior_high_break_gte_1.0,(prior_high_break >= 0.5 AND prior_high_break >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.5_E_momentum_persist_gte_0.125,(prior_high_break >= 0.5 AND momentum_persist >= 0.125),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.5_E_momentum_persist_gte_0.25,(prior_high_break >= 0.5 AND momentum_persist >= 0.25),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.5_E_momentum_persist_gte_0.375,(prior_high_break >= 0.5 AND momentum_persist >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.5_E_momentum_persist_gte_0.5,(prior_high_break >= 0.5 AND momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.5_E_momentum_persist_gte_0.625,(prior_high_break >= 0.5 AND momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.5_E_momentum_persist_gte_0.75,(prior_high_break >= 0.5 AND momentum_persist >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.5_E_momentum_persist_gte_0.875,(prior_high_break >= 0.5 AND momentum_persist >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.5_E_momentum_persist_gte_1.0,(prior_high_break >= 0.5 AND momentum_persist >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.5_E_top5_rank_lte_1.0,(prior_high_break >= 0.5 AND top5_rank <= 1),short,mined_pool,50.0,6,23.08,13,60.0,5,37.5,24
+EX_AND_E_prior_high_break_gte_0.625_E_prior_high_break_gte_0.75,(prior_high_break >= 0.625 AND prior_high_break >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.625_E_prior_high_break_gte_0.875,(prior_high_break >= 0.625 AND prior_high_break >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.625_E_prior_high_break_gte_1.0,(prior_high_break >= 0.625 AND prior_high_break >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.625_E_momentum_persist_gte_0.125,(prior_high_break >= 0.625 AND momentum_persist >= 0.125),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.625_E_momentum_persist_gte_0.25,(prior_high_break >= 0.625 AND momentum_persist >= 0.25),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.625_E_momentum_persist_gte_0.375,(prior_high_break >= 0.625 AND momentum_persist >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.625_E_momentum_persist_gte_0.5,(prior_high_break >= 0.625 AND momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.625_E_momentum_persist_gte_0.625,(prior_high_break >= 0.625 AND momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.625_E_momentum_persist_gte_0.75,(prior_high_break >= 0.625 AND momentum_persist >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.625_E_momentum_persist_gte_0.875,(prior_high_break >= 0.625 AND momentum_persist >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.625_E_momentum_persist_gte_1.0,(prior_high_break >= 0.625 AND momentum_persist >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.625_E_top5_rank_lte_1.0,(prior_high_break >= 0.625 AND top5_rank <= 1),short,mined_pool,50.0,6,23.08,13,60.0,5,37.5,24
+EX_AND_E_prior_high_break_gte_0.75_E_prior_high_break_gte_0.875,(prior_high_break >= 0.75 AND prior_high_break >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.75_E_prior_high_break_gte_1.0,(prior_high_break >= 0.75 AND prior_high_break >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.75_E_momentum_persist_gte_0.125,(prior_high_break >= 0.75 AND momentum_persist >= 0.125),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.75_E_momentum_persist_gte_0.25,(prior_high_break >= 0.75 AND momentum_persist >= 0.25),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.75_E_momentum_persist_gte_0.375,(prior_high_break >= 0.75 AND momentum_persist >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.75_E_momentum_persist_gte_0.5,(prior_high_break >= 0.75 AND momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.75_E_momentum_persist_gte_0.625,(prior_high_break >= 0.75 AND momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.75_E_momentum_persist_gte_0.75,(prior_high_break >= 0.75 AND momentum_persist >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.75_E_momentum_persist_gte_0.875,(prior_high_break >= 0.75 AND momentum_persist >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.75_E_momentum_persist_gte_1.0,(prior_high_break >= 0.75 AND momentum_persist >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.75_E_top5_rank_lte_1.0,(prior_high_break >= 0.75 AND top5_rank <= 1),short,mined_pool,50.0,6,23.08,13,60.0,5,37.5,24
+EX_AND_E_prior_high_break_gte_0.875_E_prior_high_break_gte_1.0,(prior_high_break >= 0.875 AND prior_high_break >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.875_E_momentum_persist_gte_0.125,(prior_high_break >= 0.875 AND momentum_persist >= 0.125),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.875_E_momentum_persist_gte_0.25,(prior_high_break >= 0.875 AND momentum_persist >= 0.25),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.875_E_momentum_persist_gte_0.375,(prior_high_break >= 0.875 AND momentum_persist >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.875_E_momentum_persist_gte_0.5,(prior_high_break >= 0.875 AND momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.875_E_momentum_persist_gte_0.625,(prior_high_break >= 0.875 AND momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.875_E_momentum_persist_gte_0.75,(prior_high_break >= 0.875 AND momentum_persist >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.875_E_momentum_persist_gte_0.875,(prior_high_break >= 0.875 AND momentum_persist >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.875_E_momentum_persist_gte_1.0,(prior_high_break >= 0.875 AND momentum_persist >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_0.875_E_top5_rank_lte_1.0,(prior_high_break >= 0.875 AND top5_rank <= 1),short,mined_pool,50.0,6,23.08,13,60.0,5,37.5,24
+EX_AND_E_prior_high_break_gte_1.0_E_momentum_persist_gte_0.125,(prior_high_break >= 1 AND momentum_persist >= 0.125),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_1.0_E_momentum_persist_gte_0.25,(prior_high_break >= 1 AND momentum_persist >= 0.25),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_1.0_E_momentum_persist_gte_0.375,(prior_high_break >= 1 AND momentum_persist >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_1.0_E_momentum_persist_gte_0.5,(prior_high_break >= 1 AND momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_1.0_E_momentum_persist_gte_0.625,(prior_high_break >= 1 AND momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_1.0_E_momentum_persist_gte_0.75,(prior_high_break >= 1 AND momentum_persist >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_1.0_E_momentum_persist_gte_0.875,(prior_high_break >= 1 AND momentum_persist >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_1.0_E_momentum_persist_gte_1.0,(prior_high_break >= 1 AND momentum_persist >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_prior_high_break_gte_1.0_E_top5_rank_lte_1.0,(prior_high_break >= 1 AND top5_rank <= 1),short,mined_pool,50.0,6,23.08,13,60.0,5,37.5,24
+EX_AND_E_momentum_persist_gte_0.125_E_momentum_persist_gte_0.25,(momentum_persist >= 0.125 AND momentum_persist >= 0.25),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.125_E_momentum_persist_gte_0.375,(momentum_persist >= 0.125 AND momentum_persist >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.125_E_momentum_persist_gte_0.5,(momentum_persist >= 0.125 AND momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.125_E_momentum_persist_gte_0.625,(momentum_persist >= 0.125 AND momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.125_E_momentum_persist_gte_0.75,(momentum_persist >= 0.125 AND momentum_persist >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.125_E_momentum_persist_gte_0.875,(momentum_persist >= 0.125 AND momentum_persist >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.125_E_momentum_persist_gte_1.0,(momentum_persist >= 0.125 AND momentum_persist >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.125_E_top5_rank_lte_1.0,(momentum_persist >= 0.125 AND top5_rank <= 1),short,mined_pool,50.0,6,23.08,13,60.0,5,37.5,24
+EX_AND_E_momentum_persist_gte_0.25_E_momentum_persist_gte_0.375,(momentum_persist >= 0.25 AND momentum_persist >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.25_E_momentum_persist_gte_0.5,(momentum_persist >= 0.25 AND momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.25_E_momentum_persist_gte_0.625,(momentum_persist >= 0.25 AND momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.25_E_momentum_persist_gte_0.75,(momentum_persist >= 0.25 AND momentum_persist >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.25_E_momentum_persist_gte_0.875,(momentum_persist >= 0.25 AND momentum_persist >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.25_E_momentum_persist_gte_1.0,(momentum_persist >= 0.25 AND momentum_persist >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.25_E_top5_rank_lte_1.0,(momentum_persist >= 0.25 AND top5_rank <= 1),short,mined_pool,50.0,6,23.08,13,60.0,5,37.5,24
+EX_AND_E_momentum_persist_gte_0.375_E_momentum_persist_gte_0.5,(momentum_persist >= 0.375 AND momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.375_E_momentum_persist_gte_0.625,(momentum_persist >= 0.375 AND momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.375_E_momentum_persist_gte_0.75,(momentum_persist >= 0.375 AND momentum_persist >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.375_E_momentum_persist_gte_0.875,(momentum_persist >= 0.375 AND momentum_persist >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.375_E_momentum_persist_gte_1.0,(momentum_persist >= 0.375 AND momentum_persist >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.375_E_top5_rank_lte_1.0,(momentum_persist >= 0.375 AND top5_rank <= 1),short,mined_pool,50.0,6,23.08,13,60.0,5,37.5,24
+EX_AND_E_momentum_persist_gte_0.5_E_momentum_persist_gte_0.625,(momentum_persist >= 0.5 AND momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.5_E_momentum_persist_gte_0.75,(momentum_persist >= 0.5 AND momentum_persist >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.5_E_momentum_persist_gte_0.875,(momentum_persist >= 0.5 AND momentum_persist >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.5_E_momentum_persist_gte_1.0,(momentum_persist >= 0.5 AND momentum_persist >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.5_E_top5_rank_lte_1.0,(momentum_persist >= 0.5 AND top5_rank <= 1),short,mined_pool,50.0,6,23.08,13,60.0,5,37.5,24
+EX_AND_E_momentum_persist_gte_0.625_E_momentum_persist_gte_0.75,(momentum_persist >= 0.625 AND momentum_persist >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.625_E_momentum_persist_gte_0.875,(momentum_persist >= 0.625 AND momentum_persist >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.625_E_momentum_persist_gte_1.0,(momentum_persist >= 0.625 AND momentum_persist >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.625_E_top5_rank_lte_1.0,(momentum_persist >= 0.625 AND top5_rank <= 1),short,mined_pool,50.0,6,23.08,13,60.0,5,37.5,24
+EX_AND_E_momentum_persist_gte_0.75_E_momentum_persist_gte_0.875,(momentum_persist >= 0.75 AND momentum_persist >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.75_E_momentum_persist_gte_1.0,(momentum_persist >= 0.75 AND momentum_persist >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.75_E_top5_rank_lte_1.0,(momentum_persist >= 0.75 AND top5_rank <= 1),short,mined_pool,50.0,6,23.08,13,60.0,5,37.5,24
+EX_AND_E_momentum_persist_gte_0.875_E_momentum_persist_gte_1.0,(momentum_persist >= 0.875 AND momentum_persist >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_AND_E_momentum_persist_gte_0.875_E_top5_rank_lte_1.0,(momentum_persist >= 0.875 AND top5_rank <= 1),short,mined_pool,50.0,6,23.08,13,60.0,5,37.5,24
+EX_AND_E_momentum_persist_gte_1.0_E_top5_rank_lte_1.0,(momentum_persist >= 1 AND top5_rank <= 1),short,mined_pool,50.0,6,23.08,13,60.0,5,37.5,24
+EX_OR_E_direction_confidence_gte_1.0_E_prior_high_break_gte_0.125,(direction_confidence >= 1 OR prior_high_break >= 0.125),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_direction_confidence_gte_1.0_E_prior_high_break_gte_0.25,(direction_confidence >= 1 OR prior_high_break >= 0.25),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_direction_confidence_gte_1.0_E_prior_high_break_gte_0.375,(direction_confidence >= 1 OR prior_high_break >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_direction_confidence_gte_1.0_E_prior_high_break_gte_0.5,(direction_confidence >= 1 OR prior_high_break >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_direction_confidence_gte_1.0_E_prior_high_break_gte_0.625,(direction_confidence >= 1 OR prior_high_break >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_direction_confidence_gte_1.0_E_prior_high_break_gte_0.75,(direction_confidence >= 1 OR prior_high_break >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_direction_confidence_gte_1.0_E_prior_high_break_gte_0.875,(direction_confidence >= 1 OR prior_high_break >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_direction_confidence_gte_1.0_E_prior_high_break_gte_1.0,(direction_confidence >= 1 OR prior_high_break >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_direction_confidence_gte_1.0_E_momentum_persist_gte_0.125,(direction_confidence >= 1 OR momentum_persist >= 0.125),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_direction_confidence_gte_1.0_E_momentum_persist_gte_0.25,(direction_confidence >= 1 OR momentum_persist >= 0.25),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_direction_confidence_gte_1.0_E_momentum_persist_gte_0.375,(direction_confidence >= 1 OR momentum_persist >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_direction_confidence_gte_1.0_E_momentum_persist_gte_0.5,(direction_confidence >= 1 OR momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_direction_confidence_gte_1.0_E_momentum_persist_gte_0.625,(direction_confidence >= 1 OR momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.125_E_prior_high_break_gte_0.25,(prior_high_break >= 0.125 OR prior_high_break >= 0.25),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.125_E_prior_high_break_gte_0.375,(prior_high_break >= 0.125 OR prior_high_break >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.125_E_prior_high_break_gte_0.5,(prior_high_break >= 0.125 OR prior_high_break >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.125_E_prior_high_break_gte_0.625,(prior_high_break >= 0.125 OR prior_high_break >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.125_E_prior_high_break_gte_0.75,(prior_high_break >= 0.125 OR prior_high_break >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.125_E_prior_high_break_gte_0.875,(prior_high_break >= 0.125 OR prior_high_break >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.125_E_prior_high_break_gte_1.0,(prior_high_break >= 0.125 OR prior_high_break >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.125_E_momentum_persist_gte_0.125,(prior_high_break >= 0.125 OR momentum_persist >= 0.125),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.125_E_momentum_persist_gte_0.25,(prior_high_break >= 0.125 OR momentum_persist >= 0.25),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.125_E_momentum_persist_gte_0.375,(prior_high_break >= 0.125 OR momentum_persist >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.125_E_momentum_persist_gte_0.5,(prior_high_break >= 0.125 OR momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.125_E_momentum_persist_gte_0.625,(prior_high_break >= 0.125 OR momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.25_E_prior_high_break_gte_0.375,(prior_high_break >= 0.25 OR prior_high_break >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.25_E_prior_high_break_gte_0.5,(prior_high_break >= 0.25 OR prior_high_break >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.25_E_prior_high_break_gte_0.625,(prior_high_break >= 0.25 OR prior_high_break >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.25_E_prior_high_break_gte_0.75,(prior_high_break >= 0.25 OR prior_high_break >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.25_E_prior_high_break_gte_0.875,(prior_high_break >= 0.25 OR prior_high_break >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.25_E_prior_high_break_gte_1.0,(prior_high_break >= 0.25 OR prior_high_break >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.25_E_momentum_persist_gte_0.125,(prior_high_break >= 0.25 OR momentum_persist >= 0.125),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.25_E_momentum_persist_gte_0.25,(prior_high_break >= 0.25 OR momentum_persist >= 0.25),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.25_E_momentum_persist_gte_0.375,(prior_high_break >= 0.25 OR momentum_persist >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.25_E_momentum_persist_gte_0.5,(prior_high_break >= 0.25 OR momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.25_E_momentum_persist_gte_0.625,(prior_high_break >= 0.25 OR momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.375_E_prior_high_break_gte_0.5,(prior_high_break >= 0.375 OR prior_high_break >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.375_E_prior_high_break_gte_0.625,(prior_high_break >= 0.375 OR prior_high_break >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.375_E_prior_high_break_gte_0.75,(prior_high_break >= 0.375 OR prior_high_break >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.375_E_prior_high_break_gte_0.875,(prior_high_break >= 0.375 OR prior_high_break >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.375_E_prior_high_break_gte_1.0,(prior_high_break >= 0.375 OR prior_high_break >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.375_E_momentum_persist_gte_0.125,(prior_high_break >= 0.375 OR momentum_persist >= 0.125),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.375_E_momentum_persist_gte_0.25,(prior_high_break >= 0.375 OR momentum_persist >= 0.25),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.375_E_momentum_persist_gte_0.375,(prior_high_break >= 0.375 OR momentum_persist >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.375_E_momentum_persist_gte_0.5,(prior_high_break >= 0.375 OR momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.375_E_momentum_persist_gte_0.625,(prior_high_break >= 0.375 OR momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.5_E_prior_high_break_gte_0.625,(prior_high_break >= 0.5 OR prior_high_break >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.5_E_prior_high_break_gte_0.75,(prior_high_break >= 0.5 OR prior_high_break >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.5_E_prior_high_break_gte_0.875,(prior_high_break >= 0.5 OR prior_high_break >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.5_E_prior_high_break_gte_1.0,(prior_high_break >= 0.5 OR prior_high_break >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.5_E_momentum_persist_gte_0.125,(prior_high_break >= 0.5 OR momentum_persist >= 0.125),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.5_E_momentum_persist_gte_0.25,(prior_high_break >= 0.5 OR momentum_persist >= 0.25),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.5_E_momentum_persist_gte_0.375,(prior_high_break >= 0.5 OR momentum_persist >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.5_E_momentum_persist_gte_0.5,(prior_high_break >= 0.5 OR momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.5_E_momentum_persist_gte_0.625,(prior_high_break >= 0.5 OR momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.625_E_prior_high_break_gte_0.75,(prior_high_break >= 0.625 OR prior_high_break >= 0.75),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.625_E_prior_high_break_gte_0.875,(prior_high_break >= 0.625 OR prior_high_break >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.625_E_prior_high_break_gte_1.0,(prior_high_break >= 0.625 OR prior_high_break >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.625_E_momentum_persist_gte_0.125,(prior_high_break >= 0.625 OR momentum_persist >= 0.125),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.625_E_momentum_persist_gte_0.25,(prior_high_break >= 0.625 OR momentum_persist >= 0.25),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.625_E_momentum_persist_gte_0.375,(prior_high_break >= 0.625 OR momentum_persist >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.625_E_momentum_persist_gte_0.5,(prior_high_break >= 0.625 OR momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.625_E_momentum_persist_gte_0.625,(prior_high_break >= 0.625 OR momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.75_E_prior_high_break_gte_0.875,(prior_high_break >= 0.75 OR prior_high_break >= 0.875),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.75_E_prior_high_break_gte_1.0,(prior_high_break >= 0.75 OR prior_high_break >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.75_E_momentum_persist_gte_0.125,(prior_high_break >= 0.75 OR momentum_persist >= 0.125),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.75_E_momentum_persist_gte_0.25,(prior_high_break >= 0.75 OR momentum_persist >= 0.25),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.75_E_momentum_persist_gte_0.375,(prior_high_break >= 0.75 OR momentum_persist >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.75_E_momentum_persist_gte_0.5,(prior_high_break >= 0.75 OR momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.75_E_momentum_persist_gte_0.625,(prior_high_break >= 0.75 OR momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.875_E_prior_high_break_gte_1.0,(prior_high_break >= 0.875 OR prior_high_break >= 1),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.875_E_momentum_persist_gte_0.125,(prior_high_break >= 0.875 OR momentum_persist >= 0.125),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.875_E_momentum_persist_gte_0.25,(prior_high_break >= 0.875 OR momentum_persist >= 0.25),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.875_E_momentum_persist_gte_0.375,(prior_high_break >= 0.875 OR momentum_persist >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.875_E_momentum_persist_gte_0.5,(prior_high_break >= 0.875 OR momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_0.875_E_momentum_persist_gte_0.625,(prior_high_break >= 0.875 OR momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_1.0_E_momentum_persist_gte_0.125,(prior_high_break >= 1 OR momentum_persist >= 0.125),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_1.0_E_momentum_persist_gte_0.25,(prior_high_break >= 1 OR momentum_persist >= 0.25),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_1.0_E_momentum_persist_gte_0.375,(prior_high_break >= 1 OR momentum_persist >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_1.0_E_momentum_persist_gte_0.5,(prior_high_break >= 1 OR momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_prior_high_break_gte_1.0_E_momentum_persist_gte_0.625,(prior_high_break >= 1 OR momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_momentum_persist_gte_0.125_E_momentum_persist_gte_0.25,(momentum_persist >= 0.125 OR momentum_persist >= 0.25),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_momentum_persist_gte_0.125_E_momentum_persist_gte_0.375,(momentum_persist >= 0.125 OR momentum_persist >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_momentum_persist_gte_0.125_E_momentum_persist_gte_0.5,(momentum_persist >= 0.125 OR momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_momentum_persist_gte_0.125_E_momentum_persist_gte_0.625,(momentum_persist >= 0.125 OR momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_momentum_persist_gte_0.25_E_momentum_persist_gte_0.375,(momentum_persist >= 0.25 OR momentum_persist >= 0.375),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_momentum_persist_gte_0.25_E_momentum_persist_gte_0.5,(momentum_persist >= 0.25 OR momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_momentum_persist_gte_0.25_E_momentum_persist_gte_0.625,(momentum_persist >= 0.25 OR momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_momentum_persist_gte_0.375_E_momentum_persist_gte_0.5,(momentum_persist >= 0.375 OR momentum_persist >= 0.5),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_momentum_persist_gte_0.375_E_momentum_persist_gte_0.625,(momentum_persist >= 0.375 OR momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_OR_E_momentum_persist_gte_0.5_E_momentum_persist_gte_0.625,(momentum_persist >= 0.5 OR momentum_persist >= 0.625),short,mined_pool,50.0,6,46.15,13,60.0,5,50.0,24
+EX_NOT_E_prior_high_break_gte_0.125,NOT (prior_high_break >= 0.125),short,mined_pool,50.0,6,61.54,13,40.0,5,54.17,24
+EX_NOT_E_prior_high_break_gte_0.25,NOT (prior_high_break >= 0.25),short,mined_pool,50.0,6,61.54,13,40.0,5,54.17,24
+EX_NOT_E_prior_high_break_gte_0.375,NOT (prior_high_break >= 0.375),short,mined_pool,50.0,6,61.54,13,40.0,5,54.17,24
+EX_NOT_E_prior_high_break_gte_0.5,NOT (prior_high_break >= 0.5),short,mined_pool,50.0,6,61.54,13,40.0,5,54.17,24
+EX_NOT_E_prior_high_break_gte_0.625,NOT (prior_high_break >= 0.625),short,mined_pool,50.0,6,61.54,13,40.0,5,54.17,24
+EX_NOT_E_prior_high_break_gte_0.75,NOT (prior_high_break >= 0.75),short,mined_pool,50.0,6,61.54,13,40.0,5,54.17,24
+EX_NOT_E_prior_high_break_gte_0.875,NOT (prior_high_break >= 0.875),short,mined_pool,50.0,6,61.54,13,40.0,5,54.17,24
+EX_NOT_E_prior_high_break_gte_1.0,NOT (prior_high_break >= 1),short,mined_pool,50.0,6,61.54,13,40.0,5,54.17,24
+EX_NOT_E_momentum_persist_gte_0.125,NOT (momentum_persist >= 0.125),short,mined_pool,50.0,6,61.54,13,40.0,5,54.17,24

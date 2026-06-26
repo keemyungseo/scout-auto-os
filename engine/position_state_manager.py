@@ -1,4 +1,4 @@
-"""Position State Manager — entry baseline, 30m review, live state cache (V1.4)."""
+"""Position State Manager — entry baseline, review, position evaluation (V1)."""
 
 from __future__ import annotations
 
@@ -10,6 +10,8 @@ from pathlib import Path
 
 from scout_research_r006_pilot_execution_engine import Bar
 
+from scout_auto_os.engine.position_evaluation.manual_guard import is_protected
+from scout_auto_os.engine.position_evaluation.runner import PositionEvaluationRunner
 from scout_auto_os.engine.position_review_store import PositionReviewStore
 from scout_auto_os.engine.state_engine import AliveScore, compute_alive_score
 from scout_auto_os.engine.state_exit_engine import StateExitEngine, StateExitDecision
@@ -32,6 +34,7 @@ class PositionStateManager:
         self.exit_alive = float(sc.get("exit_alive_score", 45))
         self.store = PositionReviewStore(data_dir)
         self.exit_engine = StateExitEngine(config)
+        self.evaluation = PositionEvaluationRunner(config, data_dir)
         self.cache_path = data_dir / "position_state_cache.json"
         self._entry: dict[str, dict] = {}
         self._current: dict[str, dict] = {}
@@ -64,38 +67,67 @@ class PositionStateManager:
         except ValueError:
             return 0
 
-    def _score(self, bars: list[Bar]) -> AliveScore | None:
-        return compute_alive_score(bars, 0, self.hold_alive, self.exit_alive)
+    def _score(self, bars: list[Bar], side: str = "LONG") -> AliveScore | None:
+        return compute_alive_score(bars, 0, self.hold_alive, self.exit_alive, side=side)
 
-    def register_entry(self, position_id: str, symbol: str, entry_time: str, bars: list[Bar]) -> AliveScore | None:
-        score = self._score(bars)
+    def create_thesis_for_position(self, position: dict) -> str:
+        thesis = self.evaluation.create_thesis_for_position(
+            position["position_id"],
+            position["symbol"],
+            position["side"],
+            position["entry_time"],
+            float(position["entry_price"]),
+            source=position.get("source", "BOT"),
+            auto_manage=bool(int(position.get("auto_manage", 1))),
+            engine=position.get("engine", ""),
+            entry_score=float(position.get("a6_score") or 0),
+            manual_lock=bool(int(position.get("manual_lock", 0))),
+        )
+        return thesis.thesis_id
+
+    def register_entry(
+        self,
+        position_id: str,
+        symbol: str,
+        entry_time: str,
+        bars: list[Bar],
+        side: str = "LONG",
+    ) -> AliveScore | None:
+        score = self._score(bars, side)
         if not score:
             return None
         self._entry[position_id] = {
             "symbol": symbol,
             "entry_time": entry_time,
+            "side": side,
             "score": score.to_dict(),
         }
         self._current[position_id] = score.to_dict()
         self._last_review[position_id] = time.time()
         self._save_cache()
         print(
-            f"[STATE ENGINE] entry registered {symbol} alive_score={score.alive_score} "
+            f"[STATE ENGINE] entry registered {symbol} side={side} alive_score={score.alive_score} "
             f"rec={score.hold_recommendation}"
         )
         return score
 
-    def bootstrap_missing(self, position_id: str, symbol: str, entry_time: str) -> None:
-        """Rehydrate entry baseline for positions opened before restart."""
+    def bootstrap_missing(self, position_id: str, symbol: str, entry_time: str, side: str = "LONG") -> None:
         if position_id in self._entry:
             return
         bars = self.get_bars_fn(symbol, entry_time)
         if bars:
-            self.register_entry(position_id, symbol, entry_time, bars)
+            self.register_entry(position_id, symbol, entry_time, bars, side=side)
 
-    def update_current(self, position_id: str, symbol: str, entry_time: str, bars: list[Bar]) -> AliveScore | None:
-        self.bootstrap_missing(position_id, symbol, entry_time)
-        score = self._score(bars)
+    def update_current(
+        self,
+        position_id: str,
+        symbol: str,
+        entry_time: str,
+        bars: list[Bar],
+        side: str = "LONG",
+    ) -> AliveScore | None:
+        self.bootstrap_missing(position_id, symbol, entry_time, side=side)
+        score = self._score(bars, side)
         if score:
             self._current[position_id] = score.to_dict()
             self._save_cache()
@@ -109,25 +141,37 @@ class PositionStateManager:
     ) -> StateExitDecision | None:
         pid = position["position_id"]
         sym = position["symbol"]
+        side = position.get("side", "LONG")
         entry_time = position["entry_time"]
-        self.bootstrap_missing(pid, sym, entry_time)
+        self.bootstrap_missing(pid, sym, entry_time, side=side)
 
         entry_raw = self._entry.get(pid, {}).get("score", {}) if pid in self._entry else {}
-        if not entry_raw:
+        if not entry_raw and not is_protected(position):
             return None
-        entry_score = AliveScore.from_dict(entry_raw)
-        current = self.update_current(pid, sym, entry_time, bars)
-        if not current or not entry_score:
+        entry_score = AliveScore.from_dict(entry_raw) if entry_raw else None
+        current = self.update_current(pid, sym, entry_time, bars, side=side)
+        if not current and not is_protected(position):
             return None
 
         hold = self.hold_minutes(entry_time)
         now = time.time()
         due = now - self._last_review.get(pid, 0) >= self.review_interval_sec
 
-        decision = self.exit_engine.evaluate(bars, position["entry_price"], entry_score, current, hold)
-        review_reason = decision.review_reason or current.hold_recommendation
+        state_decision = StateExitDecision(False)
+        if entry_score and current:
+            state_decision = self.exit_engine.evaluate(
+                bars, position["entry_price"], entry_score, current, hold, side=side,
+            )
 
-        if due or decision.should_exit:
+        position = {**position, "current_price": bars[-1].c if bars else position.get("current_price")}
+        pe_decision, merged = self.evaluation.evaluate_position(
+            position, bars, pnl_pct, state_decision,
+        )
+
+        review_reason = merged.review_reason if merged else (state_decision.review_reason if state_decision else "")
+        should_log = due or (merged and merged.should_exit) or is_protected(position)
+
+        if should_log and current and entry_score:
             delta = round(current.alive_score - entry_score.alive_score, 2)
             row = {
                 "review_time_kst": now_kst(),
@@ -148,22 +192,26 @@ class PositionStateManager:
                 "exhaustion_current": current.exhaustion,
                 "hold_recommendation": current.hold_recommendation,
                 "review_reason": review_reason,
-                "exit_reason": decision.reason if decision.should_exit else "",
+                "exit_reason": merged.reason if merged and merged.should_exit else "",
                 "unrealized_pnl_pct": round(pnl_pct, 4),
             }
             self.store.append(row)
             self._last_review[pid] = now
+            action = pe_decision.action if pe_decision else review_reason
             print(
                 f"[STATE REVIEW] {sym} hold={hold}m alive={current.alive_score} "
-                f"delta={delta:+.1f} rec={current.hold_recommendation}"
+                f"delta={delta:+.1f} action={action}"
             )
 
-        return decision if decision.should_exit else None
+        if merged and merged.should_exit:
+            return merged
+        return None
 
     def on_close(self, position_id: str) -> None:
         self._entry.pop(position_id, None)
         self._current.pop(position_id, None)
         self._last_review.pop(position_id, None)
+        self.evaluation.on_close(position_id)
         self._save_cache()
 
     def live_summary(self, position_id: str, symbol: str, entry_time: str, hold_min: int) -> dict:
@@ -178,6 +226,7 @@ class PositionStateManager:
                 "hold_minutes": hold_min,
             }
         delta = round(float(cur.get("alive_score", 0)) - float(ent.get("alive_score", 0)), 1) if ent else "n/a"
+        thesis = self.evaluation.store.get_by_position(position_id)
         return {
             "symbol": symbol,
             "alive_score": cur.get("alive_score", "n/a"),
@@ -185,6 +234,7 @@ class PositionStateManager:
             "alive_delta": delta,
             "exhaustion": cur.get("exhaustion", 0),
             "hold_minutes": hold_min,
+            "thesis_id": thesis.thesis_id if thesis else "",
         }
 
     def summaries_for_open(self, open_positions: list[dict]) -> list[dict]:

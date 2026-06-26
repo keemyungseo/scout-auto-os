@@ -1,0 +1,4 @@
+fold_id,split_type,direction,scan_groups,rule_trade_count,baseline_trade_count,rule_avg_return_2h,baseline_avg_return_2h,rule_win_rate_pct,baseline_win_rate_pct,rule_return_per_day,baseline_return_per_day,rule_mdd_pct,baseline_mdd_pct,rule_sharpe,baseline_sharpe,rule_beats_baseline,coverage_pct
+wf_2026-06-01,walk_forward,long,4,7,7,-4.467,-6.0037,42.86,42.86,-10.4229,-14.0087,-55.889,-66.6464,-0.5387,-0.6846,True,50.0
+wf_2026-06-08,walk_forward,long,6,10,10,15.6903,12.8428,60.0,50.0,52.3011,42.8093,-18.5452,-18.5452,2.3264,1.7154,True,42.86
+wf_2026-06-15,walk_forward,long,2,4,4,-0.9178,-0.9178,25.0,25.0,-3.6711,-3.6711,-36.196,-36.196,-0.0937,-0.0937,True,50.0

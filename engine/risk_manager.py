@@ -39,6 +39,21 @@ class RiskManager:
             return False, "daily_loss_limit"
         return True, "ok"
 
+    def can_enter_short(self, slots_used: int) -> tuple[bool, str]:
+        if self.kill_switch or not self._new_entries_allowed:
+            return False, "kill_switch_active"
+        max_short = int(self.position_cfg.get("max_short_slots", 0))
+        if max_short <= 0:
+            return False, "short_disabled"
+        if slots_used >= max_short:
+            return False, "max_short_slots"
+        total_used = slots_used  # caller should pass combined if needed
+        if total_used >= int(self.position_cfg["max_total_slots"]):
+            return False, "max_total_slots"
+        if self._daily_loss_breached():
+            return False, "daily_loss_limit"
+        return True, "ok"
+
     def _daily_loss_breached(self) -> bool:
         limit = float(self.risk.get("daily_loss_limit_pct", -10))
         today = now_kst()[:10]

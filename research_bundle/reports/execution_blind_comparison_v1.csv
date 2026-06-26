@@ -1,0 +1,7 @@
+strategy,direction,split,trade_count,avg_return_2h,median_return_2h,win_rate_pct,total_return_2h,lift_vs_top5_pct,lift_vs_entry_top2_pct
+top5_all,long,blind,15,6.9971,1.3267,46.67,104.9562,,
+top2_entry_score,long,blind,14,8.7159,5.6377,50.0,122.0231,,
+top2_execution,long,blind,14,9.6908,5.6377,50.0,135.6713,38.5,11.19
+top5_all,short,blind,17,-3.2239,8.0139,52.94,-54.8069,,
+top2_entry_score,short,blind,16,-4.1201,3.3436,50.0,-65.9221,,
+top2_execution,short,blind,16,-4.4921,3.3436,50.0,-71.8738,-39.34,-9.03

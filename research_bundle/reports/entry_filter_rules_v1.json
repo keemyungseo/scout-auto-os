@@ -1,0 +1,77 @@
+{
+  "version": "v1",
+  "long": {
+    "logic": "AND",
+    "conditions": [
+      {
+        "feature": "1h_current_return_pct",
+        "operator": "gte",
+        "threshold": 17.579276,
+        "use_in_filter": true,
+        "f1": 0.2157,
+        "lift": 4.4098
+      },
+      {
+        "feature": "1h_current_body_pct",
+        "operator": "gte",
+        "threshold": 13.83363,
+        "use_in_filter": true,
+        "f1": 0.3056,
+        "lift": 4.4694
+      },
+      {
+        "feature": "1h_current_range_pct",
+        "operator": "gte",
+        "threshold": 26.929756,
+        "use_in_filter": true,
+        "f1": 0.1436,
+        "lift": 4.3848
+      },
+      {
+        "feature": "2h_current_body_pct",
+        "operator": "gte",
+        "threshold": 22.121308,
+        "use_in_filter": true,
+        "f1": 0.2464,
+        "lift": 4.0716
+      }
+    ]
+  },
+  "short": {
+    "logic": "AND",
+    "conditions": [
+      {
+        "feature": "1h_current_return_pct",
+        "operator": "lte",
+        "threshold": -11.76382,
+        "use_in_filter": true,
+        "f1": 0.3005,
+        "lift": 4.7164
+      },
+      {
+        "feature": "1h_current_body_pct",
+        "operator": "gte",
+        "threshold": 10.89637,
+        "use_in_filter": true,
+        "f1": 0.3482,
+        "lift": 4.343
+      },
+      {
+        "feature": "2h_current_return_pct",
+        "operator": "lte",
+        "threshold": -20.089984,
+        "use_in_filter": true,
+        "f1": 0.1538,
+        "lift": 4.698
+      },
+      {
+        "feature": "1h_current_range_pct",
+        "operator": "gte",
+        "threshold": 17.41933,
+        "use_in_filter": true,
+        "f1": 0.366,
+        "lift": 3.8479
+      }
+    ]
+  }
+}

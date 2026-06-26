@@ -1,0 +1,33 @@
+label_id,label_name,category,rank_key,avg_return_2h,top2_avg_return_2h,top5_avg_return_2h,win_rate,sharpe,rank_ndcg5,rank_p5,label_rank,vs_baseline_pct,beats_baseline
+return_minus_dd,Return + drawdown (2h),risk_adjusted,return_minus_dd,5.2608,8.5783,5.2608,54.78,11.149,0.7414,0.4509,1,9.82,True
+drawdown_resilience,Return minus abs drawdown,risk_adjusted,drawdown_resilience,5.2608,8.5783,5.2608,54.78,11.149,0.7414,0.4509,2,9.82,True
+return_2h,2h close return,return,return_2h,5.0314,8.2223,5.0314,55.88,10.1092,0.8261,0.5382,3,5.04,True
+return_4h,4h close return,return,return_4h,4.8957,8.0263,4.8957,55.51,9.6724,0.9234,0.5782,4,2.2,True
+avg_return_multi,Multi-horizon average return,return,avg_return_multi,4.8474,8.2508,4.8474,55.15,9.5798,0.8455,0.5564,5,1.19,True
+hit_3pct,Hit 3% at 2h close,binary,hit_3pct,4.8109,7.2017,4.8109,51.84,10.3422,0.6687,0.4509,6,0.43,True
+label_success_2h,Success flag (>=3% 2h),binary,hit_3pct,4.8109,7.2017,4.8109,51.84,10.3422,0.6687,0.4509,7,0.43,True
+breakout_success,"Breakout success (MFE>=4, close>=2)",binary,breakout_success,4.8038,6.3854,4.8038,53.68,10.5924,0.6448,0.4582,8,0.28,True
+baseline_max_up_4h,Baseline max_up_4h (Ranking V1),baseline,max_up_4h,4.7902,7.5366,4.7902,52.94,9.1936,0.9664,0.5927,9,0.0,False
+peak_efficiency,Close return / MFE,efficiency,peak_efficiency,4.7899,6.7669,4.7899,48.9,10.7536,0.6506,0.4145,10,-0.01,False
+return_1h,1h close return,return,return_1h,4.6376,7.5966,4.6376,50.0,9.9799,0.5844,0.3673,11,-3.19,False
+return_6h,6h close return,return,return_6h,4.612,8.0487,4.612,51.84,8.8588,0.8853,0.5709,12,-3.72,False
+momentum_persist,Momentum persistence,persistence,momentum_persist,4.6074,7.5966,4.6074,49.63,9.8869,0.5764,0.3564,13,-3.82,False
+max_up_6h,6h max favorable excursion,mfe,max_up_6h,4.5729,7.6036,4.5729,54.78,8.6094,0.9405,0.5818,14,-4.54,False
+max_up_2h,2h max favorable excursion,mfe,max_up_2h,4.4558,7.5423,4.4558,51.47,8.4968,0.8336,0.5345,15,-6.98,False
+mfe_2h,MFE alias (2h),mfe,mfe_2h,4.4558,7.5423,4.4558,51.47,8.4968,0.8336,0.5345,16,-6.98,False
+intrabar_sharpe,Intrabar Sharpe (2h window),risk_adjusted,intrabar_sharpe,4.3708,7.1886,4.3708,45.22,9.649,0.6292,0.4109,17,-8.76,False
+return_12h,12h close return,return,return_12h,4.3675,6.2893,4.3675,51.1,8.3549,0.725,0.5091,18,-8.82,False
+max_return_multi,Multi-horizon max return,return,max_return_multi,4.272,8.326,4.272,50.37,8.0265,0.8996,0.5564,19,-10.82,False
+max_up_12h,12h max favorable excursion,mfe,max_up_12h,4.211,7.8626,4.211,50.37,7.8117,0.9032,0.5564,20,-12.09,False
+return_per_risk,Return / |drawdown|,risk_adjusted,return_per_risk,4.2009,5.3737,4.2009,44.12,10.2405,0.4348,0.3018,21,-12.3,False
+return_30m,30m close return,return,return_30m,3.9613,6.0408,3.9613,43.75,8.6771,0.4926,0.3018,22,-17.3,False
+intrabar_sortino,Intrabar Sortino (2h window),risk_adjusted,intrabar_sortino,3.9469,5.8965,3.9469,45.59,9.6306,0.6192,0.4109,23,-17.6,False
+time_to_3pct_score,Faster 3% hit,timing,time_to_3pct_score,3.8897,5.3349,3.8897,46.32,8.4329,0.546,0.4,24,-18.8,False
+max_up_1h,1h max favorable excursion,mfe,max_up_1h,3.8021,6.8634,3.8021,47.43,6.8439,0.6604,0.4436,25,-20.63,False
+uptrend_duration,Uptrend bar duration,persistence,uptrend_duration,3.7757,5.4989,3.7757,43.75,8.4655,0.4205,0.28,26,-21.18,False
+recovery_speed,Return minus MAE,efficiency,recovery_speed,3.4151,6.7583,3.4151,49.26,5.7309,0.8486,0.5345,27,-28.71,False
+max_up_30m,30m max favorable excursion,mfe,max_up_30m,3.3454,5.1794,3.3454,43.01,6.3267,0.5278,0.3709,28,-30.16,False
+hit_max_3pct,Hit 3% MFE within 2h,binary,hit_max_3pct,3.2954,4.2929,3.2954,38.97,7.7689,0.5408,0.3855,29,-31.21,False
+mae_2h,"MAE (2h, lower better)",mae,mae_2h,2.887,3.2421,2.887,33.09,9.5813,0.2435,0.1855,30,-39.73,False
+max_drawdown_2h,Max drawdown (less negative better),mae,max_drawdown_2h,-1.9875,-5.1857,-1.9875,16.54,-4.0333,0.3305,0.2473,31,-141.49,False
+time_to_peak_score,Faster peak (inverted time),timing,time_to_peak_score,-2.3317,-2.7068,-2.3317,5.15,-9.03,0.0676,0.0691,32,-148.68,False

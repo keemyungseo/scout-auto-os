@@ -1,0 +1,20 @@
+label_rank,label_id,label_name,category,avg_return_2h,top2_avg_return_2h,win_rate,sharpe,rank_ndcg5,rank_p5,vs_baseline_pct,beats_baseline
+1,risk_adjusted_short,Risk adjusted short,risk_adjusted,3.5443,5.8814,41.54,10.463,0.4397,0.1636,99.05,True
+2,return_short_1h,1h short return,return,3.5225,5.4574,40.81,10.7093,0.4715,0.1455,97.83,True
+3,return_short_2h,2h short close return,return,3.4756,5.4393,41.91,9.025,0.4514,0.1564,95.19,True
+4,return_plus_dd,Short return minus drawup,risk_adjusted,3.2367,5.4699,38.6,8.7548,0.4659,0.16,81.78,True
+5,drawup_resilience,Drawup resilience,risk_adjusted,3.2367,5.4699,38.6,8.7548,0.4659,0.16,81.78,True
+6,distribution_success,Distribution success,binary,3.1739,4.425,36.76,8.7678,0.5251,0.1818,78.25,True
+7,hit_short_3pct,Hit 3% short at 2h,binary,3.1228,5.5616,38.6,8.1286,0.4631,0.1891,75.38,True
+8,capitulation_fade,Capitulation fade,binary,2.9323,3.8906,37.13,10.5777,0.5123,0.1745,64.68,True
+9,return_per_risk_short,Short return / adverse,risk_adjusted,2.8895,4.0656,30.88,9.3269,0.465,0.16,62.28,True
+10,intrabar_sharpe_short,Intrabar short Sharpe,risk_adjusted,2.7793,3.5552,31.25,9.0037,0.4305,0.1455,56.09,True
+11,return_short_4h,4h short return,return,2.6274,5.2471,39.34,5.8351,0.4809,0.1927,47.56,True
+12,mae_short_2h,Max adverse (drawup),mae,2.2513,2.8642,25.0,9.7095,0.4715,0.1527,26.43,True
+13,max_up_adverse_2h,Max drawup 2h (lower better),mae,2.2513,2.8642,25.0,9.7095,0.4715,0.1527,26.43,True
+14,return_short_30m,30m short return,return,2.1523,3.0397,29.78,5.9774,0.5026,0.1927,20.87,True
+15,baseline_max_down_2h,Baseline max_down_2h (MFE down),baseline,1.7806,4.6907,37.5,3.3298,0.4786,0.1709,0.0,False
+16,max_down_2h,2h max favorable down,mfe,1.7806,4.6907,37.5,3.3298,0.4786,0.1709,0.0,False
+17,return_short_6h,6h short return,return,1.6296,3.5422,37.13,3.1374,0.4899,0.2,-8.48,False
+18,max_down_4h,4h max favorable down,mfe,1.5155,4.5304,36.76,2.9159,0.4562,0.2073,-14.89,False
+19,max_down_6h,6h max favorable down,mfe,1.1356,3.16,36.4,2.148,0.447,0.1891,-36.22,False

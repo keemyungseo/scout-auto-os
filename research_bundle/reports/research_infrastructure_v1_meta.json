@@ -1,0 +1,117 @@
+{
+  "constitution": {
+    "features": "ranking_engine_v1",
+    "model": "catboost_ranker",
+    "label": "return_minus_dd",
+    "tuning": "forbidden"
+  },
+  "import": {
+    "calendar": {
+      "start_date": "2026-06-01",
+      "end_date": "2026-06-15",
+      "calendar_days": 15,
+      "scan_count": 180,
+      "sample_count": 6536,
+      "feature_count": 170,
+      "symbols_per_scan_avg": 36.31,
+      "target_calendar_days": 90,
+      "meets_3month_target": false,
+      "data_source": "C:\\Users\\user\\Desktop\\Project solo\\scout_auto_os\\research_bundle\\seed\\candidates.jsonl",
+      "constitution": {
+        "features": "ranking_engine_v1",
+        "model": "catboost_ranker",
+        "label": "return_minus_dd"
+      }
+    },
+    "feature_count": 170,
+    "archive": {
+      "archived_candidates": 6536,
+      "scan_count": 180,
+      "model": "catboost_ranker_frozen",
+      "label": "return_minus_dd"
+    },
+    "labels": {
+      "labeled_rows": 6536,
+      "labeled_scans": 180
+    },
+    "total_scans": 180,
+    "total_samples": 6536
+  },
+  "status": {
+    "dataset_version": "scout_constitution_v1",
+    "start_date": "2026-06-01",
+    "end_date": "2026-06-15",
+    "calendar_days": 15,
+    "scan_count": 180,
+    "sample_count": 6536,
+    "labeled_count": 6536,
+    "label_coverage_pct": 100.0,
+    "validation_90d_ready": false,
+    "live_validation_ready": false,
+    "days_to_90d": 75,
+    "days_to_live_validation": 75
+  },
+  "readiness": {
+    "can_validate_90d": false,
+    "can_live_validate": false,
+    "days_remaining_90d": 75,
+    "days_remaining_live": 75,
+    "regime_gaps_count": 4,
+    "weakest_regimes": [
+      {
+        "regime_axis": "volatility",
+        "regime": "low_volatility",
+        "scan_count": 8,
+        "sufficient": false,
+        "gap_scans_needed": 2
+      },
+      {
+        "regime_axis": "structure",
+        "regime": "breakout",
+        "scan_count": 1,
+        "sufficient": false,
+        "gap_scans_needed": 9
+      },
+      {
+        "regime_axis": "ecology",
+        "regime": "Bottom",
+        "scan_count": 1,
+        "sufficient": false,
+        "gap_scans_needed": 9
+      },
+      {
+        "regime_axis": "ecology",
+        "regime": "Breakout",
+        "scan_count": 1,
+        "sufficient": false,
+        "gap_scans_needed": 9
+      }
+    ],
+    "window_90_scans": 180
+  },
+  "quality": {
+    "passed": true,
+    "duplicate_count": 0,
+    "missing_label_scans": 0,
+    "leak_feature_count": 0,
+    "label_error_count": 0,
+    "orphan_label_count": 0,
+    "summary": "PASS - all integrity checks passed"
+  },
+  "decision": {
+    "q1_90d_validation": "**NO** - 15d available, need 75d more for 90d blind validation.",
+    "q2_regime_gaps": "**4 insufficient buckets** - weakest: volatility/low_volatility (need +2), structure/breakout (need +9), ecology/Bottom (need +9), ecology/Breakout (need +9).",
+    "q3_days_to_live": "**75 calendar days** (+ regime coverage) before LIVE validation at 90d target. Recommend 75d shadow accumulation minimum.",
+    "q4_auto_accumulation": "**YES** - SQLite history DB + append_scan API + forward_labeler can grow dataset without new research code. Run runner after each scan batch.",
+    "auto_ready": true
+  },
+  "parquet_files": [
+    "C:\\Users\\user\\Desktop\\Project solo\\scout_auto_os\\data\\research_infrastructure\\parquet\\scans.parquet",
+    "C:\\Users\\user\\Desktop\\Project solo\\scout_auto_os\\data\\research_infrastructure\\parquet\\candidates.parquet",
+    "C:\\Users\\user\\Desktop\\Project solo\\scout_auto_os\\data\\research_infrastructure\\parquet\\forward_labels.parquet",
+    "C:\\Users\\user\\Desktop\\Project solo\\scout_auto_os\\data\\research_infrastructure\\parquet\\calendar_daily.parquet",
+    "C:\\Users\\user\\Desktop\\Project solo\\scout_auto_os\\data\\research_infrastructure\\parquet\\calendar_weekly.parquet",
+    "C:\\Users\\user\\Desktop\\Project solo\\scout_auto_os\\data\\research_infrastructure\\parquet\\calendar_monthly.parquet"
+  ],
+  "generated_at": "2026-06-26T08:33:16.720382+09:00"
+}

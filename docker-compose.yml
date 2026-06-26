@@ -8,3 +8,22 @@ services:
     volumes:
       - ./data:/app/data
       - ./logs:/app/logs
+
+  command-center:
+    build: .
+    container_name: scout-command-center
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    ports:
+      - "8787:8787"
+    command:
+      - python
+      - scout_auto_os/scripts/run_control_api_v1.py
+      - --host
+      - "0.0.0.0"
+      - --port
+      - "8787"

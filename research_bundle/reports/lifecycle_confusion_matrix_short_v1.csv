@@ -1,0 +1,9 @@
+true_label,pred_Continuous Trend,pred_Delayed Breakout,pred_Fake Breakout,pred_Immediate Explosion,pred_Late Runner,pred_Slow Trend,pred_Unclassified,pred_V-Reversal,true_total
+Continuous Trend,0,3,1,2,2,2,1,1,12
+Delayed Breakout,2,7,3,0,3,1,2,1,19
+Fake Breakout,8,24,16,10,12,5,12,7,94
+Immediate Explosion,1,0,0,1,1,2,0,1,6
+Late Runner,11,8,7,3,12,9,18,5,73
+Slow Trend,8,5,3,4,4,2,7,1,34
+Unclassified,4,8,2,1,2,3,10,0,30
+V-Reversal,0,1,3,0,0,0,0,0,4

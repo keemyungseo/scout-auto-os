@@ -22,12 +22,21 @@ short_engine:
   shadow_mode: true
 
 position:
-  max_long_slots: 2
-  max_short_slots: 0
-  max_total_slots: 2
+  max_long_slots: 3
+  max_short_slots: 3
+  max_total_slots: 6
   capital_exposure: 1.0
   meta_rotation: false
   split_entry: false
+
+portfolio_engine:
+  enabled: false
+  max_long_slots: 3
+  max_short_slots: 3
+  replacement_margin_pct: 8.0
+  hold_hours: 2
+  scan_interval_hours: 2
+  universe_max_symbols: 120
 
 risk:
   daily_loss_limit_pct: -10.0
@@ -70,6 +79,15 @@ state_engine:
   alive_delta_exit: -25
   protective_sl_pct: 10
 
+position_evaluation:
+  enabled: true
+  min_review_interval_sec: 60
+  review_interval_minutes: 5
+  override_state_exit: true
+
+expectation:
+  enabled: true
+
 alerts:
   console: true
   csv: true
@@ -89,6 +107,44 @@ live_data:
   reconnect_sec: 5
   heartbeat_timeout_sec: 60
   log_dir: logs/live
+
+runtime_audit:
+  enabled: true
+  track_duplicates: true
+  ablation_lookback_scans: 55
+
+value_gate_shadow:
+  enabled: true
+  labeler:
+    false_skip_roi_2h_pct: 10.0
+    false_skip_peak_roi_pct: 15.0
+    false_accept_drawdown_pct: -10.0
+    win_threshold_pct: 3.0
+    kline_interval: 15m
+
+guardian:
+  progress:
+    weights:
+      roi_progress: 0.30
+      time_alignment: 0.15
+      drawdown_health: 0.20
+      value_score: 0.20
+      win_probability: 0.15
+
+portfolio_decision:
+  replacement_margin: 5.0
+  min_candidate_score: 40.0
+  position_weights:
+    guardian_score: 0.30
+    expected_roi: 0.20
+    current_roi: 0.20
+    remaining_opportunity: 0.15
+    confidence: 0.15
+  candidate_weights:
+    value_score: 0.35
+    expected_roi: 0.25
+    win_prob: 0.20
+    confidence: 0.20
 
 storage:
   sqlite_path: scout_auto_os/data/scout_auto_os.db

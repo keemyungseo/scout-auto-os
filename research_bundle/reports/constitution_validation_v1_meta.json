@@ -1,0 +1,77 @@
+{
+  "constitution": {
+    "features": "ranking_engine_v1",
+    "model": "catboost_ranker",
+    "label": "return_minus_dd",
+    "tuning": "forbidden"
+  },
+  "calendar": {
+    "start_date": "2026-06-01",
+    "end_date": "2026-06-15",
+    "calendar_days": 15,
+    "scan_count": 180,
+    "sample_count": 6536,
+    "feature_count": 170,
+    "symbols_per_scan_avg": 36.31,
+    "target_calendar_days": 90,
+    "meets_3month_target": false,
+    "data_source": "C:\\Users\\user\\Desktop\\Project solo\\scout_auto_os\\research_bundle\\seed\\candidates.jsonl",
+    "constitution": {
+      "features": "ranking_engine_v1",
+      "model": "catboost_ranker",
+      "label": "return_minus_dd"
+    }
+  },
+  "blind": {
+    "trade_count": 272,
+    "scan_count": 55,
+    "avg_return_2h": 5.2608,
+    "top2_avg_return_2h": 8.5783,
+    "top5_avg_return_2h": 5.2608,
+    "win_rate": 54.78,
+    "precision_top3": 50.0,
+    "recall_top3_proxy": 54.78,
+    "sharpe": 11.149,
+    "sortino": 39.599,
+    "mdd": -34.9749,
+    "coverage_pct": 100.0,
+    "return_per_trade": 5.2608,
+    "return_per_scan": 26.0172,
+    "rank_ndcg5": 0.7587,
+    "rank_map": 0.6303,
+    "rank_p1": 0.7273,
+    "rank_p2": 0.7091,
+    "rank_p5": 0.4945,
+    "rank_r5": 0.8303,
+    "rank_mrr": 0.8545,
+    "rank_hit_top3": 1.0,
+    "profit_factor": 13.866,
+    "split": "blind_holdout",
+    "rank_correlation": 0.6413,
+    "calibration_gap": 0.3913
+  },
+  "drift": {
+    "drift_detected": true,
+    "calendar_trend_pct": -39.23,
+    "weekly_volatility": 2.0613,
+    "mean_wow_drift": -0.8047,
+    "weeks": 5
+  },
+  "importance_stability": {
+    "top15_overlap": 9,
+    "top15_overlap_pct": 60.0,
+    "stable": true,
+    "first_half_scans": 62,
+    "second_half_scans": 63
+  },
+  "decision": {
+    "q1_long_term_blind": "**Partial YES** - blind avg 2h **5.2608%**, walk-forward **5.2608%** on **15d** (2026-06-01 to 2026-06-15). Does NOT meet 3-month target.",
+    "q2_live_confidence": "**MEDIUM-LOW** (medium-low) - Sharpe 11.149, PF 13.866, NDCG@5 0.7587. Recommend shadow LIVE minimum 30d before capital.",
+    "q3_core_engine_ready": "**YES for research core, NO for LIVE core** - constitution hypothesis-validated on short window.",
+    "q4_biggest_risk": "**Calendar length** (15d vs 90d target) and **regime gaps** (0 weak regime buckets). All regime buckets positive on available sample.",
+    "q5_pre_live_blockers": "1) Extend Binance history to 90d+  2) Persist model artifact + version pin  3) LIVE scan-history for label retrain pipeline  4) Regime-negative monitoring  5) NDCG/P@5 trade-off vs return_minus_dd label",
+    "core_ready": false,
+    "confidence_tier": "medium-low"
+  },
+  "generated_at": "2026-06-26T08:28:44.358867+09:00"
+}

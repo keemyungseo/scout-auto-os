@@ -1,0 +1,12 @@
+{
+  "lookback_months": 6,
+  "date_min": "2026-06-01",
+  "date_max": "2026-06-15",
+  "total_signals": 1794,
+  "train_scan_count": 125,
+  "val_scan_count": 55,
+  "feature_dim": 97,
+  "long_class_count": 8,
+  "short_class_count": 8,
+  "generated_at": "2026-06-25T13:34:41.146660+09:00"
+}

@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCOUT Command Center</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --card: #1a2332;
+      --border: #2d3a4f;
+      --text: #e7ecf3;
+      --muted: #8b9bb4;
+      --accent: #3d8bfd;
+      --warn: #f0ad4e;
+      --danger: #e55353;
+      --ok: #3dd68c;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+    header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      background: #121a24;
+    }
+    header h1 { margin: 0; font-size: 1.35rem; font-weight: 600; }
+    header p { margin: 0.35rem 0 0; color: var(--muted); font-size: 0.9rem; }
+    .banner {
+      background: #3a2a10;
+      border-bottom: 1px solid #6b4f1d;
+      color: #ffd27a;
+      text-align: center;
+      padding: 0.55rem 1rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+    main { max-width: 1100px; margin: 0 auto; padding: 1.25rem 1.5rem 6rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+    }
+    .card .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .card .value { font-size: 1.2rem; font-weight: 600; margin-top: 0.25rem; }
+    .card .value.ok { color: var(--ok); }
+    .card .value.warn { color: var(--warn); }
+    .card .value.danger { color: var(--danger); }
+    section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.1rem;
+      margin-bottom: 1rem;
+    }
+    section h2 { margin: 0 0 0.75rem; font-size: 1rem; font-weight: 600; }
+    .row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem; }
+    input[type="text"] {
+      background: #0f1419;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.45rem 0.65rem;
+      border-radius: 6px;
+      min-width: 140px;
+    }
+    button {
+      border: none;
+      border-radius: 6px;
+      padding: 0.5rem 0.85rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: #fff;
+      background: var(--accent);
+    }
+    button:hover { filter: brightness(1.08); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    button.secondary { background: #3a4a63; }
+    button.warn { background: #b8860b; }
+    button.danger { background: var(--danger); }
+    .locks { list-style: none; padding: 0; margin: 0.5rem 0 0; }
+    .locks li {
+      display: inline-block;
+      background: #243044;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.2rem 0.55rem;
+      margin: 0.2rem 0.25rem 0 0;
+      font-size: 0.85rem;
+    }
+    .confirm-box {
+      margin-top: 0.65rem;
+      padding: 0.65rem;
+      background: #121a24;
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+    .confirm-box code { color: #7ec8ff; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.45rem 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    th { color: var(--muted); font-weight: 500; }
+    .toast {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      max-width: 360px;
+      padding: 0.65rem 0.9rem;
+      border-radius: 6px;
+      background: #243044;
+      border: 1px solid var(--border);
+      display: none;
+      z-index: 100;
+    }
+    .toast.show { display: block; }
+    .toast.error { border-color: var(--danger); color: #ffb4b4; }
+    .toast.ok { border-color: var(--ok); }
+    footer.rules {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #121a24;
+      border-top: 1px solid var(--border);
+      padding: 0.55rem 1rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    footer.rules ul { margin: 0; padding-left: 1.2rem; display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
+    footer.rules li { list-style: disc; }
+    .meta { color: var(--muted); font-size: 0.8rem; margin-top: 0.35rem; }
+    .filter-bar label { font-size: 0.82rem; color: var(--muted); margin-right: 0.35rem; }
+    .filter-bar input { margin-right: 0.75rem; }
+    .table-wrap { overflow-x: auto; }
+    tr.row-manual td { background: rgba(61, 139, 253, 0.08); }
+    tr.row-exit td { background: rgba(229, 83, 83, 0.1); }
+    tr.row-complete td { background: rgba(61, 214, 140, 0.08); }
+    tr.row-warn td { background: rgba(240, 173, 78, 0.1); }
+    .roi-pos { color: var(--ok); font-weight: 600; }
+    .roi-neg { color: var(--danger); font-weight: 600; }
+    .tag-lock { color: #7ec8ff; font-weight: 600; }
+    .guardian-note { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .api-error-banner {
+      display: none;
+      background: #4a1520;
+      border: 1px solid var(--danger);
+      color: #ffb4b4;
+      padding: 0.5rem 1rem;
+      margin-bottom: 0.75rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+    }
+    .api-error-banner.show { display: block; }
+    .shadow-summary-grid { margin-bottom: 0.75rem; }
+    tr.dec-enter td { background: rgba(61, 214, 140, 0.06); }
+    tr.dec-skip td { background: rgba(139, 155, 180, 0.06); }
+    tr.dec-shadow td { background: rgba(61, 139, 253, 0.08); }
+    tr.dec-no-action td { background: rgba(61, 139, 253, 0.12); }
+    tr.watch-alert td { background: rgba(229, 83, 83, 0.12); border-left: 3px solid var(--danger); }
+    tr.watch-warn td { background: rgba(240, 173, 78, 0.12); }
+    .score-80 { color: var(--ok); font-weight: 600; }
+    .score-60 { color: var(--warn); font-weight: 600; }
+    .score-50 { color: #7ec8ff; font-weight: 600; }
+    .score-low { color: var(--danger); font-weight: 600; }
+    .tag-readonly { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .vg-summary-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+    .fa-rate-warn { color: var(--warn); font-weight: 600; }
+    .fa-rate-danger { color: var(--danger); font-weight: 600; }
+    .health-ok { color: var(--ok); }
+    .health-bad { color: var(--danger); font-weight: 600; }
+    .side-split-grid { margin-top: 0.5rem; margin-bottom: 0.75rem; }
+  </style>
+</head>
+<body>
+  <div class="banner">DRY RUN MODE — NO LIVE ORDER EXECUTED</div>
+  <header>
+    <h1>SCOUT Command Center</h1>
+    <p>Safety control — pause, emergency, manual lock, manual close</p>
+  </header>
+  <main>
+    <div class="row" style="justify-content: space-between; margin-bottom: 0.75rem;">
+      <span class="meta" id="last-refresh">Last refresh: —</span>
+      <button type="button" class="secondary" id="btn-refresh">Refresh now</button>
+    </div>
+
+    <div class="grid" id="status-cards">
+      <div class="card"><div class="label">Paused</div><div class="value" id="st-paused">—</div></div>
+      <div class="card"><div class="label">Emergency</div><div class="value" id="st-emergency">—</div></div>
+      <div class="card"><div class="label">Manual locks</div><div class="value" id="st-locks">—</div></div>
+      <div class="card"><div class="label">Pending close</div><div class="value" id="st-pending">—</div></div>
+      <div class="card"><div class="label">Last action</div><div class="value" id="st-last-action" style="font-size:0.95rem">—</div></div>
+      <div class="card"><div class="label">API health</div><div class="value ok" id="st-health">—</div></div>
+    </div>
+
+    <div class="api-error-banner" id="positions-api-error">API ERROR — Guardian positions unavailable (control functions still active)</div>
+
+    <section id="guardian-position-panel">
+      <h2>Guardian Position Panel</h2>
+      <p class="guardian-note">Read-only — why each position is held, manual vs bot, exit candidates. MET/HEI: compare elapsed vs horizon and progress_ratio.</p>
+
+      <div class="api-error-banner" id="guardian-progress-api-error">API ERROR — Guardian progress unavailable (positions still shown)</div>
+
+      <h3 style="font-size:0.95rem;margin:0.25rem 0 0.5rem">Guardian Progress <span class="tag-readonly">rule-based V1</span></h3>
+      <div class="grid shadow-summary-grid" id="gp-summary-cards">
+        <div class="card"><div class="label">Avg Score</div><div class="value" id="gp-avg-score">—</div></div>
+        <div class="card"><div class="label">Rows</div><div class="value" id="gp-rows">—</div></div>
+        <div class="card"><div class="label">ON_TRACK</div><div class="value ok" id="gp-on-track">—</div></div>
+        <div class="card"><div class="label">THESIS_FAILED</div><div class="value danger" id="gp-failed">—</div></div>
+        <div class="card"><div class="label">MET State</div><div class="value" id="gp-met-state">—</div></div>
+        <div class="card"><div class="label">Last Update</div><div class="value" id="gp-updated" style="font-size:0.85rem">—</div></div>
+      </div>
+
+      <h3 style="font-size:0.95rem;margin:0.75rem 0 0.5rem">Timeline Replay <span class="tag-readonly">15m bars</span></h3>
+      <div class="grid shadow-summary-grid" id="gt-summary-cards">
+        <div class="card"><div class="label">Timeline Points</div><div class="value" id="gt-points">—</div></div>
+        <div class="card"><div class="label">Avg EXIT rec</div><div class="value" id="gt-exit-min">—</div></div>
+        <div class="card"><div class="label">Avg TRAIL start</div><div class="value" id="gt-trail-min">—</div></div>
+        <div class="card"><div class="label">Rec changes</div><div class="value" id="gt-rec-chg">—</div></div>
+        <div class="card"><div class="label">HEI transitions</div><div class="value" id="gt-hei-tr">—</div></div>
+        <div class="card"><div class="label">MET final</div><div class="value" id="gt-met-st">—</div></div>
+      </div>
+
+      <h3 style="font-size:0.95rem;margin:0.75rem 0 0.5rem">Guardian Performance <span class="tag-readonly">outcome V1</span></h3>
+      <div class="grid shadow-summary-grid" id="go-summary-cards">
+        <div class="card"><div class="label">Avg Guardian Score</div><div class="value" id="go-avg-score">—</div></div>
+        <div class="card"><div class="label">Trades</div><div class="value" id="go-trades">—</div></div>
+        <div class="card"><div class="label">EXCELLENT</div><div class="value ok" id="go-excellent">—</div></div>
+        <div class="card"><div class="label">FAILED</div><div class="value danger" id="go-failed">—</div></div>
+        <div class="card"><div class="label">Score↔ROI</div><div class="value" id="go-corr-roi">—</div></div>
+        <div class="card"><div class="label">Score↔DD</div><div class="value" id="go-corr-dd">—</div></div>
+      </div>
+
+      <h3 style="font-size:0.95rem;margin:0.75rem 0 0.5rem">Portfolio Decision <span class="tag-readonly">Long3/Short3 V1</span></h3>
+      <div class="grid shadow-summary-grid" id="pd-summary-cards">
+        <div class="card"><div class="label">Slot Utilization</div><div class="value" id="pd-util">—</div></div>
+        <div class="card"><div class="label">Replacements</div><div class="value" id="pd-repl">—</div></div>
+        <div class="card"><div class="label">Missed</div><div class="value" id="pd-missed">—</div></div>
+        <div class="card"><div class="label">Repl Success</div><div class="value ok" id="pd-repl-ok">—</div></div>
+        <div class="card"><div class="label">Long Used</div><div class="value" id="pd-long">—</div></div>
+        <div class="card"><div class="label">Short Used</div><div class="value" id="pd-short">—</div></div>
+      </div>
+      <div class="table-wrap" style="margin-bottom:0.75rem">
+        <table id="guardian-progress-table">
+          <thead>
+            <tr>
+              <th>Symbol</th><th>Entry Reason</th><th>DNA</th><th>Conf</th>
+              <th>Progress</th><th>Time</th><th>Score</th><th>State</th><th>Rec</th>
+            </tr>
+          </thead>
+          <tbody id="guardian-progress-body"></tbody>
+        </table>
+      </div>
+
+      <div class="row filter-bar">
+        <label><input type="radio" name="pos-filter" value="all" checked> All</label>
+        <label><input type="radio" name="pos-filter" value="bot"> BOT only</label>
+        <label><input type="radio" name="pos-filter" value="manual"> MANUAL only</label>
+        <label><input type="radio" name="pos-filter" value="exit"> Exit candidates</label>
+        <label><input type="radio" name="pos-filter" value="locked"> Locked only</label>
+        <span class="meta" id="positions-count">0 positions</span>
+      </div>
+      <div class="table-wrap">
+        <table id="guardian-positions-table">
+          <thead>
+            <tr>
+              <th>Symbol</th>
+              <th>Side</th>
+              <th>Source</th>
+              <th>Lock</th>
+              <th>ROI</th>
+              <th>Elapsed</th>
+              <th>Horizon</th>
+              <th>Expected</th>
+              <th>Progress</th>
+              <th>Expectation</th>
+              <th>Thesis State</th>
+              <th>Action</th>
+              <th>Reason</th>
+            </tr>
+          </thead>
+          <tbody id="positions-body"></tbody>
+        </table>
+      </div>
+      <p class="meta" id="manual-protect-note" style="display:none">Manual locked positions: bot does not enter, exit, or modify.</p>
+    </section>
+
+    <div class="api-error-banner" id="predator-api-error">API ERROR — Predator shadow panel unavailable (control &amp; guardian still active)</div>
+
+    <section id="predator-shadow-panel">
+      <h2>Predator Shadow Panel <span class="tag-readonly">read-only · Policy B shadow</span></h2>
+      <p class="guardian-note">Pre-entry candidates and Policy B shadow decisions. No live orders. No policy changes.</p>
+
+      <div class="grid shadow-summary-grid" id="shadow-summary-cards">
+        <div class="card"><div class="label">Policy</div><div class="value" id="sh-policy">—</div></div>
+        <div class="card"><div class="label">Candidates Today</div><div class="value" id="sh-candidates">—</div></div>
+        <div class="card"><div class="label">ENTER</div><div class="value ok" id="sh-enter">—</div></div>
+        <div class="card"><div class="label">SKIP</div><div class="value" id="sh-skip">—</div></div>
+        <div class="card"><div class="label">Short Watch</div><div class="value" id="sh-watch">—</div></div>
+        <div class="card"><div class="label">Avg Score</div><div class="value" id="sh-avg">—</div></div>
+      </div>
+
+      <h3 style="font-size:0.95rem;margin:0.5rem 0">Recent shadow candidates (30)</h3>
+      <div class="row filter-bar">
+        <label><input type="radio" name="shadow-filter" value="all" checked> All</label>
+        <label><input type="radio" name="shadow-filter" value="enter"> ENTER only</label>
+        <label><input type="radio" name="shadow-filter" value="skip"> SKIP only</label>
+        <label><input type="radio" name="shadow-filter" value="long"> LONG only</label>
+        <label><input type="radio" name="shadow-filter" value="short"> SHORT only</label>
+        <label><input type="radio" name="shadow-filter" value="watch"> Short Watch only</label>
+        <span class="meta" id="shadow-count">0 shown</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th><th>Symbol</th><th>Side</th>
+              <th>Baseline</th><th>B Size</th>
+              <th>Policy B</th><th>P Size</th>
+              <th>Score</th><th>Runner</th><th>DNA</th>
+              <th>Pred ROI</th><th>DD</th><th>WinP</th>
+              <th>Lock</th><th>Reason</th>
+            </tr>
+          </thead>
+          <tbody id="shadow-candidates-body"></tbody>
+        </table>
+      </div>
+
+      <h3 style="font-size:0.95rem;margin:1rem 0 0.5rem">Short false accept watch (20)</h3>
+      <div class="table-wrap">
+        <table id="short-watch-table">
+          <thead>
+            <tr>
+              <th>Time</th><th>Symbol</th><th>Score</th><th>Runner</th>
+              <th>DNA</th><th>DD</th><th>WinP</th><th>Reason</th>
+            </tr>
+          </thead>
+          <tbody id="short-watch-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="api-error-banner" id="value-gate-api-error">API ERROR — Value Gate result panel unavailable (control &amp; guardian still active)</div>
+
+    <section id="value-gate-result-panel">
+      <h2>Value Gate Result Panel <span class="tag-readonly">read-only · labeled Policy B</span></h2>
+      <p class="guardian-note">Post-cache-fix labeled shadow performance. No live orders. No policy changes.</p>
+
+      <div class="grid vg-summary-grid" id="vg-summary-cards">
+        <div class="card"><div class="label">Policy</div><div class="value" id="vg-policy">—</div></div>
+        <div class="card"><div class="label">Status</div><div class="value" id="vg-status">—</div></div>
+        <div class="card"><div class="label">Labeled Rows</div><div class="value" id="vg-labeled">—</div></div>
+        <div class="card"><div class="label">ENTER</div><div class="value ok" id="vg-enter">—</div></div>
+        <div class="card"><div class="label">SKIP</div><div class="value" id="vg-skip">—</div></div>
+        <div class="card"><div class="label">Weighted ROI</div><div class="value" id="vg-wroi">—</div></div>
+        <div class="card"><div class="label">Sharpe</div><div class="value" id="vg-sharpe">—</div></div>
+        <div class="card"><div class="label">MDD</div><div class="value" id="vg-mdd">—</div></div>
+        <div class="card"><div class="label">Win Rate</div><div class="value" id="vg-winrate">—</div></div>
+        <div class="card"><div class="label">False Skip</div><div class="value warn" id="vg-fskip">—</div></div>
+        <div class="card"><div class="label">False Accept</div><div class="value warn" id="vg-faccept">—</div></div>
+        <div class="card"><div class="label">Decision Mismatch</div><div class="value" id="vg-rule-mm">—</div></div>
+        <div class="card"><div class="label">Trade Key Mismatch</div><div class="value" id="vg-tk-mm">—</div></div>
+        <div class="card"><div class="label">Verdict</div><div class="value" id="vg-verdict" style="font-size:0.85rem">—</div></div>
+      </div>
+
+      <h3 style="font-size:0.95rem;margin:0.5rem 0">Long / Short split</h3>
+      <div class="grid side-split-grid" id="vg-side-cards">
+        <div class="card"><div class="label">Long ENTER</div><div class="value ok" id="vg-long-enter">—</div></div>
+        <div class="card"><div class="label">Short ENTER</div><div class="value ok" id="vg-short-enter">—</div></div>
+        <div class="card"><div class="label">Long SKIP</div><div class="value" id="vg-long-skip">—</div></div>
+        <div class="card"><div class="label">Short SKIP</div><div class="value" id="vg-short-skip">—</div></div>
+        <div class="card"><div class="label">Long False Skip</div><div class="value warn" id="vg-long-fskip">—</div></div>
+        <div class="card"><div class="label">Short False Skip</div><div class="value warn" id="vg-short-fskip">—</div></div>
+        <div class="card"><div class="label">Long False Accept</div><div class="value warn" id="vg-long-faccept">—</div></div>
+        <div class="card"><div class="label">Short False Accept</div><div class="value danger" id="vg-short-faccept">—</div></div>
+      </div>
+
+      <h3 style="font-size:0.95rem;margin:0.5rem 0">Data health</h3>
+      <div class="grid" id="vg-health-cards">
+        <div class="card"><div class="label">Rule Mismatch</div><div class="value" id="vg-h-rule">—</div></div>
+        <div class="card"><div class="label">Trade Key Mismatch</div><div class="value" id="vg-h-tk">—</div></div>
+        <div class="card"><div class="label">Future Timestamps</div><div class="value" id="vg-h-future">—</div></div>
+        <div class="card"><div class="label">Labeled 4h</div><div class="value" id="vg-h-labeled">—</div></div>
+        <div class="card"><div class="label">Waiting</div><div class="value" id="vg-h-waiting">—</div></div>
+      </div>
+
+      <h3 style="font-size:0.95rem;margin:1rem 0 0.5rem">Band calibration</h3>
+      <div class="table-wrap">
+        <table id="vg-band-table">
+          <thead>
+            <tr>
+              <th>Band</th><th>Count</th><th>Avg ROI 2h</th><th>Avg ROI 4h</th>
+              <th>Avg Peak</th><th>Win Rate</th><th>MDD</th>
+              <th>False Skip %</th><th>False Accept %</th>
+            </tr>
+          </thead>
+          <tbody id="vg-band-body"></tbody>
+        </table>
+      </div>
+
+      <h3 style="font-size:0.95rem;margin:1rem 0 0.5rem">False skip (top 20 by peak / ROI 2h)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Symbol</th><th>Side</th><th>Score</th><th>Runner</th><th>DNA</th>
+              <th>ROI 2h</th><th>ROI 4h</th><th>Peak</th><th>DD</th><th>Reason</th>
+            </tr>
+          </thead>
+          <tbody id="vg-fskip-body"></tbody>
+        </table>
+      </div>
+
+      <h3 style="font-size:0.95rem;margin:1rem 0 0.5rem">False accept (20)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Symbol</th><th>Side</th><th>Score</th><th>Runner</th><th>DNA</th>
+              <th>Pred DD</th><th>ROI 2h</th><th>ROI 4h</th><th>Actual DD</th><th>Reason</th>
+            </tr>
+          </thead>
+          <tbody id="vg-faccept-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>Bot control</h2>
+      <div class="row">
+        <button type="button" id="btn-pause" class="warn">PAUSE</button>
+        <button type="button" id="btn-resume">RESUME</button>
+        <button type="button" id="btn-emergency" class="danger">EMERGENCY STOP</button>
+        <button type="button" id="btn-clear-emergency" class="secondary">CLEAR EMERGENCY</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Manual lock</h2>
+      <div class="row">
+        <input type="text" id="lock-symbol" placeholder="Symbol e.g. WLDUSDT" autocomplete="off">
+        <button type="button" id="btn-lock">LOCK SYMBOL</button>
+        <button type="button" id="btn-unlock" class="secondary">UNLOCK SYMBOL</button>
+      </div>
+      <ul class="locks" id="lock-list"></ul>
+    </section>
+
+    <section>
+      <h2>Manual close (2-step)</h2>
+      <div class="row">
+        <input type="text" id="close-symbol" placeholder="Symbol e.g. BTCUSDT" autocomplete="off">
+        <button type="button" id="btn-request-close" class="warn">REQUEST CLOSE</button>
+      </div>
+      <div class="confirm-box" id="confirm-panel" style="display:none">
+        <div>Pending <strong id="pending-symbol">—</strong></div>
+        <div>confirm_id: <code id="display-confirm-id">—</code></div>
+        <div class="row" style="margin-top:0.5rem">
+          <input type="text" id="confirm-id-input" placeholder="confirm_id">
+          <button type="button" id="btn-confirm-close" class="danger">CONFIRM CLOSE</button>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Control log (recent 20)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>timestamp</th>
+            <th>action</th>
+            <th>symbol</th>
+            <th>status</th>
+            <th>reason</th>
+            <th>confirm_id</th>
+          </tr>
+        </thead>
+        <tbody id="log-body"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer class="rules">
+    <ul>
+      <li>Manual locked symbols are never touched by bot.</li>
+      <li>Emergency mode blocks all automated actions.</li>
+      <li>Manual close requires 2-step confirmation.</li>
+      <li>Current executor: DryRunCloseExecutor.</li>
+    </ul>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    (function () {
+      var REFRESH_MS = 5000;
+      var pendingCloseSymbol = "";
+      var pendingConfirmId = "";
+      var guardianPositions = [];
+      var guardianProgressBySymbol = {};
+      var botPaused = false;
+      var botEmergency = false;
+      var shadowCandidates = [];
+      var shortWatchRows = [];
+      var shortWatchSymbols = {};
+
+      function toast(msg, isError) {
+        var el = document.getElementById("toast");
+        el.textContent = msg;
+        el.className = "toast show" + (isError ? " error" : " ok");
+        setTimeout(function () { el.className = "toast"; }, 4000);
+      }
+
+      function api(method, path, body) {
+        var opts = { method: method, headers: { "Content-Type": "application/json" } };
+        if (body) opts.body = JSON.stringify(body);
+        return fetch(path, opts).then(function (r) {
+          return r.json().then(function (data) {
+            if (!r.ok) throw new Error(data.detail || data.error || r.statusText);
+            return data;
+          });
+        });
+      }
+
+      function boolLabel(v) {
+        return v ? "YES" : "NO";
+      }
+
+      function boolClass(v, dangerIfTrue) {
+        if (dangerIfTrue && v) return "danger";
+        if (!dangerIfTrue && v) return "ok";
+        return "";
+      }
+
+      function renderStatus(data) {
+        document.getElementById("st-paused").textContent = boolLabel(data.paused);
+        document.getElementById("st-paused").className = "value " + boolClass(data.paused, false);
+        document.getElementById("st-emergency").textContent = boolLabel(data.emergency);
+        document.getElementById("st-emergency").className = "value " + boolClass(data.emergency, true);
+        document.getElementById("st-locks").textContent = String(data.manual_locks_count || 0);
+        document.getElementById("st-pending").textContent = String(data.pending_close_count || 0);
+        document.getElementById("st-last-action").textContent =
+          (data.last_control_action || "—") + " @ " + (data.last_control_timestamp || "—");
+        document.getElementById("st-health").textContent = data.api_health || "ok";
+
+        var list = document.getElementById("lock-list");
+        list.innerHTML = "";
+        (data.manual_locks || []).forEach(function (sym) {
+          var li = document.createElement("li");
+          li.textContent = sym;
+          list.appendChild(li);
+        });
+
+        var tbody = document.getElementById("log-body");
+        tbody.innerHTML = "";
+        (data.recent_logs || []).forEach(function (row) {
+          var tr = document.createElement("tr");
+          ["timestamp", "action", "symbol", "status", "reason", "confirm_id"].forEach(function (k) {
+            var td = document.createElement("td");
+            td.textContent = row[k] || "";
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+
+        document.getElementById("last-refresh").textContent =
+          "Last refresh: " + new Date().toLocaleTimeString();
+      }
+
+      function currentFilter() {
+        var el = document.querySelector('input[name="pos-filter"]:checked');
+        return el ? el.value : "all";
+      }
+
+      function stateClass(st) {
+        var s = (st || "").toUpperCase();
+        if (s === "THESIS_FAILED" || s === "LATE") return "danger";
+        if (s === "THESIS_WEAKENING") return "warn";
+        if (s === "AHEAD" || s === "COMPLETED" || s === "ON_TRACK") return "ok";
+        return "";
+      }
+
+      function renderGuardianProgressSummary(s) {
+        if (!s) return;
+        document.getElementById("gp-avg-score").textContent = String(s.avg_guardian_score != null ? s.avg_guardian_score : "—");
+        document.getElementById("gp-rows").textContent = String(s.total_rows || 0);
+        var states = s.state_counts || {};
+        document.getElementById("gp-on-track").textContent = String(states.ON_TRACK || 0);
+        document.getElementById("gp-failed").textContent = String(states.THESIS_FAILED || 0);
+        var met = s.met_scenario || {};
+        document.getElementById("gp-met-state").textContent = met.guardian_state || "—";
+        document.getElementById("gp-met-state").className = "value " + stateClass(met.guardian_state);
+        document.getElementById("gp-updated").textContent = s.last_update || "—";
+      }
+
+      function renderGuardianProgressTable(rows) {
+        var tbody = document.getElementById("guardian-progress-body");
+        tbody.innerHTML = "";
+        guardianProgressBySymbol = {};
+        if (!rows || !rows.length) {
+          var tr0 = document.createElement("tr");
+          var td0 = document.createElement("td");
+          td0.colSpan = 9;
+          td0.textContent = "No guardian progress data — run progress replay";
+          td0.style.color = "#8b9bb4";
+          tr0.appendChild(td0);
+          tbody.appendChild(tr0);
+          return;
+        }
+        rows.slice(0, 20).forEach(function (r) {
+          if (r.symbol) guardianProgressBySymbol[r.symbol] = r;
+          var tr = document.createElement("tr");
+          if (r.guardian_state === "THESIS_FAILED") tr.className = "row-exit";
+          else if (r.guardian_state === "THESIS_WEAKENING") tr.className = "row-warn";
+          else if (r.guardian_state === "AHEAD" || r.guardian_state === "COMPLETED") tr.className = "row-complete";
+          function td(val, cls) {
+            var el = document.createElement("td");
+            el.textContent = val != null ? val : "";
+            if (cls) el.className = cls;
+            tr.appendChild(el);
+          }
+          td(r.symbol);
+          var er = r.entry_reason || (r.contract_summary && r.contract_summary.entry_reason) || "—";
+          var erTd = document.createElement("td");
+          erTd.textContent = er.length > 48 ? er.slice(0, 48) + "…" : er;
+          erTd.title = er;
+          erTd.style.fontSize = "0.78rem";
+          tr.appendChild(erTd);
+          td(r.predicted_dna || "—");
+          td(r.confidence != null ? r.confidence : "—");
+          td(r.progress_ratio);
+          td(r.time_progress);
+          td(r.guardian_score);
+          td(r.guardian_state, stateClass(r.guardian_state));
+          td(r.action || r.recommendation);
+          tbody.appendChild(tr);
+        });
+      }
+
+      function refreshGuardianProgress() {
+        return api("GET", "/control/guardian-progress").then(function (data) {
+          document.getElementById("guardian-progress-api-error").className = "api-error-banner";
+          renderGuardianProgressSummary(data.summary || {});
+          var rows = (data.rows && data.rows.length) ? data.rows : (data.recent || []);
+          renderGuardianProgressTable(rows);
+        }).catch(function () {
+          document.getElementById("guardian-progress-api-error").className = "api-error-banner show";
+        });
+      }
+
+      function renderGuardianTimelineSummary(s) {
+        if (!s) return;
+        document.getElementById("gt-points").textContent = String(s.total_timeline_points || 0);
+        document.getElementById("gt-exit-min").textContent = (s.avg_exit_rec_minutes || 0) + "m";
+        document.getElementById("gt-trail-min").textContent = (s.avg_trail_start_minutes || 0) + "m";
+        document.getElementById("gt-rec-chg").textContent = String(s.avg_recommendation_changes || 0);
+        var feat = s.featured || {};
+        document.getElementById("gt-hei-tr").textContent = String(feat.hei_transition_count || 0);
+        document.getElementById("gt-met-st").textContent = feat.met_final_state || "—";
+      }
+
+      function refreshGuardianTimeline() {
+        return api("GET", "/control/guardian-timeline").then(function (data) {
+          renderGuardianTimelineSummary(data.summary || {});
+        }).catch(function () { /* timeline optional */ });
+      }
+
+      function renderGuardianOutcomeSummary(s) {
+        if (!s) return;
+        document.getElementById("go-avg-score").textContent = String(s.avg_guardian_score || 0);
+        document.getElementById("go-trades").textContent = String(s.trade_count || 0);
+        var grades = s.grade_distribution || {};
+        document.getElementById("go-excellent").textContent = String(grades.EXCELLENT || 0);
+        document.getElementById("go-failed").textContent = String(grades.FAILED || 0);
+        var corr = s.correlation || {};
+        document.getElementById("go-corr-roi").textContent =
+          corr.guardian_score_vs_roi != null ? String(corr.guardian_score_vs_roi) : "—";
+        document.getElementById("go-corr-dd").textContent =
+          corr.guardian_score_vs_drawdown != null ? String(corr.guardian_score_vs_drawdown) : "—";
+      }
+
+      function refreshGuardianOutcome() {
+        return api("GET", "/control/guardian-outcome").then(function (data) {
+          renderGuardianOutcomeSummary(data.summary || {});
+        }).catch(function () { /* outcome optional */ });
+      }
+
+      function renderPortfolioDecisionSummary(s, slots) {
+        if (!s) return;
+        document.getElementById("pd-util").textContent = String(s.avg_slot_utilization || 0);
+        document.getElementById("pd-repl").textContent = String(s.replacement_count || 0);
+        document.getElementById("pd-missed").textContent = String(s.missed_trades || 0);
+        document.getElementById("pd-repl-ok").textContent =
+          s.replacement_success_rate != null ? String(s.replacement_success_rate) : "—";
+        slots = slots || {};
+        document.getElementById("pd-long").textContent = String(slots.long_used || 0) + "/3";
+        document.getElementById("pd-short").textContent = String(slots.short_used || 0) + "/3";
+      }
+
+      function refreshPortfolioDecision() {
+        return api("GET", "/control/portfolio-decision").then(function (data) {
+          renderPortfolioDecisionSummary(data.summary || {}, data.slot_status || {});
+        }).catch(function () { /* portfolio optional */ });
+      }
+
+      function rowClass(p) {
+        var cls = [];
+        if (p.manual_lock) cls.push("row-manual");
+        if (botEmergency) cls.push("row-warn");
+        else if (botPaused) cls.push("row-warn");
+        var act = (p.guardian_action || "").toUpperCase();
+        if (act === "EXIT_READY" || act === "EXIT" || act === "THESIS_FAILED") cls.push("row-exit");
+        if (act === "THESIS_COMPLETE" || act === "OUTPERFORM") cls.push("row-complete");
+        return cls.join(" ");
+      }
+
+      function passesFilter(p, f) {
+        if (f === "bot") return p.source === "BOT";
+        if (f === "manual") return p.source === "MANUAL" || p.manual_lock;
+        if (f === "exit") {
+          var a = (p.guardian_action || "").toUpperCase();
+          return a === "EXIT" || a === "EXIT_READY" || a === "THESIS_FAILED";
+        }
+        if (f === "locked") return p.manual_lock;
+        return true;
+      }
+
+      function renderPositions() {
+        var f = currentFilter();
+        var tbody = document.getElementById("positions-body");
+        tbody.innerHTML = "";
+        var shown = 0;
+        var hasManual = false;
+        guardianPositions.forEach(function (p) {
+          if (!passesFilter(p, f)) return;
+          shown += 1;
+          if (p.manual_lock) hasManual = true;
+          var tr = document.createElement("tr");
+          tr.className = rowClass(p);
+          function td(text, cls) {
+            var cell = document.createElement("td");
+            cell.textContent = text;
+            if (cls) cell.className = cls;
+            return cell;
+          }
+          var roiCls = p.roi >= 0 ? "roi-pos" : "roi-neg";
+          tr.appendChild(td(p.symbol));
+          tr.appendChild(td(p.side));
+          tr.appendChild(td(p.source));
+          tr.appendChild(td(p.manual_lock ? "YES" : "no", p.manual_lock ? "tag-lock" : ""));
+          tr.appendChild(td((p.roi >= 0 ? "+" : "") + p.roi + "%", roiCls));
+          tr.appendChild(td(String(p.elapsed_minutes) + "m"));
+          tr.appendChild(td(String(p.expected_horizon) + "m"));
+          tr.appendChild(td(String(p.expected_progress)));
+          tr.appendChild(td(String(p.progress_ratio)));
+          tr.appendChild(td(String(p.expectation_score)));
+          tr.appendChild(td(p.thesis_state || "—"));
+          tr.appendChild(td(p.guardian_action || "—"));
+          tr.appendChild(td(p.guardian_reason || ""));
+          tbody.appendChild(tr);
+        });
+        if (shown === 0) {
+          var tr = document.createElement("tr");
+          var td0 = document.createElement("td");
+          td0.colSpan = 13;
+          td0.textContent = "No open positions (or no rows match filter)";
+          td0.style.color = "#8b9bb4";
+          tr.appendChild(td0);
+          tbody.appendChild(tr);
+        }
+        document.getElementById("positions-count").textContent = shown + " shown / " + guardianPositions.length + " total";
+        document.getElementById("manual-protect-note").style.display = hasManual ? "block" : "none";
+      }
+
+      function refreshPositions() {
+        return api("GET", "/control/positions").then(function (data) {
+          document.getElementById("positions-api-error").className = "api-error-banner";
+          guardianPositions = data.positions || [];
+          botPaused = !!data.bot_paused;
+          botEmergency = !!data.bot_emergency;
+          renderPositions();
+        }).catch(function () {
+          document.getElementById("positions-api-error").className = "api-error-banner show";
+        });
+      }
+
+      document.querySelectorAll('input[name="pos-filter"]').forEach(function (el) {
+        el.addEventListener("change", renderPositions);
+      });
+
+      document.querySelectorAll('input[name="shadow-filter"]').forEach(function (el) {
+        el.addEventListener("change", renderShadowCandidates);
+      });
+
+      function scoreClass(score) {
+        var s = parseFloat(score);
+        if (s >= 80) return "score-80";
+        if (s >= 60) return "score-60";
+        if (s >= 50) return "score-50";
+        return "score-low";
+      }
+
+      function decisionRowClass(p) {
+        var cls = [];
+        var dec = (p.policy_b_decision || "").toUpperCase();
+        if (dec === "ENTER") cls.push("dec-enter");
+        else if (dec === "SKIP") cls.push("dec-skip");
+        else if (dec === "SHADOW_ONLY") cls.push("dec-shadow");
+        else if (dec === "NO_ACTION") cls.push("dec-no-action");
+        if (p.manual_lock === "1" || p.manual_lock === 1 || p.manual_lock === true) cls.push("dec-no-action");
+        if (p.on_short_watch === 1 || shortWatchSymbols[p.symbol]) cls.push("watch-alert");
+        else if ((p.side || "").toUpperCase() === "SHORT" && dec === "ENTER") cls.push("watch-warn");
+        return cls.join(" ");
+      }
+
+      function shadowFilter() {
+        var el = document.querySelector('input[name="shadow-filter"]:checked');
+        return el ? el.value : "all";
+      }
+
+      function passesShadowFilter(p, f) {
+        var dec = (p.policy_b_decision || "").toUpperCase();
+        var side = (p.side || "").toUpperCase();
+        if (f === "enter") return dec === "ENTER";
+        if (f === "skip") return dec === "SKIP";
+        if (f === "long") return side === "LONG";
+        if (f === "short") return side === "SHORT";
+        if (f === "watch") return p.on_short_watch === 1 || shortWatchSymbols[p.symbol];
+        return true;
+      }
+
+      function renderShadowSummary(data) {
+        document.getElementById("sh-policy").textContent = data.policy_name || "—";
+        document.getElementById("sh-candidates").textContent = String(data.total_candidates_today || 0);
+        document.getElementById("sh-enter").textContent = String(data.policy_enter_count || 0);
+        document.getElementById("sh-skip").textContent = String(data.policy_skip_count || 0);
+        document.getElementById("sh-watch").textContent = String(data.short_watch_count || 0);
+        document.getElementById("sh-avg").textContent = String(data.avg_value_score || 0);
+      }
+
+      function renderShadowCandidates() {
+        var f = shadowFilter();
+        var tbody = document.getElementById("shadow-candidates-body");
+        tbody.innerHTML = "";
+        var shown = 0;
+        shadowCandidates.forEach(function (p) {
+          if (!passesShadowFilter(p, f)) return;
+          shown += 1;
+          var tr = document.createElement("tr");
+          tr.className = decisionRowClass(p);
+          function td(text, cls) {
+            var cell = document.createElement("td");
+            cell.textContent = text;
+            if (cls) cell.className = cls;
+            return cell;
+          }
+          var lock = p.manual_lock === "1" || p.manual_lock === 1 || p.manual_lock === true;
+          var pDec = (p.policy_b_decision || "") + (lock ? " (NO_ACTION)" : "");
+          tr.appendChild(td(p.timestamp || ""));
+          tr.appendChild(td(p.symbol || ""));
+          tr.appendChild(td(p.side || ""));
+          tr.appendChild(td(p.baseline_decision || ""));
+          tr.appendChild(td(String(p.baseline_size || "")));
+          tr.appendChild(td(pDec));
+          tr.appendChild(td(String(p.policy_b_size || "")));
+          tr.appendChild(td(String(p.value_score || ""), scoreClass(p.value_score)));
+          tr.appendChild(td(String(p.runner_prob || "")));
+          tr.appendChild(td(p.predicted_dna_type || ""));
+          tr.appendChild(td(String(p.predicted_roi || "")));
+          tr.appendChild(td(String(p.predicted_drawdown || "")));
+          tr.appendChild(td(String(p.predicted_win_prob || "")));
+          tr.appendChild(td(lock ? "YES" : "no", lock ? "tag-lock" : ""));
+          tr.appendChild(td(p.reason || ""));
+          tbody.appendChild(tr);
+        });
+        if (shown === 0) {
+          var tr = document.createElement("tr");
+          var td0 = document.createElement("td");
+          td0.colSpan = 15;
+          td0.textContent = "No shadow candidates (or no rows match filter)";
+          td0.style.color = "#8b9bb4";
+          tr.appendChild(td0);
+          tbody.appendChild(tr);
+        }
+        document.getElementById("shadow-count").textContent = shown + " shown / " + shadowCandidates.length;
+      }
+
+      function renderShortWatch() {
+        var tbody = document.getElementById("short-watch-body");
+        tbody.innerHTML = "";
+        if (!shortWatchRows.length) {
+          var tr = document.createElement("tr");
+          var td0 = document.createElement("td");
+          td0.colSpan = 8;
+          td0.textContent = "No short watch entries";
+          td0.style.color = "#8b9bb4";
+          tr.appendChild(td0);
+          tbody.appendChild(tr);
+          return;
+        }
+        shortWatchRows.forEach(function (w) {
+          var tr = document.createElement("tr");
+          tr.className = "watch-alert";
+          ["timestamp", "symbol", "value_score", "runner_prob", "predicted_dna_type",
+           "predicted_drawdown", "predicted_win_prob", "reason"].forEach(function (k) {
+            var td = document.createElement("td");
+            td.textContent = w[k] || "";
+            if (k === "value_score") td.className = scoreClass(w[k]);
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+      }
+
+      function refreshPredatorShadow() {
+        return api("GET", "/control/predator-shadow").then(function (data) {
+          document.getElementById("predator-api-error").className = "api-error-banner";
+          shadowCandidates = data.recent_candidates || [];
+          shortWatchRows = data.short_watch || [];
+          shortWatchSymbols = {};
+          shortWatchRows.forEach(function (w) {
+            if (w.symbol) shortWatchSymbols[w.symbol] = true;
+          });
+          renderShadowSummary(data);
+          renderShadowCandidates();
+          renderShortWatch();
+        }).catch(function () {
+          document.getElementById("predator-api-error").className = "api-error-banner show";
+        });
+      }
+
+      function roiClass(val) {
+        var n = parseFloat(val);
+        if (isNaN(n) || n === 0) return "";
+        return n > 0 ? "roi-pos" : "roi-neg";
+      }
+
+      function faRateClass(val) {
+        var n = parseFloat(val);
+        if (isNaN(n)) return "";
+        if (n >= 15) return "fa-rate-danger";
+        if (n >= 5) return "fa-rate-warn";
+        return "";
+      }
+
+      function healthCountClass(n) {
+        return n > 0 ? "health-bad" : "health-ok";
+      }
+
+      function renderValueGateSummary(s) {
+        if (!s) return;
+        document.getElementById("vg-policy").textContent = s.policy_name || "—";
+        document.getElementById("vg-status").textContent = s.status || "SHADOW";
+        document.getElementById("vg-labeled").textContent = String(s.labeled_rows || 0);
+        document.getElementById("vg-enter").textContent = String(s.enter_count || 0);
+        document.getElementById("vg-skip").textContent = String(s.skip_count || 0);
+        document.getElementById("vg-wroi").textContent = (s.weighted_roi != null ? s.weighted_roi + "%" : "—");
+        document.getElementById("vg-wroi").className = "value " + roiClass(s.weighted_roi);
+        document.getElementById("vg-sharpe").textContent = s.sharpe != null ? String(s.sharpe) : "—";
+        document.getElementById("vg-mdd").textContent = s.mdd != null ? s.mdd + "%" : "—";
+        document.getElementById("vg-winrate").textContent = s.win_rate != null ? s.win_rate + "%" : "—";
+        document.getElementById("vg-fskip").textContent = String(s.false_skip_count || 0);
+        document.getElementById("vg-faccept").textContent = String(s.false_accept_count || 0);
+        var ruleMm = s.decision_mismatch_count || 0;
+        var tkMm = s.trade_key_mismatch_count || 0;
+        document.getElementById("vg-rule-mm").textContent = String(ruleMm);
+        document.getElementById("vg-rule-mm").className = "value " + healthCountClass(ruleMm);
+        document.getElementById("vg-tk-mm").textContent = String(tkMm);
+        document.getElementById("vg-tk-mm").className = "value " + healthCountClass(tkMm);
+        document.getElementById("vg-verdict").textContent = s.verdict || "—";
+        document.getElementById("vg-long-enter").textContent = String(s.long_enter_count || 0);
+        document.getElementById("vg-short-enter").textContent = String(s.short_enter_count || 0);
+        document.getElementById("vg-long-skip").textContent = String(s.long_skip_count || 0);
+        document.getElementById("vg-short-skip").textContent = String(s.short_skip_count || 0);
+        document.getElementById("vg-long-fskip").textContent = String(s.long_false_skip || 0);
+        document.getElementById("vg-short-fskip").textContent = String(s.short_false_skip || 0);
+        document.getElementById("vg-long-faccept").textContent = String(s.long_false_accept || 0);
+        document.getElementById("vg-short-faccept").textContent = String(s.short_false_accept || 0);
+      }
+
+      function renderDataHealth(h) {
+        if (!h) return;
+        var rule = h.policy_rule_mismatch_count || 0;
+        var tk = h.trade_key_mismatch_count || 0;
+        var fut = h.future_timestamp_count || 0;
+        document.getElementById("vg-h-rule").textContent = String(rule);
+        document.getElementById("vg-h-rule").className = "value " + healthCountClass(rule);
+        document.getElementById("vg-h-tk").textContent = String(tk);
+        document.getElementById("vg-h-tk").className = "value " + healthCountClass(tk);
+        document.getElementById("vg-h-future").textContent = String(fut);
+        document.getElementById("vg-h-future").className = "value " + healthCountClass(fut);
+        document.getElementById("vg-h-labeled").textContent = String(h.labeled_4h_rows || 0);
+        document.getElementById("vg-h-waiting").textContent = String(h.waiting_rows || 0);
+      }
+
+      function renderBandCalibration(bands) {
+        var tbody = document.getElementById("vg-band-body");
+        tbody.innerHTML = "";
+        if (!bands || !bands.length) {
+          var tr0 = document.createElement("tr");
+          var td0 = document.createElement("td");
+          td0.colSpan = 9;
+          td0.textContent = "No band calibration data";
+          td0.style.color = "#8b9bb4";
+          tr0.appendChild(td0);
+          tbody.appendChild(tr0);
+          return;
+        }
+        bands.forEach(function (b) {
+          var tr = document.createElement("tr");
+          [
+            "band", "count", "avg_roi_2h", "avg_roi_4h", "avg_peak_roi",
+            "win_rate", "mdd", "false_skip_rate", "false_accept_rate"
+          ].forEach(function (k) {
+            var td = document.createElement("td");
+            td.textContent = b[k] != null ? b[k] : "";
+            if (k.indexOf("roi") >= 0 || k === "mdd") td.className = roiClass(b[k]);
+            if (k === "false_accept_rate") td.className = faRateClass(b[k]);
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+      }
+
+      function renderFalseSkips(rows) {
+        var tbody = document.getElementById("vg-fskip-body");
+        tbody.innerHTML = "";
+        if (!rows || !rows.length) {
+          var tr0 = document.createElement("tr");
+          var td0 = document.createElement("td");
+          td0.colSpan = 10;
+          td0.textContent = "No false skip rows";
+          td0.style.color = "#8b9bb4";
+          tr0.appendChild(td0);
+          tbody.appendChild(tr0);
+          return;
+        }
+        rows.forEach(function (r) {
+          var tr = document.createElement("tr");
+          tr.className = "row-warn";
+          [
+            "symbol", "side", "value_score", "runner_prob", "predicted_dna_type",
+            "actual_roi_2h", "actual_roi_4h", "actual_peak_roi", "actual_drawdown", "reason"
+          ].forEach(function (k) {
+            var td = document.createElement("td");
+            td.textContent = r[k] || "";
+            if (k.indexOf("roi") >= 0 || k === "actual_drawdown") td.className = roiClass(r[k]);
+            if (k === "value_score") td.className = scoreClass(r[k]);
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+      }
+
+      function renderFalseAccepts(rows) {
+        var tbody = document.getElementById("vg-faccept-body");
+        tbody.innerHTML = "";
+        if (!rows || !rows.length) {
+          var tr0 = document.createElement("tr");
+          var td0 = document.createElement("td");
+          td0.colSpan = 10;
+          td0.textContent = "No false accept rows";
+          td0.style.color = "#8b9bb4";
+          tr0.appendChild(td0);
+          tbody.appendChild(tr0);
+          return;
+        }
+        rows.forEach(function (r) {
+          var tr = document.createElement("tr");
+          if (r.is_short === 1 || String(r.side || "").toUpperCase() === "SHORT") {
+            tr.className = "watch-alert";
+          } else {
+            tr.className = "row-warn";
+          }
+          [
+            "symbol", "side", "value_score", "runner_prob", "predicted_dna_type",
+            "predicted_drawdown", "actual_roi_2h", "actual_roi_4h", "actual_drawdown", "reason"
+          ].forEach(function (k) {
+            var td = document.createElement("td");
+            td.textContent = r[k] || "";
+            if (k.indexOf("roi") >= 0 || k.indexOf("drawdown") >= 0) td.className = roiClass(r[k]);
+            if (k === "value_score") td.className = scoreClass(r[k]);
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+      }
+
+      function refreshValueGateResults() {
+        return api("GET", "/control/value-gate-results").then(function (data) {
+          document.getElementById("value-gate-api-error").className = "api-error-banner";
+          renderValueGateSummary(data.summary || {});
+          renderDataHealth(data.data_health || {});
+          renderBandCalibration(data.band_calibration || []);
+          renderFalseSkips(data.false_skips || []);
+          renderFalseAccepts(data.false_accepts || []);
+        }).catch(function () {
+          document.getElementById("value-gate-api-error").className = "api-error-banner show";
+        });
+      }
+
+      function refresh() {
+        return Promise.all([
+          api("GET", "/control/dashboard-status").then(renderStatus).catch(function (e) {
+            document.getElementById("st-health").textContent = "error";
+            document.getElementById("st-health").className = "value danger";
+            toast("Status refresh failed: " + e.message, true);
+          }),
+          refreshPositions(),
+          refreshGuardianProgress(),
+          refreshGuardianTimeline(),
+          refreshGuardianOutcome(),
+          refreshPortfolioDecision(),
+          refreshPredatorShadow(),
+          refreshValueGateResults(),
+        ]).then(function () {
+          document.getElementById("last-refresh").textContent =
+            "Last refresh: " + new Date().toLocaleTimeString();
+        });
+      }
+
+      function postControl(path, reason) {
+        return api("POST", path, { requested_by: "dashboard", reason: reason || "" })
+          .then(function () { return refresh(); })
+          .then(function () { toast("OK: " + path, false); })
+          .catch(function (e) { toast(e.message, true); });
+      }
+
+      document.getElementById("btn-refresh").onclick = refresh;
+
+      document.getElementById("btn-pause").onclick = function () {
+        postControl("/control/bot/pause", "dashboard pause");
+      };
+
+      document.getElementById("btn-resume").onclick = function () {
+        postControl("/control/bot/resume", "dashboard resume");
+      };
+
+      document.getElementById("btn-emergency").onclick = function () {
+        if (!window.confirm("정말 EMERGENCY STOP 실행?")) return;
+        postControl("/control/bot/emergency-stop", "dashboard emergency");
+      };
+
+      document.getElementById("btn-clear-emergency").onclick = function () {
+        postControl("/control/bot/clear-emergency", "dashboard clear emergency");
+      };
+
+      document.getElementById("btn-lock").onclick = function () {
+        var sym = document.getElementById("lock-symbol").value.trim().toUpperCase();
+        if (!sym) { toast("Enter symbol", true); return; }
+        api("POST", "/control/position/" + encodeURIComponent(sym) + "/manual-lock",
+            { requested_by: "dashboard", reason: "ui lock" })
+          .then(refresh)
+          .then(function () { toast("Locked " + sym, false); })
+          .catch(function (e) { toast(e.message, true); });
+      };
+
+      document.getElementById("btn-unlock").onclick = function () {
+        var sym = document.getElementById("lock-symbol").value.trim().toUpperCase();
+        if (!sym) { toast("Enter symbol", true); return; }
+        api("POST", "/control/position/" + encodeURIComponent(sym) + "/manual-unlock",
+            { requested_by: "dashboard", reason: "ui unlock" })
+          .then(refresh)
+          .then(function () { toast("Unlocked " + sym, false); })
+          .catch(function (e) { toast(e.message, true); });
+      };
+
+      document.getElementById("btn-request-close").onclick = function () {
+        var sym = document.getElementById("close-symbol").value.trim().toUpperCase();
+        if (!sym) { toast("Enter symbol", true); return; }
+        api("POST", "/control/position/" + encodeURIComponent(sym) + "/close",
+            { requested_by: "dashboard", reason: "ui request close" })
+          .then(function (data) {
+            pendingCloseSymbol = sym;
+            pendingConfirmId = data.confirm_id || "";
+            document.getElementById("confirm-panel").style.display = "block";
+            document.getElementById("pending-symbol").textContent = sym;
+            document.getElementById("display-confirm-id").textContent = pendingConfirmId;
+            document.getElementById("confirm-id-input").value = pendingConfirmId;
+            return refresh();
+          })
+          .then(function () { toast("Close requested — confirm_id shown", false); })
+          .catch(function (e) { toast(e.message, true); });
+      };
+
+      document.getElementById("btn-confirm-close").onclick = function () {
+        var sym = pendingCloseSymbol || document.getElementById("close-symbol").value.trim().toUpperCase();
+        var cid = document.getElementById("confirm-id-input").value.trim() || pendingConfirmId;
+        if (!sym || !cid) { toast("Symbol and confirm_id required", true); return; }
+        api("POST", "/control/position/" + encodeURIComponent(sym) + "/confirm-close",
+            { confirm_id: cid, requested_by: "dashboard" })
+          .then(function (data) {
+            document.getElementById("confirm-panel").style.display = "none";
+            pendingCloseSymbol = "";
+            pendingConfirmId = "";
+            return refresh();
+          })
+          .then(function () { toast("Dry-run close executed (no live order)", false); })
+          .catch(function (e) { toast(e.message, true); });
+      };
+
+      refresh();
+      setInterval(refresh, REFRESH_MS);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+{
+  "direction": "short",
+  "sample_count": 6536,
+  "feature_count": 170,
+  "label_candidates": 19,
+  "best_label": {
+    "label_rank": 1,
+    "label_id": "risk_adjusted_short",
+    "label_name": "Risk adjusted short",
+    "category": "risk_adjusted",
+    "avg_return_2h": 3.5443,
+    "top2_avg_return_2h": 5.8814,
+    "win_rate": 41.54,
+    "sharpe": 10.463,
+    "rank_ndcg5": 0.4397,
+    "rank_p5": 0.1636,
+    "vs_baseline_pct": 99.05,
+    "beats_baseline": true
+  },
+  "long_comparison": {
+    "long_avg_return_2h": 5.2608,
+    "long_sharpe": 11.149,
+    "long_ndcg5": 0.7587,
+    "short_avg_return_2h": 3.5443,
+    "short_sharpe": 10.463,
+    "short_ndcg5": 0.4397,
+    "short_minus_long_avg": -1.7165
+  },
+  "shift_summary": {
+    "top15_overlap": 10,
+    "top15_overlap_pct": 66.67,
+    "long_only_top15": [
+      "ctx_rank_5m_compression",
+      "dna_2h_previous_volume_ratio",
+      "dna_30m_previous_ma20_distance_pct",
+      "dna_5m_body_position",
+      "state_5m_Release"
+    ],
+    "short_only_top15": [
+      "dna_2h_previous_range_pct",
+      "dna_30m_current_return_pct",
+      "dna_30m_previous_compression",
+      "dna_derived_atr_compression",
+      "exec_obs_prior_high_break"
+    ],
+    "independent_structure": false
+  },
+  "completeness_score": 50,
+  "leak_check": {
+    "rows_checked": 6536,
+    "forbidden_keys": 0,
+    "passed": true
+  },
+  "decision": {
+    "q1_independent_features": "**PARTIAL** - top-15 overlap 66.67% (long-only: 5, short-only: 5).",
+    "q2_best_short_label": "**Risk adjusted short** (`risk_adjusted_short`) blind avg 2h **3.5443%**",
+    "q3_feature_reuse": "**Reuse with relabeling** - high overlap suggests shared cross-sectional signals.",
+    "q4_data_signal": "**YES hypothesis** - short blind 3.5443% vs long 5.2608% on 15d window.",
+    "q5_completeness_score": "**50/100** - research completeness (not LIVE readiness).",
+    "q6_next_steps": "Shadow short ranker parallel to long; regime-gated activation only. | Re-run blind after infrastructure reaches 90d calendar."
+  },
+  "generated_at": "2026-06-26T08:54:40.208705+09:00"
+}

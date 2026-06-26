@@ -1,4 +1,4 @@
-"""State-based exit engine V1.4 — replaces ROI/EFR primary exit path."""
+"""State-based exit engine V1.4 — side-aware protective stop."""
 
 from __future__ import annotations
 
@@ -7,6 +7,7 @@ from dataclasses import dataclass
 
 from scout_research_r006_pilot_execution_engine import Bar
 
+from scout_auto_os.engine.position_evaluation.side_rules import normalize_side, protective_stop_hit
 from scout_auto_os.engine.state_engine import AliveScore
 
 
@@ -48,14 +49,15 @@ class StateExitEngine:
         entry_alive: AliveScore,
         current_alive: AliveScore,
         hold_minutes: int,
+        side: str = "LONG",
     ) -> StateExitDecision:
         if not bars or entry_px <= 0:
             return StateExitDecision(False)
 
-        # Hard protective SL (safety floor, not primary exit logic)
-        sl_px = entry_px * (1 - self.protective_sl_pct / 100)
-        if bars[-1].l <= sl_px:
-            return StateExitDecision(True, "protective_sl", "price_hit_stop")
+        side = normalize_side(side)
+        if protective_stop_hit(side, bars, entry_px, self.protective_sl_pct):
+            tag = "protective_sl_short" if side == "SHORT" else "protective_sl"
+            return StateExitDecision(True, tag, "price_hit_stop")
 
         if hold_minutes < self.min_hold:
             return StateExitDecision(
@@ -65,7 +67,6 @@ class StateExitEngine:
 
         delta = current_alive.alive_score - entry_alive.alive_score
 
-        # High alive score → hold beyond 2h target
         if current_alive.alive_score >= self.hold_alive:
             return StateExitDecision(
                 False,

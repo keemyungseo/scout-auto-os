@@ -1,0 +1,15 @@
+feature,long_effect_size,short_effect_size,long_delta,short_delta,long_significant,short_significant,same_winner_direction,combined_effect,common_rank
+1h_current_return_pct,1.3617,-1.2478,6.557,-6.561,True,True,False,1.3047,1
+1h_current_body_pct,1.3264,1.0121,6.268,4.9351,True,True,True,1.1692,2
+1h_current_range_pct,1.0721,0.7728,7.9378,5.6162,True,True,True,0.9224,3
+2h_current_return_pct,0.8498,-0.8614,7.0264,-7.5051,True,True,False,0.8556,4
+2h_current_range_pct,0.8623,0.6213,9.1036,6.2482,True,True,True,0.7418,5
+2h_current_body_pct,0.896,0.5808,6.8765,4.0634,True,True,True,0.7384,6
+1h_current_close_position,0.6606,-0.7232,0.1294,-0.1397,True,True,False,0.6919,7
+30m_current_return_pct,0.6425,-0.7247,2.9166,-3.5849,True,True,False,0.6836,8
+30m_current_body_pct,0.6323,0.6885,2.7372,2.9633,True,True,True,0.6604,9
+30m_current_range_pct,0.6503,0.5662,4.3157,3.4109,True,True,True,0.6082,10
+15m_current_range_pct,0.5251,0.5639,2.3752,2.3619,True,True,True,0.5445,11
+15m_current_body_pct,0.5063,0.581,1.6158,1.6564,True,True,True,0.5436,12
+15m_previous_range_pct,0.5328,0.4281,1.4405,1.5394,True,True,True,0.4805,13
+15m_previous_body_pct,0.4584,0.3963,0.929,0.904,True,True,True,0.4274,14

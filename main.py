@@ -26,6 +26,7 @@ def _data_dir() -> Path:
 
 from scout_auto_os.engine.alert_manager import AlertManager
 from scout_auto_os.engine.bot_control import BotControl
+from scout_auto_os.engine.predator.runtime_shadow import ValueGateRuntimeShadow
 from scout_auto_os.engine.daily_trade_report import DailyTradeReportService
 from scout_auto_os.engine.dashboard_api import DashboardAPI
 from scout_auto_os.engine.entry_block_summary import EntryBlockSummary
@@ -47,6 +48,7 @@ from scout_auto_os.engine.scout_reverse_shadow import ScoutReverseShadow
 from scout_auto_os.engine.trade_record import TradeRecordService
 from scout_auto_os.engine.research_engine import ResearchEngine
 from scout_auto_os.engine.telegram_commands import TelegramCommandBot
+from scout_auto_os.engine.runtime_audit.cost_tracker import CostTracker
 from scout_auto_os.storage.db import Database, now_kst
 
 KST = timezone(timedelta(hours=9))
@@ -163,12 +165,36 @@ class ScoutAutoOS:
             self.config, self.db, self.entry_guard, self.block_summary,
         )
         self.short_shadow = ScoutReverseShadow(self.config, self.db)
+        self.portfolio_bridge = None
+        if self.config.get("portfolio_engine", {}).get("enabled"):
+            from scout_auto_os.engine.portfolio.live_bridge import PortfolioEntryBridge
+            cache_dir = Path(self.config["data"]["kline_cache_dir"])
+            if not cache_dir.is_absolute():
+                cache_dir = ROOT / cache_dir
+            pkg_root = Path(__file__).resolve().parent
+            self.portfolio_bridge = PortfolioEntryBridge(
+                self.config, _data_dir(), pkg_root,
+                cache_dir, self.live_engine if use_live else None,
+            )
+            print("[PORTFOLIO ENGINE] enabled — Long3/Short3 selection active")
         self.last_update = now_kst()
         self.last_report_date: str | None = None
         self.next_snapshot = 0.0
         self.status_path = _data_dir() / "engine_status.json"
         self.metrics_path = _data_dir() / "live_metrics.json"
         self.bot_control = BotControl(_data_dir() / "bot_control.json")
+        self.safety = SafetyGuard(_data_dir() / "control", _data_dir() / "bot_control.json")
+        vg_shadow_cfg = self.config.get("value_gate_shadow", {})
+        self.value_gate_shadow = ValueGateRuntimeShadow(
+            _data_dir(),
+            enabled=bool(vg_shadow_cfg.get("enabled", False)),
+        )
+        audit_cfg = self.config.get("runtime_audit", {})
+        self.cost_tracker = CostTracker(
+            _data_dir() / "runtime_audit",
+            enabled=bool(audit_cfg.get("enabled", True)),
+        )
+        self._track_dup = bool(audit_cfg.get("track_duplicates", True))
 
         def _research_price_fn(symbol: str) -> float:
             if self.live_engine.enabled:
@@ -226,6 +252,7 @@ class ScoutAutoOS:
         self.live_engine.subscribe(sorted(syms))
 
     def _apply_bot_control(self) -> None:
+        self.safety.sync_to_bot_control()
         ctrl = self.bot_control.load()
         self.risk.apply_control(ctrl)
         if self.bot_control.bot_stop_requested():
@@ -277,24 +304,40 @@ class ScoutAutoOS:
             self._apply_bot_control()
             if not self.running:
                 return
-            self.manual.apply_events(self.positions, self.execution, self.alerts)
-            self.manual.sync_manual_positions(self.positions)
-            top5 = self.watcher.run_scan(paper_fast=self.fast_scan)
+            with self.cost_tracker.tick("tick_scan", module="a6_search"):
+                self.manual.apply_events(self.positions, self.execution, self.alerts)
+                self.manual.sync_manual_positions(self.positions)
+                top5 = self.watcher.run_scan(paper_fast=self.fast_scan)
             if self.live_engine.enabled:
                 self.live_engine.subscribe([r["symbol"] for r in top5])
             self.alerts.top5_alert(top5, self.watcher.last_scan_time or now_kst())
             self.short_shadow.observe(top5)
             occupied = self.positions.occupied_symbols()
-            locked = self.manual.locked_symbols()
+            locked = self.manual.locked_symbols() | self.safety.locked_symbols()
             slots_avail = self.config.get("position", {}).get("max_long_slots", 2) - self.positions.long_slots_used()
             scan_time = self.watcher.last_scan_time or now_kst()
+            if self.value_gate_shadow.enabled:
+                can_enter, _ = self.risk.can_enter_long(self.positions.long_slots_used())
+                shadow_cands = [{**r, "side": "long"} for r in top5]
+                self.value_gate_shadow.on_scan(
+                    scan_time, shadow_cands,
+                    occupied=occupied, locked=locked, can_enter=can_enter,
+                )
             self.review.prepare_scan(top5, occupied, locked, max(0, slots_avail), self.risk.kill_switch)
             occupied_before = set(occupied)
-            self.long_engine.try_fill_slots(
-                top5, occupied, locked,
-                self.positions, self.execution, self.alerts, self.risk,
-                trade_recorder=self.execution.trade_recorder,
-            )
+            with self.cost_tracker.tick("entry_fill", module="portfolio_slots"):
+                if self.portfolio_bridge:
+                    selection = self.portfolio_bridge.run_selection(scan_time)
+                    self.portfolio_bridge.try_fill(
+                        selection, self.positions, self.execution, self.alerts,
+                        self.risk, occupied, locked,
+                    )
+                else:
+                    self.long_engine.try_fill_slots(
+                        top5, occupied, locked,
+                        self.positions, self.execution, self.alerts, self.risk,
+                        trade_recorder=self.execution.trade_recorder,
+                    )
             self.block_summary.maybe_telegram_summary(self.alerts.entry_block_summary_alert)
             entered_symbols = self.positions.occupied_symbols() - occupied_before
             self.review.complete_scan(
@@ -324,8 +367,19 @@ class ScoutAutoOS:
             if self.live_engine.enabled:
                 for p in self.positions.open_positions():
                     self.live_engine.subscribe([p["symbol"]])
-            updated = self.positions.update_prices()
-            self.positions.check_exits(self.execution, self.alerts)
+            open_count = len(self.positions.open_positions())
+            with self.cost_tracker.tick("tick_positions", module="position_evaluation"):
+                if self._track_dup and open_count:
+                    self.cost_tracker.record_duplicate_calc(open_count)
+                    self.cost_tracker.record_bar_fetch(open_count * 2)
+                self.cost_tracker.record_positions_reviewed(open_count)
+                updated = self.positions.update_prices()
+                allow_exit, _ = self.safety.can_auto_exit()
+                self.positions.check_exits(
+                    self.execution, self.alerts,
+                    allow_auto_exit=allow_exit,
+                    symbol_exit_allowed=lambda s: self.safety.can_auto_exit(s)[0],
+                )
             self.last_update = now_kst()
             self._write_live_metrics(updated)
             self.dashboard_api.write(

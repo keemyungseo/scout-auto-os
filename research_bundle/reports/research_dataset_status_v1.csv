@@ -1,0 +1,2 @@
+dataset_version,start_date,end_date,calendar_days,scan_count,sample_count,labeled_count,label_coverage_pct,validation_90d_ready,live_validation_ready,days_to_90d,days_to_live_validation
+scout_constitution_v1,2026-06-01,2026-06-15,15,180,6536,6536,100.0,False,False,75,75

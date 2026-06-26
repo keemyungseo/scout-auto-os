@@ -1,0 +1,11 @@
+base_feature,delta_importance,absolute_importance,delta_wins,delta_share_pct
+ctx_rank_5m_release,0.01651,0.138692,False,10.64
+dna_5m_release,0.012864,0.014152,False,47.62
+dna_1h_current_return_pct,0.01109,0.0,True,100.0
+entry_score,0.0,0.026595,False,0.0
+direction_confidence,0.0,0.025721,False,0.0
+dna_1h_range_pct_mean,0.0,0.020279,False,0.0
+dna_1h_return_pct_max,0.0,0.011428,False,0.0
+dna_1h_range_pct_max,0.0,0.01055,False,0.0
+cluster_top_score,0.0,0.008939,False,0.0
+meta_derived_atr_expansion,0.0,0.008748,False,0.0

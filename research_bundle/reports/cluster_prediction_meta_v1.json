@@ -1,0 +1,11 @@
+{
+  "validation_scans": 180,
+  "train_scans": 125,
+  "blind_scans": 55,
+  "long_formula_count": 16,
+  "short_formula_count": 15,
+  "best_long_cluster": "LONG_V_REVERSAL_A",
+  "best_short_cluster": "SHORT_V_REVERSAL_A",
+  "top_k": 5,
+  "generated_at": "2026-06-25T11:53:15.521714+09:00"
+}
